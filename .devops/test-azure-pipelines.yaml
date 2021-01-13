@@ -1,0 +1,18 @@
+trigger: none
+
+# Execute agents (jobs) on latest Ubuntu version.
+# To change OS for a specific, ovverride "pool" attribute inside the job definition
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: HelloWorld
+    dependsOn: []
+    jobs:
+      - job: hello_world
+        steps:
+          - checkout: self
+            displayName: 'Checkout'
+          - script: |
+              echo "Hello World!"
+            displayName: 'hello'
