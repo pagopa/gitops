@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 0.14.5"
   backend "azurerm" {
     resource_group_name  = "io-infra-rg"
     storage_account_name = "ioinfrastterraform"
@@ -12,7 +13,6 @@ terraform {
     }
     azurerm = {
       version  = "~> 2.42.0"
-      features = {}
     }
     time = {
       version = "~> 0.6.0"
