@@ -9,7 +9,7 @@ terraform {
   required_providers {
     azuredevops = {
       source  = "microsoft/azuredevops"
-      version = "~> 0.1.1"
+      version = "~> 0.1.2"
     }
     azurerm = {
       version  = "~> 2.42.0"
