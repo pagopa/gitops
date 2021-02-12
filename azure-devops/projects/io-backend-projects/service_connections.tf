@@ -21,3 +21,45 @@ resource "azuredevops_serviceendpoint_azurerm" "DEV-IO" {
   azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
   azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value
 }
+
+# Github service connection (read-only)
+resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-ro-TOKEN" {
+  depends_on = [azuredevops_project.project]
+
+  project_id            = azuredevops_project.project.id
+  service_endpoint_name = "io-azure-devops-github-ro-TOKEN"
+  auth_personal {
+    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-ro-TOKEN"].value
+  }
+  lifecycle {
+    ignore_changes = [description]
+  }
+}
+
+# Github service connection (read-write)
+resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-rw-TOKEN" {
+  depends_on = [azuredevops_project.project]
+
+  project_id            = azuredevops_project.project.id
+  service_endpoint_name = "io-azure-devops-github-rw-TOKEN"
+  auth_personal {
+    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-rw-TOKEN"].value
+  }
+  lifecycle {
+    ignore_changes = [description]
+  }
+}
+
+# Github service connection (pull request)
+resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr-TOKEN" {
+  depends_on = [azuredevops_project.project]
+
+  project_id            = azuredevops_project.project.id
+  service_endpoint_name = "io-azure-devops-github-pr-TOKEN"
+  auth_personal {
+    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-pr-TOKEN"].value
+  }
+  lifecycle {
+    ignore_changes = [description]
+  }
+}
