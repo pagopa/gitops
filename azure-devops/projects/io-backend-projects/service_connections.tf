@@ -48,4 +48,4 @@ resource "azuredevops_serviceendpoint_github" "pagopa-github-bot-rw" {
   lifecycle {
     ignore_changes = [description]
   }
-}
+} 
