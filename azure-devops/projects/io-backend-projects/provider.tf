@@ -12,7 +12,7 @@ terraform {
       version = "~> 0.1.2"
     }
     azurerm = {
-      version  = "~> 2.42.0"
+      version = "~> 2.42.0"
     }
     time = {
       version = "~> 0.6.0"
