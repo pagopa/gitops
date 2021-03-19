@@ -8,7 +8,7 @@ locals {
 
 # code review
 resource "azuredevops_build_definition" "io-functions-pushnotifications-code-review" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
   name       = "code-review"
@@ -37,7 +37,7 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-code-rev
     repo_id               = local.repository_repo_id
     branch_name           = local.repository_branch_name
     yml_path              = "${local.repository_pipelines_path}/code-review-pipelines.yml"
-    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   }
 
   variable {
@@ -48,10 +48,10 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-code-rev
 }
 
 resource "azuredevops_resource_authorization" "io-functions-pushnotifications-code-review-github-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-pushnotifications-code-review, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.io-functions-pushnotifications-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   definition_id = azuredevops_build_definition.io-functions-pushnotifications-code-review.id
   authorized    = true
   type          = "endpoint"

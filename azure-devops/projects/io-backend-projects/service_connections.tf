@@ -50,6 +50,20 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-rw" {
   }
 }
 
+# Github service connection (pull request)
+resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
+  depends_on = [azuredevops_project.project]
+
+  project_id            = azuredevops_project.project.id
+  service_endpoint_name = "io-azure-devops-github-pr"
+  auth_personal {
+    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-pr-TOKEN"].value
+  }
+  lifecycle {
+    ignore_changes = [description, authorization]
+  }
+}
+
 # Github service connection (read-only) used to access to azure-pipelines template repo
 resource "azuredevops_serviceendpoint_github" "pagopa" {
   depends_on = [azuredevops_project.project]
