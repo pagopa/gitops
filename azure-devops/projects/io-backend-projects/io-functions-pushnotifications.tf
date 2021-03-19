@@ -8,7 +8,7 @@ locals {
 
 # code review
 resource "azuredevops_build_definition" "io-functions-pushnotifications-code-review" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa-github-bot-ro, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
   name       = "code-review"
@@ -37,7 +37,7 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-code-rev
     repo_id               = local.repository_repo_id
     branch_name           = local.repository_branch_name
     yml_path              = "${local.repository_pipelines_path}/code-review-pipelines.yml"
-    service_connection_id = azuredevops_serviceendpoint_github.pagopa-github-bot-ro.id
+    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
   }
 
   variable {
@@ -47,10 +47,10 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-code-rev
 }
 
 resource "azuredevops_resource_authorization" "io-functions-pushnotifications-code-review-github-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa-github-bot-ro, azuredevops_build_definition.io-functions-pushnotifications-code-review, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-pushnotifications-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.pagopa-github-bot-ro.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
   definition_id = azuredevops_build_definition.io-functions-pushnotifications-code-review.id
   authorized    = true
   type          = "endpoint"
@@ -58,7 +58,7 @@ resource "azuredevops_resource_authorization" "io-functions-pushnotifications-co
 
 # deploy
 resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa-github-bot-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
   name       = "deploy"
@@ -69,7 +69,7 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
     repo_id               = local.repository_repo_id
     branch_name           = local.repository_branch_name
     yml_path              = "${local.repository_pipelines_path}/deploy-pipelines.yml"
-    service_connection_id = azuredevops_serviceendpoint_github.pagopa-github-bot-rw.id
+    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
   variable {
@@ -84,7 +84,7 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
 
   variable {
     name  = "GITHUB_CONNECTION"
-    value = azuredevops_serviceendpoint_github.pagopa-github-bot-rw.service_endpoint_name
+    value = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
   }
 
   variable {
@@ -110,10 +110,10 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
 }
 
 resource "azuredevops_resource_authorization" "io-functions-pushnotifications-deploy-github-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa-github-bot-rw, azuredevops_build_definition.io-functions-pushnotifications-deploy, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.io-functions-pushnotifications-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.pagopa-github-bot-rw.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   definition_id = azuredevops_build_definition.io-functions-pushnotifications-deploy.id
   authorized    = true
   type          = "endpoint"
