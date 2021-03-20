@@ -1,9 +1,17 @@
-locals {
-  repository_name           = "io-functions-pushnotifications"
-  repository_repo_id        = "pagopa/${local.repository_name}"
-  repository_branch_name    = "master"
-  repository_pipelines_path = ".devops"
-  build_path                = "\\${local.repository_name}"
+variable "io-functions-pushnotifications" {
+  default = {
+    repository = {
+      organization   = "pagopa"
+      name           = "io-functions-pushnotifications"
+      branch_name    = "master"
+      pipelines_path = ".devops"
+    }
+    pipeline = {
+      production_resource_group_name = "io-p-rg-internal"
+      production_app_name            = "io-p-fn3-pushnotif"
+      cache_version_id               = "v1"
+    }
+  }
 }
 
 # code review
@@ -11,11 +19,11 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-code-rev
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${local.repository_name}.code-review"
-  path       = local.build_path
+  name       = "${var.io-functions-pushnotifications.repository.name}.code-review"
+  path       = "\\${var.io-functions-pushnotifications.repository.name}"
 
   pull_request_trigger {
-    initial_branch = local.repository_branch_name
+    initial_branch = var.io-functions-pushnotifications.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false
@@ -23,7 +31,7 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-code-rev
     override {
       auto_cancel = false
       branch_filter {
-        include = [local.repository_branch_name]
+        include = [var.io-functions-pushnotifications.repository.branch_name]
       }
       path_filter {
         exclude = []
@@ -34,9 +42,9 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-code-rev
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = local.repository_repo_id
-    branch_name           = local.repository_branch_name
-    yml_path              = "${local.repository_pipelines_path}/code-review-pipelines.yml"
+    repo_id               = "${var.io-functions-pushnotifications.repository.organization}/${var.io-functions-pushnotifications.repository.name}"
+    branch_name           = var.io-functions-pushnotifications.repository.branch_name
+    yml_path              = "${var.io-functions-pushnotifications.repository.pipelines_path}/code-review-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   }
 
@@ -62,14 +70,14 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${local.repository_name}.deploy"
-  path       = local.build_path
+  name       = "${var.io-functions-pushnotifications.repository.name}.deploy"
+  path       = "\\${var.io-functions-pushnotifications.repository.name}"
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = local.repository_repo_id
-    branch_name           = local.repository_branch_name
-    yml_path              = "${local.repository_pipelines_path}/deploy-pipelines.yml"
+    repo_id               = "${var.io-functions-pushnotifications.repository.organization}/${var.io-functions-pushnotifications.repository.name}"
+    branch_name           = var.io-functions-pushnotifications.repository.branch_name
+    yml_path              = "${var.io-functions-pushnotifications.repository.pipelines_path}/deploy-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
@@ -90,7 +98,7 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
 
   variable {
     name  = "CACHE_VERSION_ID"
-    value = "v1"
+    value = var.io-functions-pushnotifications.pipeline.cache_version_id
   }
 
   variable {
@@ -100,12 +108,12 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
 
   variable {
     name  = "PRODUCTION_APP_NAME"
-    value = "io-p-fn3-pushnotif"
+    value = var.io-functions-pushnotifications.pipeline.production_app_name
   }
 
   variable {
     name  = "PRODUCTION_RESOURCE_GROUP_NAME"
-    value = "io-p-rg-internal"
+    value = var.io-functions-pushnotifications.pipeline.production_resource_group_name
   }
 
 }
