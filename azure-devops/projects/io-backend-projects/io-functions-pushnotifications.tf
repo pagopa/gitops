@@ -11,7 +11,7 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-code-rev
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "code-review"
+  name       = "${local.repository_name}.code-review"
   path       = local.build_path
 
   pull_request_trigger {
@@ -62,7 +62,7 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "deploy"
+  name       = "${local.repository_name}.deploy"
   path       = local.build_path
 
   repository {
