@@ -89,7 +89,7 @@ terraform apply
 
 ## Custom provider
 
-Actually we use a custom azuredevops terraform provider to manage:
+Actually we use a custom azuredevops terraform provider until these pr will be relaesed:
 
 1. npm service endpoints [#microsoft/terraform-provider-azuredevops/335](https://github.com/microsoft/terraform-provider-azuredevops/pull/335)
 
