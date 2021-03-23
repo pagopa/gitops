@@ -42,13 +42,32 @@ After create your token export it, for example in your bash_profile
 
 ```sh
 # .bash_profile
-export AZDO_ORG_SERVICE_URL=https://dev.azure.com/pagopa-io
-export AZDO_PERSONAL_ACCESS_TOKEN=__YOUR_PERSONAL_ACCESS_TOKEN__
+export AZDO_ORG_SERVICE_URL="https://dev.azure.com/pagopa-io"
+export AZDO_PERSONAL_ACCESS_TOKEN="__YOUR_PERSONAL_ACCESS_TOKEN__"
 ```
 
 ## How to
 
-TBD
+Create a new project or a pipeline into appropriate directory.
+
+.
+├── ...
+├── new-projects
+│ ├── project.tf
+│ ├── provider.tf
+│ ├── secrets.tf
+│ ├── service_connections.tf
+│ ├── time_sleep.tf
+│ ├── github_repo_1.tf
+│ ├── ...
+│ └── github_repo_n.tf
+└── ...
+
+1. if your project contains more github repos add all pipelines in the same azure devops project
+1.
+1. for each repo create a new file
+1. create a new pipeline folder into azure devops for each git hub repo
+1. in pipeline
 
 ### Apply changes
 
