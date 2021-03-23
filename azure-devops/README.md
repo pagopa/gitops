@@ -75,4 +75,4 @@ Custom azuredevops provider version: **v0.1.3-beta.1**
 ### How to install custom provider
 
 1. Download custom azuredevops provider from [#pagopa/terraform-provider-azuredevops](https://github.com/pagopa/terraform-provider-azuredevops/releases)
-1. Copy it on your plugin dir: "${TF_PLUGIN_CACHE_DIR}/registry.terraform.io/microsoft/azuredevops/"
+1. Copy it on your plugin dir: `"${TF_PLUGIN_CACHE_DIR}/registry.terraform.io/microsoft/azuredevops/"`
