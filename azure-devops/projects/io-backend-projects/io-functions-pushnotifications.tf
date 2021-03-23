@@ -7,7 +7,7 @@ variable "io-functions-pushnotifications" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      production_resource_group_name = "io-p-rg-internal"
+      production_resource_group_name = "io-p-rg-notifications"
       production_app_name            = "io-p-fn3-pushnotif"
       cache_version_id               = "v1"
     }
@@ -97,6 +97,11 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
   }
 
   variable {
+    name  = "NPM_CONNECTION"
+    value = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
+  }
+
+  variable {
     name  = "CACHE_VERSION_ID"
     value = var.io-functions-pushnotifications.pipeline.cache_version_id
   }
@@ -123,6 +128,16 @@ resource "azuredevops_resource_authorization" "io-functions-pushnotifications-de
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
+  definition_id = azuredevops_build_definition.io-functions-pushnotifications-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+resource "azuredevops_resource_authorization" "io-functions-pushnotifications-deploy-npm-auth" {
+  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.io-functions-pushnotifications-deploy, azuredevops_project.project]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_npm.pagopa-npm-bot.id
   definition_id = azuredevops_build_definition.io-functions-pushnotifications-deploy.id
   authorized    = true
   type          = "endpoint"

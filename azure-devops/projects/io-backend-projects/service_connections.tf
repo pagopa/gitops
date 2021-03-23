@@ -77,3 +77,13 @@ resource "azuredevops_serviceendpoint_github" "pagopa" {
     ignore_changes = [description, authorization]
   }
 }
+
+# npm service connection
+resource "azuredevops_serviceendpoint_npm" "pagopa-npm-bot" {
+  depends_on = [azuredevops_project.project]
+
+  project_id            = azuredevops_project.project.id
+  service_endpoint_name = "pagopa-npm-bot"
+  url                   = "https://registry.npmjs.org"
+  access_token          = data.azurerm_key_vault_secret.key_vault_secret["pagopa-npm-bot-TOKEN"].value
+}
