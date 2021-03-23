@@ -52,22 +52,21 @@ Create a new project or a pipeline into appropriate directory.
 
     .
     ├── ...
-    ├── new-projects
+    ├── new-azuredevops-projects
     │ ├── project.tf
     │ ├── provider.tf
     │ ├── secrets.tf
     │ ├── service_connections.tf
     │ ├── time_sleep.tf
-    │ ├── github_repo_1.tf
+    │ ├── github_repo_name_1.tf     # all pipelines in github_repo_name_1
     │ ├── ...
-    │ └── github_repo_n.tf
+    │ └── github_repo_name_n.tf     # all pipelines in github_repo_name_1
     └── ...
 
-1. if your project contains more github repos add all pipelines in the same azure devops project
-1.
-1. for each repo create a new file
-1. create a new pipeline folder into azure devops for each git hub repo
-1. in pipeline
+1. if your project contains more github repos add all pipelines in the same azure devops project 
+2. for each github repo create a new file with github repo name
+3. put all github repo pipelines into same file `github_repo_name_1.tf`
+4. put all pipelines variables at beginning of `github_repo_name_1.tf`
 
 ### Apply changes
 
