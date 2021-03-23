@@ -68,6 +68,11 @@ Create a new project or a pipeline into appropriate directory.
 3. put all github repo pipelines into same file `github_repo_name_1.tf`
 4. put all pipelines variables at beginning of `github_repo_name_1.tf`
 
+:warning: **Very Important**
+
+Before apply any changes be sure that permissions on github repo are set as follow:
+1. repo-admins -> Role: admin
+
 ### Apply changes
 
 To apply changes follow the standard terraform lifecycle once the code in this repository has been changed:
