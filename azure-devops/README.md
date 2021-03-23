@@ -91,5 +91,6 @@ rm "terraform-provider-azuredevops_${CUSTOM_VERSION}_${OS}_${OS_ARCH}.zip"
 mkdir -p "${HOME}/.terraform.d/plugin-cache/registry.terraform.io/microsoft/azuredevops/${VERSION}/${OS}_${OS_ARCH}"
 mv "terraform-provider-azuredevops_v${CUSTOM_VERSION}" "${HOME}/.terraform.d/plugin-cache/registry.terraform.io/microsoft/azuredevops/${VERSION}/${OS}_${OS_ARCH}/"
 
+# in azure-devops/projects and delete all .terraform folder and .terraform.lock.hcl
 terraform init --upgrade
 ```
