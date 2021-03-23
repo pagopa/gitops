@@ -52,7 +52,7 @@ TBD
 
 ### Apply changes
 
-to apply changes or create new groups follow the standard terraform lifecycle once the code in this repository has been changed:
+To apply changes follow the standard terraform lifecycle once the code in this repository has been changed:
 
 ```sh
 az account set --subscription PROD-IO
@@ -75,4 +75,21 @@ Custom azuredevops provider version: **v0.1.3-beta.1**
 ### How to install custom provider
 
 1. Download custom azuredevops provider from [#pagopa/terraform-provider-azuredevops](https://github.com/pagopa/terraform-provider-azuredevops/releases)
-1. Copy it on your plugin dir: `"${TF_PLUGIN_CACHE_DIR}/registry.terraform.io/microsoft/azuredevops/"`
+1. Copy it on your plugin version dir `"${HOME}/.terraform.d/plugin-cache/registry.terraform.io/microsoft/azuredevops"`
+1. `terraform init --upgrade`
+
+```sh
+# install custom azuredevops terraform provider
+VERSION="0.1.3"
+CUSTOM_VERSION="0.1.3-beta.1"
+OS="darwin" #or linux
+OS_ARCH="amd64" #or 386, arm, arm64...
+
+wget "https://github.com/pagopa/terraform-provider-azuredevops/releases/download/v${CUSTOM_VERSION}/terraform-provider-azuredevops_${CUSTOM_VERSION}_${OS}_${OS_ARCH}.zip"
+unzip "terraform-provider-azuredevops_${CUSTOM_VERSION}_${OS}_${OS_ARCH}.zip"
+rm "terraform-provider-azuredevops_${CUSTOM_VERSION}_${OS}_${OS_ARCH}.zip"
+mkdir -p "${HOME}/.terraform.d/plugin-cache/registry.terraform.io/microsoft/azuredevops/${VERSION}/${OS}_${OS_ARCH}"
+mv "terraform-provider-azuredevops_v${CUSTOM_VERSION}" "${HOME}/.terraform.d/plugin-cache/registry.terraform.io/microsoft/azuredevops/${VERSION}/${OS}_${OS_ARCH}/"
+
+terraform init --upgrade
+```
