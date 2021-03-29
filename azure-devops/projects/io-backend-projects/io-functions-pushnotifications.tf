@@ -7,7 +7,7 @@ variable "io-functions-pushnotifications" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      production_resource_group_name = "io-p-rg-internal"
+      production_resource_group_name = "io-p-rg-notifications"
       production_app_name            = "io-p-fn3-pushnotif"
       cache_version_id               = "v1"
     }
