@@ -10,6 +10,10 @@ variable "secrets" {
     "io-azure-devops-github-pr-TOKEN",
     "io-azure-devops-github-EMAIL",
     "io-azure-devops-github-USERNAME",
+    "pagopa-npm-bot-TOKEN",
+    "TTDIO-PROD-IO-SUBSCRIPTION-ID",
+    "TTDIO-DEV-IO-SUBSCRIPTION-ID",
+    "TTDIO-SPN-TENANTID",
   ]
 }
 
