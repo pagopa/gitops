@@ -18,7 +18,7 @@ variable "cgn-onboarding-portal-frontend" {
 
 # code review
 resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-code-review" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
   name       = "${var.cgn-onboarding-portal-frontend.repository.name}.code-review"
@@ -58,10 +58,10 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-code-rev
 }
 
 resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-code-review-github-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.cgn-onboarding-portal-frontend-code-review, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.cgn-onboarding-portal-frontend-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   definition_id = azuredevops_build_definition.cgn-onboarding-portal-frontend-code-review.id
   authorized    = true
   type          = "endpoint"
