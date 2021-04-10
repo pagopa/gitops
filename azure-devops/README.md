@@ -71,7 +71,7 @@ Create a new project or a pipeline into appropriate directory.
 :warning: **Very Important**
 
 Before apply any changes be sure that permissions on github repo are set as follow:
-1. repo-admins -> Role: admin
+1. user `pagopa-github-bot` -> Role: admin
 
 ### Apply changes
 
