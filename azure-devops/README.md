@@ -60,7 +60,7 @@ Create a new project or a pipeline into appropriate directory.
     │ ├── time_sleep.tf
     │ ├── github_repo_name_1.tf     # all pipelines in github_repo_name_1
     │ ├── ...
-    │ └── github_repo_name_n.tf     # all pipelines in github_repo_name_1
+    │ └── github_repo_name_n.tf     # all pipelines in github_repo_name_n
     └── ...
 
 1. if your project contains more github repos add all pipelines in the same azure devops project 
