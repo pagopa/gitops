@@ -12,8 +12,9 @@ variable "secrets" {
     "io-azure-devops-github-USERNAME",
     "sonarqube-TOKEN",
     "sonarqube-URL",
-    "HUBPAPAGOPA-HUBPA-SUBSCRIPTION-ID",
-    "HUBPAPAGOPA-SPN-TENANTID",
+    "TTDIO-PROD-HUBPA-SUBSCRIPTION-ID",
+    "TTDIO-DEV-HUBPA-SUBSCRIPTION-ID",
+    "TTDIO-SPN-TENANTID",
   ]
 }
 

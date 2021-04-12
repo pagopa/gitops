@@ -1,26 +1,27 @@
-# Azure service connection HUBPA
-resource "azuredevops_serviceendpoint_azurerm" "HUBPA" {
-  depends_on = [azuredevops_project.project]
-
-  project_id                = azuredevops_project.project.id
-  service_endpoint_name     = "HUBPA-SERVICE-CONN"
-  description               = "HUBPA Service connection"
-  azurerm_subscription_name = "HUBPA"
-  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["HUBPAPAGOPA-SPN-TENANTID"].value
-  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["HUBPAPAGOPA-HUBPA-SUBSCRIPTION-ID"].value
-}
-
-# # Azure service connection DEV-IO
-# resource "azuredevops_serviceendpoint_azurerm" "DEV-IO" {
+# # Azure service connection PROD-HUBPA
+# TODO PRODUCTION
+# resource "azuredevops_serviceendpoint_azurerm" "PROD-HUBPA" {
 #   depends_on = [azuredevops_project.project]
 
 #   project_id                = azuredevops_project.project.id
-#   service_endpoint_name     = "DEV-IO-SERVICE-CONN"
-#   description               = "DEV-IO Service connection"
-#   azurerm_subscription_name = "DEV-IO"
+#   service_endpoint_name     = "PROD-HUBPA-SERVICE-CONN"
+#   description               = "PROD-HUBPA Service connection"
+#   azurerm_subscription_name = "PROD-HUBPA"
 #   azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-#   azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value
+#   azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-HUBPA-SUBSCRIPTION-ID"].value
 # }
+
+# Azure service connection DEV-HUBPA
+resource "azuredevops_serviceendpoint_azurerm" "DEV-HUBPA" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "DEV-HUBPA-SERVICE-CONN"
+  description               = "DEV-HUBPA Service connection"
+  azurerm_subscription_name = "DEV-HUBPA"
+  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
+  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
+}
 
 # Github service connection (read-only)
 resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-ro" {
@@ -73,8 +74,9 @@ resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr" {
   resource_group            = "hubpa-d-api-rg"
   azurecr_name              = "hubpadarc"
   azurecr_subscription_name = "HUBPA"
-  azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["HUBPAPAGOPA-SPN-TENANTID"].value
-  azurecr_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["HUBPAPAGOPA-HUBPA-SUBSCRIPTION-ID"].value
+  azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
+  # TODO migrate azure container registry
+  azurecr_subscription_id = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
 }
 
 # sonarqube service connection
@@ -83,7 +85,8 @@ resource "azuredevops_serviceendpoint_sonarqube" "pagopa-sonarqube" {
 
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "pagopa-sonarqube"
-  url                   = data.azurerm_key_vault_secret.key_vault_secret["sonarqube-URL"].value
-  token                 = data.azurerm_key_vault_secret.key_vault_secret["sonarqube-TOKEN"].value
-  description           = "Managed by Terraform"
+  # TODO migrate sonarqube
+  url         = data.azurerm_key_vault_secret.key_vault_secret["sonarqube-URL"].value
+  token       = data.azurerm_key_vault_secret.key_vault_secret["sonarqube-TOKEN"].value
+  description = "Managed by Terraform"
 }

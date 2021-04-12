@@ -7,8 +7,11 @@ variable "hub-pa-api" {
       pipelines_path = ".devops"
     }
     pipeline = {
+      # TODO
       production_resource_group_name = ""
+      staging_resource_group_name    = ""
       production_app_name            = ""
+      staging_app_name               = ""
       cache_version_id               = "v1"
     }
   }
@@ -16,7 +19,7 @@ variable "hub-pa-api" {
 
 # code review
 resource "azuredevops_build_definition" "hub-pa-api-code-review" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
   name       = "${var.hub-pa-api.repository.name}.code-review"
@@ -45,7 +48,7 @@ resource "azuredevops_build_definition" "hub-pa-api-code-review" {
     repo_id               = "${var.hub-pa-api.repository.organization}/${var.hub-pa-api.repository.name}"
     branch_name           = var.hub-pa-api.repository.branch_name
     yml_path              = "${var.hub-pa-api.repository.pipelines_path}/code-review-pipelines.yml"
-    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
   variable {
@@ -56,10 +59,10 @@ resource "azuredevops_build_definition" "hub-pa-api-code-review" {
 }
 
 resource "azuredevops_resource_authorization" "hub-pa-api-code-review-github-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.hub-pa-api-code-review, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.hub-pa-api-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   definition_id = azuredevops_build_definition.hub-pa-api-code-review.id
   authorized    = true
   type          = "endpoint"
@@ -77,7 +80,7 @@ resource "azuredevops_resource_authorization" "hub-pa-api-code-review-sonarqube-
 
 # deploy
 resource "azuredevops_build_definition" "hub-pa-api-deploy" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.HUBPA, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
   name       = "${var.hub-pa-api.repository.name}.deploy"
@@ -111,9 +114,15 @@ resource "azuredevops_build_definition" "hub-pa-api-deploy" {
     value = var.hub-pa-api.pipeline.cache_version_id
   }
 
+  # TODO PRODUCTION
+  # variable {
+  #   name  = "PRODUCTION_AZURE_SUBSCRIPTION"
+  #   value = azuredevops_serviceendpoint_azurerm.PROD-HUBPA.service_endpoint_name
+  # }
+
   variable {
-    name  = "PRODUCTION_AZURE_SUBSCRIPTION"
-    value = azuredevops_serviceendpoint_azurerm.HUBPA.service_endpoint_name
+    name  = "STAGING_AZURE_SUBSCRIPTION"
+    value = azuredevops_serviceendpoint_azurerm.DEV-HUBPA.service_endpoint_name
   }
 
   variable {
@@ -122,8 +131,18 @@ resource "azuredevops_build_definition" "hub-pa-api-deploy" {
   }
 
   variable {
+    name  = "STAGING_APP_NAME"
+    value = var.hub-pa-api.pipeline.staging_app_name
+  }
+
+  variable {
     name  = "PRODUCTION_RESOURCE_GROUP_NAME"
     value = var.hub-pa-api.pipeline.production_resource_group_name
+  }
+
+  variable {
+    name  = "STAGING_RESOURCE_GROUP_NAME"
+    value = var.hub-pa-api.pipeline.staging_resource_group_name
   }
 
 }
@@ -138,15 +157,26 @@ resource "azuredevops_resource_authorization" "hub-pa-api-deploy-github-auth" {
   type          = "endpoint"
 }
 
-resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azure-auth" {
-  depends_on = [azuredevops_serviceendpoint_azurerm.HUBPA, azuredevops_build_definition.hub-pa-api-deploy, time_sleep.wait]
+resource "azuredevops_resource_authorization" "hub-pa-api-deploy-staging-azure-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.DEV-HUBPA, azuredevops_build_definition.hub-pa-api-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurerm.HUBPA.id
+  resource_id   = azuredevops_serviceendpoint_azurerm.DEV-HUBPA.id
   definition_id = azuredevops_build_definition.hub-pa-api-deploy.id
   authorized    = true
   type          = "endpoint"
 }
+
+# TODO PRODUCTION
+# resource "azuredevops_resource_authorization" "hub-pa-api-deploy-production-azure-auth" {
+#   depends_on = [azuredevops_serviceendpoint_azurerm.PROD-HUBPA, azuredevops_build_definition.hub-pa-api-deploy, time_sleep.wait]
+
+#   project_id    = azuredevops_project.project.id
+#   resource_id   = azuredevops_serviceendpoint_azurerm.PROD-HUBPA.id
+#   definition_id = azuredevops_build_definition.hub-pa-api-deploy.id
+#   authorized    = true
+#   type          = "endpoint"
+# }
 
 resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurecr-auth" {
   depends_on = [azuredevops_serviceendpoint_azurecr.pagopa-azurecr, azuredevops_build_definition.hub-pa-api-deploy, time_sleep.wait]
