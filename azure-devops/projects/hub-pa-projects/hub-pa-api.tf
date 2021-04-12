@@ -65,6 +65,16 @@ resource "azuredevops_resource_authorization" "hub-pa-api-code-review-github-aut
   type          = "endpoint"
 }
 
+resource "azuredevops_resource_authorization" "hub-pa-api-code-review-sonarqube-auth" {
+  depends_on = [azuredevops_serviceendpoint_sonarqube.pagopa-sonarqube, azuredevops_build_definition.hub-pa-api-code-review, azuredevops_project.project]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_sonarqube.pagopa-sonarqube.id
+  definition_id = azuredevops_build_definition.hub-pa-api-code-review.id
+  authorized    = true
+  type          = "endpoint"
+}
+
 # deploy
 resource "azuredevops_build_definition" "hub-pa-api-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.HUBPA, azuredevops_project.project]

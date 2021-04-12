@@ -11,6 +11,8 @@ variable "secrets" {
     "io-azure-devops-github-EMAIL",
     "io-azure-devops-github-USERNAME",
     "pagopa-npm-bot-TOKEN",
+    "sonarqube-TOKEN",
+    "sonarqube-URL",
     "HUBPAPAGOPA-HUBPA-SUBSCRIPTION-ID",
     "HUBPAPAGOPA-SPN-TENANTID",
   ]

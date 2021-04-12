@@ -64,16 +64,6 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
   }
 }
 
-# npm service connection
-resource "azuredevops_serviceendpoint_npm" "pagopa-npm-bot" {
-  depends_on = [azuredevops_project.project]
-
-  project_id            = azuredevops_project.project.id
-  service_endpoint_name = "pagopa-npm-bot"
-  url                   = "https://registry.npmjs.org"
-  access_token          = data.azurerm_key_vault_secret.key_vault_secret["pagopa-npm-bot-TOKEN"].value
-}
-
 # azure container registry service connection
 resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr" {
   depends_on = [azuredevops_project.project]
@@ -85,4 +75,15 @@ resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr" {
   azurecr_subscription_name = "HUBPA"
   azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["HUBPAPAGOPA-SPN-TENANTID"].value
   azurecr_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["HUBPAPAGOPA-HUBPA-SUBSCRIPTION-ID"].value
+}
+
+# sonarqube service connection
+resource "azuredevops_serviceendpoint_sonarqube" "pagopa-sonarqube" {
+  depends_on = [azuredevops_project.project]
+
+  project_id            = azuredevops_project.project.id
+  service_endpoint_name = "pagopa-sonarqube"
+  url                   = data.azurerm_key_vault_secret.key_vault_secret["sonarqube-URL"].value
+  token                 = data.azurerm_key_vault_secret.key_vault_secret["sonarqube-TOKEN"].value
+  description           = "Managed by Terraform"
 }
