@@ -22,7 +22,7 @@ tfenv install
 
 ### 2. Azure CLI
 
-In order to authenticate to Azure Infrastructure and manage terraform state it's necessary to install and login to Azure subscription.
+In order to authenticate to Azure portal and manage terraform state it's necessary to install and login to Azure subscription.
 
 - [Azure CLI](https://docs.microsoft.com/it-it/cli/azure/install-azure-cli)
 
