@@ -10,7 +10,7 @@ In order to manage the suitable version of terraform it is strongly recommended 
 
 - [tfenv](https://github.com/tfutils/tfenv): **Terraform** version manager inspired by rbenv.
 
-Once these tools have been installed, install the terraform version version shown in:
+Once these tools have been installed, install the terraform version shown in:
 
 - .terraform-version
 
