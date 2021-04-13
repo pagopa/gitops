@@ -7,8 +7,8 @@ variable "io-functions-services-cache" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      production_resource_group_name = "io-p-rg-notifications"
-      production_app_name            = "io-p-fn3-pushnotif"
+      production_resource_group_name = "io-p-rg-internal"
+      production_app_name            = "io-p-fn3-servicescache"
       cache_version_id               = "v1"
     }
   }
