@@ -56,6 +56,11 @@ resource "azuredevops_build_definition" "hub-pa-api-code-review" {
     secret_value = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
     is_secret    = true
   }
+
+  variable {
+    name         = "SONARQUBE_CONNECTION"
+    secret_value = azuredevops_serviceendpoint_sonarqube.pagopa-sonarqube.service_endpoint_name
+  }
 }
 
 resource "azuredevops_resource_authorization" "hub-pa-api-code-review-github-auth" {
