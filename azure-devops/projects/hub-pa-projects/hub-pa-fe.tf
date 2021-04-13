@@ -57,8 +57,8 @@ resource "azuredevops_build_definition" "hub-pa-fe-code-review" {
   }
 
   variable {
-    name         = "SONARQUBE_CONNECTION"
-    secret_value = azuredevops_serviceendpoint_sonarqube.pagopa-sonarqube.service_endpoint_name
+    name  = "SONARQUBE_CONNECTION"
+    value = azuredevops_serviceendpoint_sonarqube.pagopa-sonarqube.service_endpoint_name
   }
 }
 
