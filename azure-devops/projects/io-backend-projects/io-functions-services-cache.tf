@@ -55,7 +55,18 @@ resource "azuredevops_build_definition" "io-functions-services-cache-code-review
   }
 }
 
-resource "azuredevops_resource_authorization" "io-functions-services-cache-code-review-github-auth" {
+# code review serviceendpoint authorization
+resource "azuredevops_resource_authorization" "io-functions-services-cache-code-review-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-services-cache-code-review, azuredevops_project.project]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  definition_id = azuredevops_build_definition.io-functions-services-cache-code-review.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+resource "azuredevops_resource_authorization" "io-functions-services-cache-code-review-github-pr-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.io-functions-services-cache-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
@@ -118,7 +129,18 @@ resource "azuredevops_build_definition" "io-functions-services-cache-deploy" {
 
 }
 
-resource "azuredevops_resource_authorization" "io-functions-services-cache-deploy-github-auth" {
+# deploy serviceendpoint authorization
+resource "azuredevops_resource_authorization" "io-functions-services-cache-deploy-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-services-cache-deploy, azuredevops_project.project]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  definition_id = azuredevops_build_definition.io-functions-services-cache-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+resource "azuredevops_resource_authorization" "io-functions-services-cache-deploy-github-rw-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.io-functions-services-cache-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
@@ -128,7 +150,7 @@ resource "azuredevops_resource_authorization" "io-functions-services-cache-deplo
   type          = "endpoint"
 }
 
-resource "azuredevops_resource_authorization" "io-functions-services-cache-deploy-azure-auth" {
+resource "azuredevops_resource_authorization" "io-functions-services-cache-deploy-azurerm-PROD-IO-auth" {
   depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_build_definition.io-functions-services-cache-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
