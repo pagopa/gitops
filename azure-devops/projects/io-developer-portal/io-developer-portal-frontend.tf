@@ -64,7 +64,18 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-code-revie
   }
 }
 
-resource "azuredevops_resource_authorization" "io-developer-portal-frontend-code-review-github-auth" {
+# code review serviceendpoint authorization
+resource "azuredevops_resource_authorization" "io-developer-portal-frontend-code-review-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-developer-portal-frontend-code-review, azuredevops_project.project]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  definition_id = azuredevops_build_definition.io-developer-portal-frontend-code-review.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+resource "azuredevops_resource_authorization" "io-developer-portal-frontend-code-review-github-pr-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.io-developer-portal-frontend-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
@@ -176,7 +187,18 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-deploy" {
   }
 }
 
-resource "azuredevops_resource_authorization" "io-developer-portal-frontend-deploy-github-auth" {
+# deploy serviceendpoint authorization
+resource "azuredevops_resource_authorization" "io-developer-portal-frontend-deploy-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-developer-portal-frontend-deploy, azuredevops_project.project]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  definition_id = azuredevops_build_definition.io-developer-portal-frontend-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+resource "azuredevops_resource_authorization" "io-developer-portal-frontend-deploy-github-rw-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.io-developer-portal-frontend-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
