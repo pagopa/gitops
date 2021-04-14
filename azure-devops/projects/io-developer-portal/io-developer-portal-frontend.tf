@@ -208,7 +208,7 @@ resource "azuredevops_resource_authorization" "io-developer-portal-frontend-depl
   type          = "endpoint"
 }
 
-resource "azuredevops_resource_authorization" "io-developer-portal-frontend-deploy-azure-auth" {
+resource "azuredevops_resource_authorization" "io-developer-portal-frontend-deploy-azurerm-PROD-IO-auth" {
   depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_build_definition.io-developer-portal-frontend-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
