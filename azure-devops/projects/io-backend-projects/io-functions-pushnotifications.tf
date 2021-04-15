@@ -55,7 +55,18 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-code-rev
   }
 }
 
-resource "azuredevops_resource_authorization" "io-functions-pushnotifications-code-review-github-auth" {
+# code review serviceendpoint authorization
+resource "azuredevops_resource_authorization" "io-functions-pushnotifications-code-review-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-pushnotifications-code-review, azuredevops_project.project]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  definition_id = azuredevops_build_definition.io-functions-pushnotifications-code-review.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+resource "azuredevops_resource_authorization" "io-functions-pushnotifications-code-review-github-pr-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.io-functions-pushnotifications-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
@@ -118,7 +129,18 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
 
 }
 
-resource "azuredevops_resource_authorization" "io-functions-pushnotifications-deploy-github-auth" {
+# deploy serviceendpoint authorization
+resource "azuredevops_resource_authorization" "io-functions-pushnotifications-deploy-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-pushnotifications-deploy, azuredevops_project.project]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  definition_id = azuredevops_build_definition.io-functions-pushnotifications-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+resource "azuredevops_resource_authorization" "io-functions-pushnotifications-deploy-github-rw-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.io-functions-pushnotifications-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
@@ -128,7 +150,7 @@ resource "azuredevops_resource_authorization" "io-functions-pushnotifications-de
   type          = "endpoint"
 }
 
-resource "azuredevops_resource_authorization" "io-functions-pushnotifications-deploy-azure-auth" {
+resource "azuredevops_resource_authorization" "io-functions-pushnotifications-deploy-azurerm-PROD-IO-auth" {
   depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_build_definition.io-functions-pushnotifications-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
