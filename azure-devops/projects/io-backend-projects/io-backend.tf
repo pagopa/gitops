@@ -12,7 +12,11 @@ variable "io-backend" {
   }
 }
 
-# code review
+#
+# Code Review pipeline
+#
+
+# Define code review pipeline
 resource "azuredevops_build_definition" "io-backend-code-review" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
@@ -53,7 +57,7 @@ resource "azuredevops_build_definition" "io-backend-code-review" {
   }
 }
 
-# code review serviceendpoint authorization
+# Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
 resource "azuredevops_resource_authorization" "io-backend-code-review-github-ro-auth" {
   depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.io-backend-code-review, azuredevops_project.project]
 
@@ -64,6 +68,7 @@ resource "azuredevops_resource_authorization" "io-backend-code-review-github-ro-
   type          = "endpoint"
 }
 
+# Allow code review pipeline to access Github pr service connection, needed to checkout code from the pull request branch
 resource "azuredevops_resource_authorization" "io-backend-code-review-github-pr-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.io-backend-code-review, azuredevops_project.project]
 
@@ -74,7 +79,11 @@ resource "azuredevops_resource_authorization" "io-backend-code-review-github-pr-
   type          = "endpoint"
 }
 
-# deploy
+#
+# Deploy pipeline
+#
+
+# Define deploy pipeline
 resource "azuredevops_build_definition" "io-backend-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
 
@@ -116,7 +125,7 @@ resource "azuredevops_build_definition" "io-backend-deploy" {
   }
 }
 
-# deploy serviceendpoint authorization
+# Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
 resource "azuredevops_resource_authorization" "io-backend-deploy-github-ro-auth" {
   depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.io-backend-deploy, azuredevops_project.project]
 
@@ -127,6 +136,7 @@ resource "azuredevops_resource_authorization" "io-backend-deploy-github-ro-auth"
   type          = "endpoint"
 }
 
+# Allow deploy pipeline to access Github writable service connection, needed to bump project version and publish a new relase
 resource "azuredevops_resource_authorization" "io-backend-deploy-github-rw-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.io-backend-deploy, azuredevops_project.project]
 
@@ -137,6 +147,7 @@ resource "azuredevops_resource_authorization" "io-backend-deploy-github-rw-auth"
   type          = "endpoint"
 }
 
+# Allow deploy pipeline to access Azure PROD-IO subscription service connection, needed to interact with Azure resources
 resource "azuredevops_resource_authorization" "io-backend-deploy-azurerm-PROD-IO-auth" {
   depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_build_definition.io-backend-deploy, time_sleep.wait]
 
