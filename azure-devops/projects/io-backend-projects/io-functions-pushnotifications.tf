@@ -7,14 +7,18 @@ variable "io-functions-pushnotifications" {
       pipelines_path = ".devops"
     }
     pipeline = {
+      cache_version_id               = "v3"
       production_resource_group_name = "io-p-rg-notifications"
       production_app_name            = "io-p-fn3-pushnotif"
-      cache_version_id               = "v1"
     }
   }
 }
 
-# code review
+#
+# Code Review pipeline
+#
+
+# Define code review pipeline
 resource "azuredevops_build_definition" "io-functions-pushnotifications-code-review" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
@@ -55,7 +59,7 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-code-rev
   }
 }
 
-# code review serviceendpoint authorization
+# Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
 resource "azuredevops_resource_authorization" "io-functions-pushnotifications-code-review-github-ro-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-pushnotifications-code-review, azuredevops_project.project]
 
@@ -66,6 +70,7 @@ resource "azuredevops_resource_authorization" "io-functions-pushnotifications-co
   type          = "endpoint"
 }
 
+# Allow code review pipeline to access Github pr service connection, needed to checkout code from the pull request branch
 resource "azuredevops_resource_authorization" "io-functions-pushnotifications-code-review-github-pr-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.io-functions-pushnotifications-code-review, azuredevops_project.project]
 
@@ -76,7 +81,11 @@ resource "azuredevops_resource_authorization" "io-functions-pushnotifications-co
   type          = "endpoint"
 }
 
-# deploy
+#
+# Deploy pipeline
+#
+
+# Define deploy pipeline
 resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
 
@@ -129,7 +138,7 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
 
 }
 
-# deploy serviceendpoint authorization
+# Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
 resource "azuredevops_resource_authorization" "io-functions-pushnotifications-deploy-github-ro-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-pushnotifications-deploy, azuredevops_project.project]
 
@@ -140,6 +149,7 @@ resource "azuredevops_resource_authorization" "io-functions-pushnotifications-de
   type          = "endpoint"
 }
 
+# Allow deploy pipeline to access Github writable service connection, needed to bump project version and publish a new relase
 resource "azuredevops_resource_authorization" "io-functions-pushnotifications-deploy-github-rw-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.io-functions-pushnotifications-deploy, azuredevops_project.project]
 
@@ -150,6 +160,7 @@ resource "azuredevops_resource_authorization" "io-functions-pushnotifications-de
   type          = "endpoint"
 }
 
+# Allow deploy pipeline to access Azure PROD-IO subscription service connection, needed to interact with Azure resources
 resource "azuredevops_resource_authorization" "io-functions-pushnotifications-deploy-azurerm-PROD-IO-auth" {
   depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_build_definition.io-functions-pushnotifications-deploy, time_sleep.wait]
 

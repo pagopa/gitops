@@ -7,7 +7,9 @@ variable "io-functions-admin" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      cache_version_id = "v3"
+      cache_version_id               = "v3"
+      production_resource_group_name = "io-p-rg-internal"
+      production_app_name            = "io-p-fn3-admin"
     }
   }
 }
@@ -127,6 +129,16 @@ resource "azuredevops_build_definition" "io-functions-admin-deploy" {
   variable {
     name  = "PRODUCTION_AZURE_SUBSCRIPTION"
     value = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+  }
+
+  variable {
+    name  = "PRODUCTION_APP_NAME"
+    value = var.io-functions-admin.pipeline.production_app_name
+  }
+
+  variable {
+    name  = "PRODUCTION_RESOURCE_GROUP_NAME"
+    value = var.io-functions-admin.pipeline.production_resource_group_name
   }
 }
 
