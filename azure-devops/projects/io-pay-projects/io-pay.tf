@@ -7,16 +7,16 @@ variable "io-pay" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      cache_version_id                  = "v3"
-      blob_container_name               = "$web"
-      endpoint_azure                    = "io-p-cdnendpoint-iopay"
-      io_pay_functions_host             = "https://api.io.italia.it"
-      io_pay_payment_manager_host       = "https://acardste.vaservices.eu"
-      my_index                          = "index.html?p=433"
-      production_storage_account_name   = "iopstcdniopay"
-      profile_name_cdn_azure            = "io-p-cdn-common"
-      resource_group_azure              = "io-p-rg-common"
-      staging_storage_account_name      = "iopstcdniopay" 
+      cache_version_id                = "v3"
+      blob_container_name             = "$web"
+      endpoint_azure                  = "io-p-cdnendpoint-iopay"
+      io_pay_functions_host           = "https://api.io.italia.it"
+      io_pay_payment_manager_host     = "https://acardste.vaservices.eu"
+      my_index                        = "index.html?p=433"
+      production_storage_account_name = "iopstcdniopay"
+      profile_name_cdn_azure          = "io-p-cdn-common"
+      resource_group_azure            = "io-p-rg-common"
+      staging_storage_account_name    = "iopstcdniopay"
     }
   }
 }
@@ -153,22 +153,22 @@ resource "azuredevops_build_definition" "io-pay-deploy" {
     name  = "MY_INDEX"
     value = var.io-pay.pipeline.my_index
   }
-  
+
   variable {
     name  = "PROFILE_NAME_CDN_AZURE"
     value = var.io-pay.pipeline.profile_name_cdn_azure
   }
-  
+
   variable {
     name  = "RESOURCE_GROUP_AZURE"
     value = var.io-pay.pipeline.resource_group_azure
   }
-  
+
   variable {
     name  = "STAGING_STORAGE_ACCOUNT_NAME"
     value = var.io-pay.pipeline.staging_storage_account_name
   }
-    
+
   variable {
     name  = "PRODUCTION_STORAGE_ACCOUNT_NAME"
     value = var.io-pay.pipeline.production_storage_account_name
@@ -205,4 +205,12 @@ resource "azuredevops_resource_authorization" "io-pay-deploy-azurerm-PROD-IO-aut
   definition_id = azuredevops_build_definition.io-pay-deploy.id
   authorized    = true
   type          = "endpoint"
+}
+
+resource "azurerm_role_assignment" "io-pay-deploy-azurerm-PROD-IO-iopstcdniopay" {
+  depends_on = [data.azuread_service_principal.service_principals]
+
+  principal_id         = data.azuread_service_principal.service_principals[local.PROD-IO-UID].id
+  role_definition_name = "Storage Blob Data Contributor"
+  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-pay.pipeline.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.io-pay.pipeline.production_storage_account_name}"
 }

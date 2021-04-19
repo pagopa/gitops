@@ -1,3 +1,23 @@
+provider "azuread" {
+  tenant_id = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
+}
+
+locals {
+  PROD-IO-UID = "${local.azure_devops_org}-${azuredevops_project.project.name}-${data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value}"
+  DEV-IO-UID  = "${local.azure_devops_org}-${azuredevops_project.project.name}-${data.azurerm_key_vault_secret.key_vault_secret["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value}"
+  service_principal_uids = [
+    local.PROD-IO-UID,
+    local.DEV-IO-UID,
+  ]
+}
+
+data "azuread_service_principal" "service_principals" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_serviceendpoint_azurerm.DEV-IO]
+
+  for_each     = toset(local.service_principal_uids)
+  display_name = each.value
+}
+
 # Azure service connection PROD-IO
 resource "azuredevops_serviceendpoint_azurerm" "PROD-IO" {
   depends_on = [azuredevops_project.project]
@@ -63,4 +83,3 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
     ignore_changes = [description, authorization]
   }
 }
-
