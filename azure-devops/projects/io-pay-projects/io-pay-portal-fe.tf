@@ -3,7 +3,7 @@ variable "io-pay-portal-fe" {
     repository = {
       organization   = "pagopa"
       name           = "io-pay-portal-fe"
-      branch_name    = "master"
+      branch_name    = "main"
       pipelines_path = ".devops"
     }
     pipeline = {
