@@ -4,7 +4,7 @@ terraform {
     resource_group_name  = "io-infra-rg"
     storage_account_name = "ioinfrastterraform"
     container_name       = "azuredevopsstate"
-    key                  = "hub-pa-projects.terraform.tfstate"
+    key                  = "hub-pa-projects-new.terraform.tfstate"
   }
   required_providers {
     azuredevops = {

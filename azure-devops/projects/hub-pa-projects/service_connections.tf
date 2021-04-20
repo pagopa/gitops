@@ -7,9 +7,30 @@
 #   service_endpoint_name     = "PROD-HUBPA-SERVICE-CONN"
 #   description               = "PROD-HUBPA Service connection"
 #   azurerm_subscription_name = "PROD-HUBPA"
-#   azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-#   azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-HUBPA-SUBSCRIPTION-ID"].value
+#   azurerm_spn_tenantid      = module.secrets.values["TTDIO-SPN-TENANTID"].value
+#   azurerm_subscription_id   = module.secrets.values["TTDIO-PROD-HUBPA-SUBSCRIPTION-ID"].value
 # }
+
+
+module "secrets" {
+  source = "../../modules/secrets/"
+
+  resource_group = "io-p-rg-operations"
+  keyvault_name = "io-p-kv-azuredevops"
+
+  secrets = [
+    "TTDIO-SPN-TENANTID",
+    "TTDIO-DEV-HUBPA-SUBSCRIPTION-ID",
+    "PAGOPAIT-TENANTID",
+    "PAGOPAIT-PROD-HUBPA",
+    "PAGOPAIT-UAT-HUBPA",
+    "io-azure-devops-github-ro-TOKEN",
+    "io-azure-devops-github-rw-TOKEN",
+    "io-azure-devops-github-pr-TOKEN",
+    "sonarqube-TOKEN",
+    "sonarqube-URL",
+  ]
+}
 
 # Azure service connection DEV-HUBPA
 resource "azuredevops_serviceendpoint_azurerm" "DEV-HUBPA" {
@@ -19,8 +40,32 @@ resource "azuredevops_serviceendpoint_azurerm" "DEV-HUBPA" {
   service_endpoint_name     = "DEV-HUBPA-SERVICE-CONN"
   description               = "DEV-HUBPA Service connection"
   azurerm_subscription_name = "DEV-HUBPA"
-  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
+  azurerm_spn_tenantid      = module.secrets.values["TTDIO-SPN-TENANTID"].value
+  azurerm_subscription_id   = module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
+}
+
+# Production service connection
+resource "azuredevops_serviceendpoint_azurerm" "PROD-HUBPA" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "PROD-HUBPA-SERVICE-CONN"
+  description               = "PROD-HUBPA Service connection"
+  azurerm_subscription_name = "PROD-HUBPA"
+  azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-PROD-HUBPA"].value
+}
+
+# Production service connection
+resource "azuredevops_serviceendpoint_azurerm" "UAT-HUBPA" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "PROD-HUBPA-SERVICE-CONN"
+  description               = "PROD-HUBPA Service connection"
+  azurerm_subscription_name = "PROD-HUBPA"
+  azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-UAT-HUBPA"].value
 }
 
 # Github service connection (read-only)
@@ -30,7 +75,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-ro" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "io-azure-devops-github-ro"
   auth_personal {
-    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-ro-TOKEN"].value
+    personal_access_token = module.secrets.values["io-azure-devops-github-ro-TOKEN"].value
   }
   lifecycle {
     ignore_changes = [description, authorization]
@@ -44,7 +89,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-rw" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "io-azure-devops-github-rw"
   auth_personal {
-    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-rw-TOKEN"].value
+    personal_access_token = module.secrets.values["io-azure-devops-github-rw-TOKEN"].value
   }
   lifecycle {
     ignore_changes = [description, authorization]
@@ -58,15 +103,15 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "io-azure-devops-github-pr"
   auth_personal {
-    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-pr-TOKEN"].value
+    personal_access_token = module.secrets.values["io-azure-devops-github-pr-TOKEN"].value
   }
   lifecycle {
     ignore_changes = [description, authorization]
   }
 }
 
-# azure container registry service connection
-resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr" {
+# azure container registry dev service connection
+resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-dev" {
   depends_on = [azuredevops_project.project]
 
   project_id                = azuredevops_project.project.id
@@ -74,9 +119,22 @@ resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr" {
   resource_group            = "hubpa-d-api-rg"
   azurecr_name              = "hubpadarc"
   azurecr_subscription_name = "HUBPA"
-  azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
+  azurecr_spn_tenantid      = module.secrets.values["TTDIO-SPN-TENANTID"].value
   # TODO migrate azure container registry
-  azurecr_subscription_id = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
+  azurecr_subscription_id = module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
+}
+
+# azure container registry prod service connection
+resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-prod" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "pagopa-azurecr"
+  resource_group            = "hubpa-p-api-rg"
+  azurecr_name              = "hubpaparc"
+  azurecr_subscription_name = "PROD-HubPA"
+  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurecr_subscription_id = module.secrets.values["PAGOPAIT-PROD-HUBPA"].value
 }
 
 # sonarqube service connection
@@ -86,7 +144,7 @@ resource "azuredevops_serviceendpoint_sonarqube" "pagopa-sonarqube" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "pagopa-sonarqube"
   # TODO migrate sonarqube
-  url         = data.azurerm_key_vault_secret.key_vault_secret["sonarqube-URL"].value
-  token       = data.azurerm_key_vault_secret.key_vault_secret["sonarqube-TOKEN"].value
+  url         = module.secrets.values["sonarqube-URL"].value
+  token       = module.secrets.values["sonarqube-TOKEN"].value
   description = "Managed by Terraform"
 }
