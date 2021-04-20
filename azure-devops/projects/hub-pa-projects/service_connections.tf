@@ -16,7 +16,7 @@ module "secrets" {
   source = "../../modules/secrets/"
 
   resource_group = "io-p-rg-operations"
-  keyvault_name = "io-p-kv-azuredevops"
+  keyvault_name  = "io-p-kv-azuredevops"
 
   secrets = [
     "TTDIO-SPN-TENANTID",
@@ -134,7 +134,7 @@ resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-prod" {
   azurecr_name              = "hubpaparc"
   azurecr_subscription_name = "PROD-HubPA"
   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurecr_subscription_id = module.secrets.values["PAGOPAIT-PROD-HUBPA"].value
+  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-HUBPA"].value
 }
 
 # sonarqube service connection
