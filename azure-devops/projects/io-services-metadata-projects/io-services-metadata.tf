@@ -31,7 +31,23 @@ resource "azuredevops_build_definition" "io-services-metadata" {
     override {
       auto_cancel = false
       branch_filter {
-        include = ["*"]
+        include = [var.io-services-metadata.repository.branch_name]
+      }
+      path_filter {
+        exclude = []
+        include = []
+      }
+    }
+  }
+
+  ci_trigger {
+    override {
+      batch                            = false
+      max_concurrent_builds_per_branch = 1
+      polling_interval                 = 0
+      branch_filter {
+        exclude = []
+        include = [var.io-services-metadata.repository.branch_name]
       }
       path_filter {
         exclude = []
