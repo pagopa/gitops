@@ -6,8 +6,8 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-GCNPORTAL" {
   service_endpoint_name     = "PROD-GCNPORTAL-SERVICE-CONN"
   description               = "PROD-GCNPORTAL Service connection"
   azurerm_subscription_name = "PROD-GCNPORTAL"
-  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value
+  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value
 }
 
 # Azure service connection UAT-GCNPORTAL
@@ -18,8 +18,8 @@ resource "azuredevops_serviceendpoint_azurerm" "UAT-GCNPORTAL" {
   service_endpoint_name     = "UAT-GCNPORTAL-SERVICE-CONN"
   description               = "UAT-GCNPORTAL Service connection"
   azurerm_subscription_name = "UAT-GCNPORTAL"
-  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value
+  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value
 }
 
 
@@ -66,7 +66,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
 }
 
 # azure container registry service connection
-resource "azuredevops_serviceendpoint_azurecr" "cgnonboardingportal_uat_azurecr" {
+resource "azuredevops_serviceendpoint_azurecr" "cgnonboardingportal-uat-azurecr" {
   depends_on = [azuredevops_project.project]
 
   project_id                = azuredevops_project.project.id
@@ -74,8 +74,8 @@ resource "azuredevops_serviceendpoint_azurecr" "cgnonboardingportal_uat_azurecr"
   resource_group            = "cgnonboardingportal-u-api-rg"
   azurecr_name              = "cgnonboardingportaluarc"
   azurecr_subscription_name = "UAT-Esercenti"
-  azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-  azurecr_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value
+  azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
+  azurecr_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value
 }
 
 # TODO

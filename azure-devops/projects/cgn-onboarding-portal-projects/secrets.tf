@@ -10,10 +10,9 @@ variable "secrets" {
     "io-azure-devops-github-pr-TOKEN",
     "io-azure-devops-github-EMAIL",
     "io-azure-devops-github-USERNAME",
-    "pagopa-npm-bot-TOKEN",
-    "TTDIO-SPN-TENANTID",
-    "TTDIO-UAT-GCNPORTAL-SUBSCRIPTION-ID",
-    "TTDIO-PROD-GCNPORTAL-SUBSCRIPTION-ID",
+    "PAGOPAIT-TENANTID",
+    "PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID",
+    "PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID",
     "cgnportal-sonarqube-URL",
     "cgnportal-sonarqube-TOKEN"
   ]
