@@ -2,9 +2,9 @@ variable "io-pay-portal-fe" {
   default = {
     repository = {
       organization   = "pagopa"
-      name           = "io-pay-portal-fe"
+      name           = "io-pay-portal"
       branch_name    = "main"
-      pipelines_path = ".devops"
+      pipelines_path = "."
     }
     pipeline = {
       cache_version_id                      = "v3"
@@ -27,8 +27,8 @@ resource "azuredevops_build_definition" "io-pay-portal-fe-code-review" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.io-pay-portal-fe.repository.name}.code-review"
-  path       = "\\${var.io-pay-portal-fe.repository.name}/io-pay-portal-fe"
+  name       = "io-pay-portal-fe.code-review"
+  path       = "\\${var.io-pay-portal-fe.repository.name}\io-pay-portal-fe"
 
   pull_request_trigger {
     initial_branch = var.io-pay-portal-fe.repository.branch_name
@@ -52,7 +52,7 @@ resource "azuredevops_build_definition" "io-pay-portal-fe-code-review" {
     repo_type             = "GitHub"
     repo_id               = "${var.io-pay-portal-fe.repository.organization}/${var.io-pay-portal-fe.repository.name}"
     branch_name           = var.io-pay-portal-fe.repository.branch_name
-    yml_path              = "${var.io-pay-portal-fe.repository.pipelines_path}/io-pay-portal-fe/code-review-pipelines.yml"
+    yml_path              = "${var.io-pay-portal-fe.repository.pipelines_path}/io-pay-portal-fe/.devops/code-review-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   }
 
@@ -89,14 +89,14 @@ resource "azuredevops_build_definition" "io-pay-portal-fe-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.io-pay-portal-fe.repository.name}.deploy"
-  path       = "\\${var.io-pay-portal-fe.repository.name}/io-pay-portal-fe"
+  name       = "io-pay-portal-fe.deploy"
+  path       = "\\${var.io-pay-portal-fe.repository.name}\io-pay-portal-fe"
 
   repository {
     repo_type             = "GitHub"
     repo_id               = "${var.io-pay-portal-fe.repository.organization}/${var.io-pay-portal-fe.repository.name}"
     branch_name           = var.io-pay-portal-fe.repository.branch_name
-    yml_path              = "${var.io-pay-portal-fe.repository.pipelines_path}/io-pay-portal-fe/deploy-pipelines.yml"
+    yml_path              = "${var.io-pay-portal-fe.repository.pipelines_path}/io-pay-portal-fe/.devops/deploy-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
