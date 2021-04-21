@@ -20,7 +20,7 @@ resource "azuredevops_build_definition" "io-functions-pay-portal-code-review" {
 
   project_id = azuredevops_project.project.id
   name       = "io-functions-pay-portal.code-review"
-  path       = "\\${var.io-functions-pay-portal.repository.name}\io-functions-pay-portal"
+  path       = "\\${var.io-functions-pay-portal.repository.name}\\io-functions-pay-portal"
 
   pull_request_trigger {
     initial_branch = var.io-functions-pay-portal.repository.branch_name
@@ -35,7 +35,7 @@ resource "azuredevops_build_definition" "io-functions-pay-portal-code-review" {
       }
       path_filter {
         exclude = []
-        include = []
+        include = ["io-functions-pay-portal"]
       }
     }
   }
@@ -82,7 +82,7 @@ resource "azuredevops_build_definition" "io-functions-pay-portal-deploy" {
 
   project_id = azuredevops_project.project.id
   name       = "io-functions-pay-portal.deploy"
-  path       = "\\${var.io-functions-pay-portal.repository.name}\io-functions-pay-portal"
+  path       = "\\${var.io-functions-pay-portal.repository.name}\\io-functions-pay-portal"
 
   repository {
     repo_type             = "GitHub"
