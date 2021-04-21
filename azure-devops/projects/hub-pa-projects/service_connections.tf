@@ -99,8 +99,8 @@ resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-dev" {
   resource_group            = "hubpa-d-api-rg"
   azurecr_name              = "hubpadarc"
   azurecr_subscription_name = "HUBPA"
-  azurecr_spn_tenantid      = module.secrets.values["TTDIO-SPN-TENANTID"].value
-  azurecr_subscription_id   = module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
+  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-DEV-HUBPA-SUBSCRIPTION-ID"].value
 }
 
 # azure container registry prod service connection
