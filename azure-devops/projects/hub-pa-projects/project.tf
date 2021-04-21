@@ -13,8 +13,6 @@ module "secrets" {
   keyvault_name  = "io-p-kv-azuredevops"
 
   secrets = [
-    "TTDIO-SPN-TENANTID",
-    "TTDIO-DEV-HUBPA-SUBSCRIPTION-ID",
     "PAGOPAIT-TENANTID",
     "PAGOPAIT-UAT-HUBPA-SUBSCRIPTION-ID",
     "PAGOPAIT-PROD-HUBPA-SUBSCRIPTION-ID",
