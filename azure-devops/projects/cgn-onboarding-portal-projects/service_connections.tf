@@ -1,4 +1,3 @@
-# TODO
 # Azure service connection PROD-GCNPORTAL
 resource "azuredevops_serviceendpoint_azurerm" "PROD-GCNPORTAL" {
   depends_on = [azuredevops_project.project]
@@ -95,7 +94,7 @@ resource "azuredevops_serviceendpoint_azurecr" "cgnonboardingportal_uat_azurecr"
 
 
 # sonarqube service connection
-resource "azuredevops_serviceendpoint_sonarqube" "pagopa-sonarqube" {
+resource "azuredevops_serviceendpoint_sonarqube" "cgnonboardingportal-sonarqube" {
   depends_on = [azuredevops_project.project]
 
   project_id            = azuredevops_project.project.id
