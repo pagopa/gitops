@@ -28,7 +28,7 @@ resource "azuredevops_build_definition" "io-pay-portal-fe-code-review" {
 
   project_id = azuredevops_project.project.id
   name       = "io-pay-portal-fe.code-review"
-  path       = "\\${var.io-pay-portal-fe.repository.name}\io-pay-portal-fe"
+  path       = "\\${var.io-pay-portal-fe.repository.name}\\io-pay-portal-fe"
 
   pull_request_trigger {
     initial_branch = var.io-pay-portal-fe.repository.branch_name
@@ -43,7 +43,7 @@ resource "azuredevops_build_definition" "io-pay-portal-fe-code-review" {
       }
       path_filter {
         exclude = []
-        include = []
+        include = ["io-pay-portal-fe"]
       }
     }
   }
@@ -90,7 +90,7 @@ resource "azuredevops_build_definition" "io-pay-portal-fe-deploy" {
 
   project_id = azuredevops_project.project.id
   name       = "io-pay-portal-fe.deploy"
-  path       = "\\${var.io-pay-portal-fe.repository.name}\io-pay-portal-fe"
+  path       = "\\${var.io-pay-portal-fe.repository.name}\\io-pay-portal-fe"
 
   repository {
     repo_type             = "GitHub"
@@ -218,5 +218,5 @@ resource "azurerm_role_assignment" "io-pay-deploy-azurerm-PROD-IO-iopstcdniopayp
 
   principal_id         = data.azuread_service_principal.service_principals[local.PROD-IO-UID].id
   role_definition_name = "Storage Blob Data Contributor"
-  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-pay-portal-fe.pipeline.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.io-pay-portal-fe.pipeline.production_storage_account_name}"
+  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-pay-portal-fe.pipeline.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.io-pay-portal-fe.pipeline.storage_account_name}"
 }
