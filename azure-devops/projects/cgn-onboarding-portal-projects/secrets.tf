@@ -14,8 +14,8 @@ variable "secrets" {
     "TTDIO-SPN-TENANTID",
     "TTDIO-UAT-GCNPORTAL-SUBSCRIPTION-ID",
     "TTDIO-PROD-GCNPORTAL-SUBSCRIPTION-ID",
-    "sonarqube-URL",
-    "sonarqube-TOKEN"
+    "cgnportal-sonarqube-URL",
+    "cgnportal-sonarqube-TOKEN"
   ]
 }
 

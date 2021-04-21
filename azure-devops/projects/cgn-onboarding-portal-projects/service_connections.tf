@@ -99,8 +99,8 @@ resource "azuredevops_serviceendpoint_sonarqube" "cgnonboardingportal-sonarqube"
 
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "cgnonboardingportal-sonarqube"
-  url                   = data.azurerm_key_vault_secret.key_vault_secret["sonarqube-URL"].value
-  token                 = data.azurerm_key_vault_secret.key_vault_secret["sonarqube-TOKEN"].value
+  url                   = data.azurerm_key_vault_secret.key_vault_secret["cgnportal-sonarqube-URL"].value
+  token                 = data.azurerm_key_vault_secret.key_vault_secret["cgnportal-sonarqube-TOKEN"].value
   description           = "Managed by Terraform"
 }
 
