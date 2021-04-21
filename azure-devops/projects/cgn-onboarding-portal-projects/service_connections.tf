@@ -1,5 +1,5 @@
 provider "azuread" {
-  tenant_id = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
+  tenant_id = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
 }
 
 locals {
@@ -108,8 +108,8 @@ resource "azuredevops_serviceendpoint_azurecr" "cgnonboardingportal-uat-azurecr"
 //  resource_group            = "cgnonboardingportal-p-api-rg"
 //  azurecr_name              = "cgnonboardingportalparc"
 //  azurecr_subscription_name = "PROD-Esercenti"
-//  azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-//  azurecr_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value
+//  azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["PAGOPA-TENANTID"].value
+//  azurecr_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value
 //}
 
 
