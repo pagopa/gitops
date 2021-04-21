@@ -1,8 +1,8 @@
-variable "io-functions-cgn-merchant" {
+variable "io-functions-cgn" {
   default = {
     repository = {
       organization   = "pagopa"
-      name           = "io-functions-cgn-merchant"
+      name           = "io-functions-cgn"
       branch_name    = "master"
       pipelines_path = ".devops"
     }
