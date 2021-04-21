@@ -16,7 +16,6 @@ variable "hub-pa-fe" {
   }
 }
 
-# code review
 resource "azuredevops_build_definition" "hub-pa-fe-code-review" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
 
@@ -44,15 +43,15 @@ resource "azuredevops_build_definition" "hub-pa-fe-code-review" {
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = "${var.hub-pa-fe.repository.organization}/${var.hub-pa-fe.repository.name}"
+    repo_id               = join("/", [var.hub-pa-fe.repository.organization, var.hub-pa-fe.repository.name])
     branch_name           = var.hub-pa-fe.repository.branch_name
-    yml_path              = "${var.hub-pa-fe.repository.pipelines_path}/code-review-pipelines.yml"
+    yml_path              = join("/", [var.hub-pa-fe.repository.pipelines_path, "/code-review-pipelines.yml"])
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
   variable {
     name         = "DANGER_GITHUB_API_TOKEN"
-    secret_value = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
+    secret_value = module.secrets.values["DANGER-GITHUB-API-TOKEN"].value
     is_secret    = true
   }
 
@@ -64,7 +63,10 @@ resource "azuredevops_build_definition" "hub-pa-fe-code-review" {
 
 # code review serviceendpoint authorization
 resource "azuredevops_resource_authorization" "hub-pa-fe-code-review-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.hub-pa-fe-code-review, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro,
+    azuredevops_build_definition.hub-pa-fe-code-review,
+    azuredevops_project.project
+  ]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
@@ -88,26 +90,26 @@ resource "azuredevops_build_definition" "hub-pa-fe-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.hub-pa-fe.repository.name}.deploy"
-  path       = "\\${var.hub-pa-fe.repository.name}"
+  name       = format("%s..deploy", var.hub-pa-fe.repository.name)
+  path       = format("\\%s", var.hub-pa-fe.repository.name)
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = "${var.hub-pa-fe.repository.organization}/${var.hub-pa-fe.repository.name}"
+    repo_id               = join("/", [var.hub-pa-fe.repository.organization, var.hub-pa-fe.repository.name])
     branch_name           = var.hub-pa-fe.repository.branch_name
-    yml_path              = "${var.hub-pa-fe.repository.pipelines_path}/deploy-pipelines.yml"
+    yml_path              = join("/", [var.hub-pa-fe.repository.pipelines_path], ["deploy-pipelines.yml"])
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
   # TODO vars
   variable {
     name  = "GIT_EMAIL"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    value = module.secrets.values["io-azure-devops-github-EMAIL"].value
   }
 
   variable {
     name  = "GIT_USERNAME"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    value = module.secrets.values["io-azure-devops-github-USERNAME"].value
   }
 
   variable {
