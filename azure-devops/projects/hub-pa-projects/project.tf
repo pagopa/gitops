@@ -17,7 +17,6 @@ module "secrets" {
     "PAGOPAIT-DEV-HUBPA-SUBSCRIPTION-ID",
     "PAGOPAIT-UAT-HUBPA-SUBSCRIPTION-ID",
     "PAGOPAIT-PROD-HUBPA-SUBSCRIPTION-ID",
-
     "io-azure-devops-github-ro-TOKEN",
     "io-azure-devops-github-rw-TOKEN",
     "io-azure-devops-github-pr-TOKEN",
