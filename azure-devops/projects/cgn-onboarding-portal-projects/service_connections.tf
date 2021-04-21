@@ -7,7 +7,7 @@ locals {
   UAT-GCNPORTAL-UID  = "${local.azure_devops_org}-${azuredevops_project.project.name}-${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value}"
   service_principal_uids = [
     local.PROD-GCNPORTAL-UID,
-    local.PROD-GCNPORTAL-UID,
+    local.UAT-GCNPORTAL-UID,
   ]
 }
 
