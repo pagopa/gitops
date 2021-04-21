@@ -88,7 +88,7 @@ resource "azuredevops_build_definition" "io-functions-pay-portal-deploy" {
     repo_type             = "GitHub"
     repo_id               = "${var.io-functions-pay-portal.repository.organization}/${var.io-functions-pay-portal.repository.name}"
     branch_name           = var.io-functions-pay-portal.repository.branch_name
-    yml_path              = "${var.io-functions-pay-portal.repository.pipelines_path}/io-functions-pay-portal/deploy-pipelines.yml"
+    yml_path              = "${var.io-functions-pay-portal.repository.pipelines_path}/io-functions-pay-portal/.devops/deploy-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
