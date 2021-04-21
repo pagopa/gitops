@@ -2,7 +2,7 @@ variable "io-functions-pay-portal" {
   default = {
     repository = {
       organization   = "pagopa"
-      name           = "io-functions-pay-portal"
+      name           = "io-pay-portal"
       branch_name    = "main"
       pipelines_path = ".devops"
     }
