@@ -217,13 +217,13 @@ resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-de
 //  type          = "endpoint"
 //}
 
-resource "azurerm_role_assignment" "cgn-onboarding-portal-frontend-deploy-azurerm-PROD-IO-storageaccount" {
-  depends_on = [data.azuread_service_principal.service_principals]
+# resource "azurerm_role_assignment" "cgn-onboarding-portal-frontend-deploy-azurerm-PROD-GCNPORTAL-storageaccount" {
+#   depends_on = [data.azuread_service_principal.service_principals]
 
-  principal_id         = data.azuread_service_principal.service_principals[local.PROD-GCNPORTAL-UID].id
-  role_definition_name = "Storage Blob Data Contributor"
-  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value}/resourceGroups/${var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name}"
-}
+#   principal_id         = data.azuread_service_principal.service_principals[local.PROD-GCNPORTAL-UID].id
+#   role_definition_name = "Storage Blob Data Contributor"
+#   scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value}/resourceGroups/${var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name}"
+# }
 
 resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-deploy-azurerm-UAT-GCNPORTAL-auth" {
   depends_on = [azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL, azuredevops_build_definition.cgn-onboarding-portal-frontend-deploy, time_sleep.wait]
