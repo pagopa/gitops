@@ -20,8 +20,8 @@ resource "azuredevops_serviceendpoint_azurerm" "DEV-HUBPA" {
   service_endpoint_name     = "DEV-HUBPA-SERVICE-CONN"
   description               = "DEV-HUBPA Service connection"
   azurerm_subscription_name = "DEV-HUBPA"
-  azurerm_spn_tenantid      = module.secrets.values["TTDIO-SPN-TENANTID"].value
-  azurerm_subscription_id   = module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
+  azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-DEV-HUBPA-SUBSCRIPTION-ID"].value
 }
 
 # Production service connection
