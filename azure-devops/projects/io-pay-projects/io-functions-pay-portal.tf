@@ -4,7 +4,7 @@ variable "io-functions-pay-portal" {
       organization   = "pagopa"
       name           = "io-pay-portal"
       branch_name    = "main"
-      pipelines_path = ".devops"
+      pipelines_path = "."
     }
     pipeline = {
       production_resource_group_name = "io-p-rg-internal"
