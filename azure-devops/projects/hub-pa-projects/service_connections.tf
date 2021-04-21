@@ -120,7 +120,6 @@ resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-dev" {
   azurecr_name              = "hubpadarc"
   azurecr_subscription_name = "HUBPA"
   azurecr_spn_tenantid      = module.secrets.values["TTDIO-SPN-TENANTID"].value
-  # TODO migrate azure container registry
   azurecr_subscription_id = module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
 }
 
