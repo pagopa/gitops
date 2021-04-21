@@ -7,7 +7,12 @@ variable "cgn-onboarding-portal-backend" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      # TODO ?
+      prod = {
+        webAppName = "cgnonboardingportal-p-portal-backend1"
+      }
+      uat = {
+        webAppName = "cgnonboardingportal-u-portal-backend1"
+      }
     }
   }
 }
@@ -102,6 +107,11 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-backend-deploy" {
   //  }
 
   variable {
+    name  = "PRODUCTION_WEB_APP_NAME"
+    value = var.cgn-onboarding-portal-backend.pipeline.prod.webAppName
+  }
+
+  variable {
     name  = "UAT_AZURE_SUBSCRIPTION"
     value = azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL.service_endpoint_name
   }
@@ -109,6 +119,11 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-backend-deploy" {
   variable {
     name  = "UAT_CONTAINER_REGISTRY"
     value = azuredevops_serviceendpoint_azurecr.cgnonboardingportal-uat-azurecr.service_endpoint_name
+  }
+
+  variable {
+    name  = "UAT_WEB_APP_NAME"
+    value = var.cgn-onboarding-portal-backend.pipeline.uat.webAppName
   }
 }
 
