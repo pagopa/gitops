@@ -82,7 +82,7 @@ resource "azuredevops_build_definition" "io-functions-pay-portal-deploy" {
 
   project_id = azuredevops_project.project.id
   name       = "io-functions-pay-portal.deploy"
-  path       = "\\${var.io-functions-pay-portal.repository.name}"
+  path       = "\\${var.io-functions-pay-portal.repository.name}\io-functions-pay-portal"
 
   repository {
     repo_type             = "GitHub"
