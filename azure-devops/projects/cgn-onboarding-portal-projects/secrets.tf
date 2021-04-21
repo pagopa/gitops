@@ -12,6 +12,10 @@ variable "secrets" {
     "io-azure-devops-github-USERNAME",
     "pagopa-npm-bot-TOKEN",
     "TTDIO-SPN-TENANTID",
+    "TTDIO-UAT-GCNPORTAL-SUBSCRIPTION-ID",
+    "TTDIO-PROD-GCNPORTAL-SUBSCRIPTION-ID",
+    "sonarqube-URL",
+    "sonarqube-TOKEN"
   ]
 }
 

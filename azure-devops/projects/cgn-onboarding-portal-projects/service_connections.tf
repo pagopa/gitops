@@ -1,27 +1,28 @@
-# TODO for CGN
-//# Azure service connection PROD-IO
-//resource "azuredevops_serviceendpoint_azurerm" "PROD-IO" {
-//  depends_on = [azuredevops_project.project]
-//
-//  project_id                = azuredevops_project.project.id
-//  service_endpoint_name     = "PROD-IO-SERVICE-CONN"
-//  description               = "PROD-IO Service connection"
-//  azurerm_subscription_name = "PROD-IO"
-//  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-//  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value
-//}
-//
-//# Azure service connection DEV-IO
-//resource "azuredevops_serviceendpoint_azurerm" "DEV-IO" {
-//  depends_on = [azuredevops_project.project]
-//
-//  project_id                = azuredevops_project.project.id
-//  service_endpoint_name     = "DEV-IO-SERVICE-CONN"
-//  description               = "DEV-IO Service connection"
-//  azurerm_subscription_name = "DEV-IO"
-//  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-//  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value
-//}
+# TODO
+# Azure service connection PROD-GCNPORTAL
+resource "azuredevops_serviceendpoint_azurerm" "PROD-GCNPORTAL" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "PROD-GCNPORTAL-SERVICE-CONN"
+  description               = "PROD-GCNPORTAL Service connection"
+  azurerm_subscription_name = "PROD-GCNPORTAL"
+  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
+  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value
+}
+
+# Azure service connection UAT-GCNPORTAL
+resource "azuredevops_serviceendpoint_azurerm" "UAT-GCNPORTAL" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "UAT-GCNPORTAL-SERVICE-CONN"
+  description               = "UAT-GCNPORTAL Service connection"
+  azurerm_subscription_name = "UAT-GCNPORTAL"
+  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
+  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value
+}
+
 
 # Github service connection (read-only)
 resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-ro" {
@@ -65,18 +66,43 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
   }
 }
 
-# Github service connection (read-only) used to access to azure-pipelines template repo
-resource "azuredevops_serviceendpoint_github" "pagopa" {
+# azure container registry service connection
+resource "azuredevops_serviceendpoint_azurecr" "cgnonboardingportal_uat_azurecr" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "cgnonboardingportal-uat-azurecr"
+  resource_group            = "cgnonboardingportal-u-api-rg"
+  azurecr_name              = "cgnonboardingportaluarc"
+  azurecr_subscription_name = "UAT-Esercenti"
+  azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
+  azurecr_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value
+}
+
+# TODO
+# azure container registry service connection
+//resource "azuredevops_serviceendpoint_azurecr" "cgnonboardingportal_prod_azurecr" {
+//  depends_on = [azuredevops_project.project]
+//
+//  project_id                = azuredevops_project.project.id
+//  service_endpoint_name     = "cgnonboardingportal-prod-azurecr"
+//  resource_group            = "cgnonboardingportal-p-api-rg"
+//  azurecr_name              = "cgnonboardingportalparc"
+//  azurecr_subscription_name = "PROD-Esercenti"
+//  azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
+//  azurecr_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value
+//}
+
+
+# sonarqube service connection
+resource "azuredevops_serviceendpoint_sonarqube" "pagopa-sonarqube" {
   depends_on = [azuredevops_project.project]
 
   project_id            = azuredevops_project.project.id
-  service_endpoint_name = "pagopa"
-  auth_personal {
-    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-ro-TOKEN"].value
-  }
-  lifecycle {
-    ignore_changes = [description, authorization]
-  }
+  service_endpoint_name = "cgnonboardingportal-sonarqube"
+  url                   = data.azurerm_key_vault_secret.key_vault_secret["sonarqube-URL"].value
+  token                 = data.azurerm_key_vault_secret.key_vault_secret["sonarqube-TOKEN"].value
+  description           = "Managed by Terraform"
 }
 
 # npm service connection

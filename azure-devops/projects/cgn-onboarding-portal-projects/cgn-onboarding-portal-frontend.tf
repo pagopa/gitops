@@ -7,11 +7,15 @@ variable "cgn-onboarding-portal-frontend" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      # TODO
-      production_storage_account_name = ""
-      blob_container_name             = ""
-      staging_storage_account_name    = ""
+      production_storage_account_name = "cgnonboardingportalpsaws"
+      uat_storage_account_name        = "cgnonboardingportalusaws"
+      blob_container_name             = "$web"
       cache_version_id                = "v1"
+      my_index                        = "index.html"
+      # TODO
+      profile_name_cdn_azure = ""
+      endpoint_azure         = ""
+      resource_group_azure   = ""
     }
   }
 }
@@ -95,7 +99,6 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-deploy" 
   }
 
 
-  # TODO vars
   variable {
     name  = "GIT_EMAIL"
     value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
@@ -116,12 +119,10 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-deploy" 
     value = var.cgn-onboarding-portal-frontend.pipeline.cache_version_id
   }
 
-
-
-  //    variable {
-  //      name  = "PRODUCTION_AZURE_SUBSCRIPTION"
-  //      value = azuredevops_serviceendpoint_azurerm.PROD-CGN.service_endpoint_name
-  //    }
+  variable {
+    name  = "PRODUCTION_AZURE_SUBSCRIPTION"
+    value = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
+  }
 
   variable {
     name  = "PRODUCTION_STORAGE_ACCOUNT_NAME"
@@ -132,14 +133,35 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-deploy" 
     name  = "BLOB_CONTAINER_NAME"
     value = var.cgn-onboarding-portal-frontend.pipeline.blob_container_name
   }
-  //    variable {
-  //      name  = "STAGING_AZURE_SUBSCRIPTION"
-  //      value = azuredevops_serviceendpoint_azurerm.STAGING-CGN.service_endpoint_name
-  //    }
 
   variable {
-    name  = "STAGING_STORAGE_ACCOUNT_NAME"
-    value = var.cgn-onboarding-portal-frontend.pipeline.staging_storage_account_name
+    name  = "ENDPOINT_AZURE"
+    value = var.cgn-onboarding-portal-frontend.pipeline.endpoint_azure
+  }
+
+  variable {
+    name  = "MY_INDEX"
+    value = var.cgn-onboarding-portal-frontend.pipeline.my_index
+  }
+
+  variable {
+    name  = "PROFILE_NAME_CDN_AZURE"
+    value = var.cgn-onboarding-portal-frontend.pipeline.profile_name_cdn_azure
+  }
+
+  variable {
+    name  = "RESOURCE_GROUP_AZURE"
+    value = var.cgn-onboarding-portal-frontend.pipeline.resource_group_azure
+  }
+
+  variable {
+    name  = "UAT_AZURE_SUBSCRIPTION"
+    value = azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL.service_endpoint_name
+  }
+
+  variable {
+    name  = "UAT_STORAGE_ACCOUNT_NAME"
+    value = var.cgn-onboarding-portal-frontend.pipeline.uat_storage_account_name
   }
 }
 
