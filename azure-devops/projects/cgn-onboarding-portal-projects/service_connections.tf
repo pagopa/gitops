@@ -1,3 +1,23 @@
+provider "azuread" {
+  tenant_id = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
+}
+
+locals {
+  PROD-GCNPORTAL-UID = "${local.azure_devops_org}-${azuredevops_project.project.name}-${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value}"
+  UAT-GCNPORTAL-UID  = "${local.azure_devops_org}-${azuredevops_project.project.name}-${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value}"
+  service_principal_uids = [
+    local.PROD-GCNPORTAL-UID,
+    local.PROD-GCNPORTAL-UID,
+  ]
+}
+
+data "azuread_service_principal" "service_principals" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL, azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL]
+
+  for_each     = toset(local.service_principal_uids)
+  display_name = each.value
+}
+
 # Azure service connection PROD-GCNPORTAL
 resource "azuredevops_serviceendpoint_azurerm" "PROD-GCNPORTAL" {
   depends_on = [azuredevops_project.project]
@@ -102,14 +122,4 @@ resource "azuredevops_serviceendpoint_sonarqube" "cgnonboardingportal-sonarqube"
   url                   = data.azurerm_key_vault_secret.key_vault_secret["cgnportal-sonarqube-URL"].value
   token                 = data.azurerm_key_vault_secret.key_vault_secret["cgnportal-sonarqube-TOKEN"].value
   description           = "Managed by Terraform"
-}
-
-# npm service connection
-resource "azuredevops_serviceendpoint_npm" "pagopa-npm-bot" {
-  depends_on = [azuredevops_project.project]
-
-  project_id            = azuredevops_project.project.id
-  service_endpoint_name = "pagopa-npm-bot"
-  url                   = "https://registry.npmjs.org"
-  access_token          = data.azurerm_key_vault_secret.key_vault_secret["pagopa-npm-bot-TOKEN"].value
 }

@@ -7,7 +7,7 @@ variable "cgn-onboarding-portal-backend" {
       pipelines_path = ".devops"
     }
     pipeline = {
-        # TODO ?
+      # TODO ?
     }
   }
 }
@@ -96,10 +96,10 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-backend-deploy" {
   }
 
   # TODO
-//  variable {
-//    name  = "PRODUCTION_CONTAINER_REGISTRY"
-//    value = azuredevops_serviceendpoint_azurecr.cgnonboardingportal_prod_azurecr.service_endpoint_name
-//  }
+  //  variable {
+  //    name  = "PRODUCTION_CONTAINER_REGISTRY"
+  //    value = azuredevops_serviceendpoint_azurecr.cgnonboardingportal_prod_azurecr.service_endpoint_name
+  //  }
 
   variable {
     name  = "UAT_AZURE_SUBSCRIPTION"
@@ -108,7 +108,7 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-backend-deploy" {
 
   variable {
     name  = "UAT_CONTAINER_REGISTRY"
-    value = azuredevops_serviceendpoint_azurecr.cgnonboardingportal_uat_azurecr.service_endpoint_name
+    value = azuredevops_serviceendpoint_azurecr.cgnonboardingportal-uat-azurecr.service_endpoint_name
   }
 }
 
@@ -154,10 +154,10 @@ resource "azuredevops_resource_authorization" "cgn-onboarding-portal-backend-dep
 }
 
 resource "azuredevops_resource_authorization" "cgn-onboarding-portal-backend-deploy-azurecr-uat-auth" {
-  depends_on = [azuredevops_serviceendpoint_azurecr.cgnonboardingportal_uat_azurecr, azuredevops_build_definition.cgn-onboarding-portal-backend-deploy, time_sleep.wait]
+  depends_on = [azuredevops_serviceendpoint_azurecr.cgnonboardingportal-uat-azurecr, azuredevops_build_definition.cgn-onboarding-portal-backend-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurecr.cgnonboardingportal_uat_azurecr.id
+  resource_id   = azuredevops_serviceendpoint_azurecr.cgnonboardingportal-uat-azurecr.id
   definition_id = azuredevops_build_definition.cgn-onboarding-portal-backend-deploy.id
   authorized    = true
   type          = "endpoint"
