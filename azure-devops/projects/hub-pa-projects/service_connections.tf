@@ -1,17 +1,3 @@
-# # Azure service connection PROD-HUBPA
-# TODO PRODUCTION
-# resource "azuredevops_serviceendpoint_azurerm" "PROD-HUBPA" {
-#   depends_on = [azuredevops_project.project]
-
-#   project_id                = azuredevops_project.project.id
-#   service_endpoint_name     = "PROD-HUBPA-SERVICE-CONN"
-#   description               = "PROD-HUBPA Service connection"
-#   azurerm_subscription_name = "PROD-HUBPA"
-#   azurerm_spn_tenantid      = module.secrets.values["TTDIO-SPN-TENANTID"].value
-#   azurerm_subscription_id   = module.secrets.values["TTDIO-PROD-HUBPA-SUBSCRIPTION-ID"].value
-# }
-
-
 # Azure service connection DEV-HUBPA
 resource "azuredevops_serviceendpoint_azurerm" "DEV-HUBPA" {
   depends_on = [azuredevops_project.project]
