@@ -81,7 +81,7 @@ resource "azuredevops_build_definition" "io-functions-pay-portal-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.io-functions-pay-portal.repository.name}.deploy"
+  name       = "io-functions-pay-portal.deploy"
   path       = "\\${var.io-functions-pay-portal.repository.name}"
 
   repository {
