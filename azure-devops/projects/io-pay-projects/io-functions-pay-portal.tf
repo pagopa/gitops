@@ -19,7 +19,7 @@ resource "azuredevops_build_definition" "io-functions-pay-portal-code-review" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.io-functions-pay-portal.repository.name}.code-review"
+  name       = "io-functions-pay-portal.code-review"
   path       = "\\${var.io-functions-pay-portal.repository.name}/io-functions-pay-portal"
 
   pull_request_trigger {
