@@ -235,7 +235,7 @@ resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-de
   type          = "endpoint"
 }
 
-resource "azurerm_role_assignment" "cgn-onboarding-portal-frontend-deploy-azurerm-UAT-GCN-storageaccount" {
+resource "azurerm_role_assignment" "cgn-onboarding-portal-frontend-deploy-azurerm-UAT-GCNPORTAL-storageaccount" {
   depends_on = [data.azuread_service_principal.service_principals]
 
   principal_id         = data.azuread_service_principal.service_principals[local.UAT-GCNPORTAL-UID].id
