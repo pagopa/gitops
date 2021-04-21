@@ -7,7 +7,6 @@ variable "hub-pa-api" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      # TODO
       production_resource_group_name = ""
       staging_resource_group_name    = ""
       production_app_name            = ""
@@ -22,8 +21,8 @@ resource "azuredevops_build_definition" "hub-pa-api-code-review" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.hub-pa-api.repository.name}.code-review"
-  path       = "\\${var.hub-pa-api.repository.name}"
+  name       = format("%s.code-review", var.hub-pa-api.repository.name)
+  path       = format("\\%s", var.hub-pa-api.repository.name)
 
   pull_request_trigger {
     initial_branch = var.hub-pa-api.repository.branch_name
@@ -45,15 +44,15 @@ resource "azuredevops_build_definition" "hub-pa-api-code-review" {
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = "${var.hub-pa-api.repository.organization}/${var.hub-pa-api.repository.name}"
+    repo_id               = join("/", [var.hub-pa-api.repository.organization, var.hub-pa-api.repository.name])
     branch_name           = var.hub-pa-api.repository.branch_name
-    yml_path              = "${var.hub-pa-api.repository.pipelines_path}/code-review-pipelines.yml"
+    yml_path              = join("/", [var.hub-pa-api.repository.pipelines_path, "code-review-pipelines.yml"])
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
   variable {
     name         = "DANGER_GITHUB_API_TOKEN"
-    secret_value = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
+    secret_value = module.secrets.values["DANGER-GITHUB-API-TOKEN"].value
     is_secret    = true
   }
 
@@ -65,7 +64,10 @@ resource "azuredevops_build_definition" "hub-pa-api-code-review" {
 
 # code review serviceendpoint authorization
 resource "azuredevops_resource_authorization" "hub-pa-api-code-review-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.hub-pa-api-code-review, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro,
+    azuredevops_build_definition.hub-pa-api-code-review,
+    azuredevops_project.project
+  ]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
@@ -75,7 +77,10 @@ resource "azuredevops_resource_authorization" "hub-pa-api-code-review-github-ro-
 }
 
 resource "azuredevops_resource_authorization" "hub-pa-api-code-review-github-rw-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.hub-pa-api-code-review, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw,
+    azuredevops_build_definition.hub-pa-api-code-review,
+    azuredevops_project.project
+  ]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
@@ -85,7 +90,10 @@ resource "azuredevops_resource_authorization" "hub-pa-api-code-review-github-rw-
 }
 
 resource "azuredevops_resource_authorization" "hub-pa-api-code-review-sonarqube-auth" {
-  depends_on = [azuredevops_serviceendpoint_sonarqube.pagopa-sonarqube, azuredevops_build_definition.hub-pa-api-code-review, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_sonarqube.pagopa-sonarqube,
+    azuredevops_build_definition.hub-pa-api-code-review,
+    azuredevops_project.project
+  ]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_sonarqube.pagopa-sonarqube.id
@@ -96,28 +104,31 @@ resource "azuredevops_resource_authorization" "hub-pa-api-code-review-sonarqube-
 
 # deploy
 resource "azuredevops_build_definition" "hub-pa-api-deploy" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
+  depends_on = [
+    azuredevops_serviceendpoint_github.io-azure-devops-github-rw,
+    azuredevops_project.project
+  ]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.hub-pa-api.repository.name}.deploy"
-  path       = "\\${var.hub-pa-api.repository.name}"
+  name       = format("%s.deploy", var.hub-pa-api.repository.name)
+  path       = format("\\%s", var.hub-pa-api.repository.name)
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = "${var.hub-pa-api.repository.organization}/${var.hub-pa-api.repository.name}"
+    repo_id               = join("/", [var.hub-pa-api.repository.organization, var.hub-pa-api.repository.name])
     branch_name           = var.hub-pa-api.repository.branch_name
-    yml_path              = "${var.hub-pa-api.repository.pipelines_path}/deploy-pipelines.yml"
+    yml_path              = join("/", [var.hub-pa-api.repository.pipelines_path, "deploy-pipelines.yml"])
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
   variable {
     name  = "GIT_EMAIL"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    value = module.secrets.values["io-azure-devops-github-EMAIL"].value
   }
 
   variable {
     name  = "GIT_USERNAME"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    value = module.secrets.values["io-azure-devops-github-USERNAME"].value
   }
 
   variable {
@@ -194,22 +205,16 @@ resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurerm-DEV-HUB
   type          = "endpoint"
 }
 
-# TODO PRODUCTION
-# resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurerm-PROD-HUBPA-auth" {
-#   depends_on = [azuredevops_serviceendpoint_azurerm.PROD-HUBPA, azuredevops_build_definition.hub-pa-api-deploy, time_sleep.wait]
 
-#   project_id    = azuredevops_project.project.id
-#   resource_id   = azuredevops_serviceendpoint_azurerm.PROD-HUBPA.id
-#   definition_id = azuredevops_build_definition.hub-pa-api-deploy.id
-#   authorized    = true
-#   type          = "endpoint"
-# }
 
-resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurecr-auth" {
-  depends_on = [azuredevops_serviceendpoint_azurecr.pagopa-azurecr, azuredevops_build_definition.hub-pa-api-deploy, time_sleep.wait]
+resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurecr-auth-dev" {
+  depends_on = [
+    azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev,
+    azuredevops_build_definition.hub-pa-api-deploy,
+  time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurecr.pagopa-azurecr.id
+  resource_id   = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev.id
   definition_id = azuredevops_build_definition.hub-pa-api-deploy.id
   authorized    = true
   type          = "endpoint"

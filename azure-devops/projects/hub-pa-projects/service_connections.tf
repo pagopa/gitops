@@ -12,26 +12,6 @@
 # }
 
 
-module "secrets" {
-  source = "../../modules/secrets/"
-
-  resource_group = "io-p-rg-operations"
-  keyvault_name  = "io-p-kv-azuredevops"
-
-  secrets = [
-    "TTDIO-SPN-TENANTID",
-    "TTDIO-DEV-HUBPA-SUBSCRIPTION-ID",
-    "PAGOPAIT-TENANTID",
-    "PAGOPAIT-PROD-HUBPA",
-    "PAGOPAIT-UAT-HUBPA",
-    "io-azure-devops-github-ro-TOKEN",
-    "io-azure-devops-github-rw-TOKEN",
-    "io-azure-devops-github-pr-TOKEN",
-    "sonarqube-TOKEN",
-    "sonarqube-URL",
-  ]
-}
-
 # Azure service connection DEV-HUBPA
 resource "azuredevops_serviceendpoint_azurerm" "DEV-HUBPA" {
   depends_on = [azuredevops_project.project]
@@ -53,7 +33,7 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-HUBPA" {
   description               = "PROD-HUBPA Service connection"
   azurerm_subscription_name = "PROD-HUBPA"
   azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-PROD-HUBPA"].value
+  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-PROD-HUBPA-SUBSCRIPTION-ID"].value
 }
 
 # Production service connection
@@ -65,7 +45,7 @@ resource "azuredevops_serviceendpoint_azurerm" "UAT-HUBPA" {
   description               = "PROD-HUBPA Service connection"
   azurerm_subscription_name = "PROD-HUBPA"
   azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-UAT-HUBPA"].value
+  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-UAT-HUBPA-SUBSCRIPTION-ID"].value
 }
 
 # Github service connection (read-only)
@@ -120,7 +100,7 @@ resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-dev" {
   azurecr_name              = "hubpadarc"
   azurecr_subscription_name = "HUBPA"
   azurecr_spn_tenantid      = module.secrets.values["TTDIO-SPN-TENANTID"].value
-  azurecr_subscription_id = module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
+  azurecr_subscription_id   = module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
 }
 
 # azure container registry prod service connection
@@ -133,7 +113,7 @@ resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-prod" {
   azurecr_name              = "hubpaparc"
   azurecr_subscription_name = "PROD-HubPA"
   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-HUBPA"].value
+  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-HUBPA-SUBSCRIPTION-ID"].value
 }
 
 # sonarqube service connection
