@@ -207,6 +207,7 @@ resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurerm-DEV-HUB
 
 
 
+/* TODO this service endpoint already exists. Recreate it as soon as the dev subscription will move to the PagoPa tenant.
 resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurecr-auth-dev" {
   depends_on = [
     azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev,
@@ -219,3 +220,4 @@ resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurecr-auth-de
   authorized    = true
   type          = "endpoint"
 }
+*/

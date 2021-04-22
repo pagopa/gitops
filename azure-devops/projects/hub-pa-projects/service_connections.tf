@@ -6,8 +6,9 @@ resource "azuredevops_serviceendpoint_azurerm" "DEV-HUBPA" {
   service_endpoint_name     = "DEV-HUBPA-SERVICE-CONN"
   description               = "DEV-HUBPA Service connection"
   azurerm_subscription_name = "DEV-HUBPA"
-  azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-DEV-HUBPA-SUBSCRIPTION-ID"].value
+  #TODO: this is going to move to the PagoPA subscription.
+  azurerm_spn_tenantid    = module.secrets.values["TTDIO-SPN-TENANTID"].value
+  azurerm_subscription_id = module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
 }
 
 # Production service connection
@@ -27,9 +28,9 @@ resource "azuredevops_serviceendpoint_azurerm" "UAT-HUBPA" {
   depends_on = [azuredevops_project.project]
 
   project_id                = azuredevops_project.project.id
-  service_endpoint_name     = "PROD-HUBPA-SERVICE-CONN"
-  description               = "PROD-HUBPA Service connection"
-  azurerm_subscription_name = "PROD-HUBPA"
+  service_endpoint_name     = "UAT-HUBPA-SERVICE-CONN"
+  description               = "UAT-HUBPA Service connection"
+  azurerm_subscription_name = "UAT-HUBPA"
   azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
   azurerm_subscription_id   = module.secrets.values["PAGOPAIT-UAT-HUBPA-SUBSCRIPTION-ID"].value
 }
@@ -77,6 +78,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
 }
 
 # azure container registry dev service connection
+/* TODO this service endpoint already exists. Recreate it as soon as the dev subscription will move to the PagoPa tenant.
 resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-dev" {
   depends_on = [azuredevops_project.project]
 
@@ -88,6 +90,7 @@ resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-dev" {
   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-DEV-HUBPA-SUBSCRIPTION-ID"].value
 }
+*/
 
 # azure container registry prod service connection
 resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-prod" {
