@@ -7,11 +7,21 @@ variable "cgn-onboarding-portal-frontend" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      # TODO
-      production_storage_account_name = ""
-      blob_container_name             = ""
-      staging_storage_account_name    = ""
-      cache_version_id                = "v1"
+      blob_container_name = "$web"
+      cache_version_id    = "v1"
+      my_index            = "index.html"
+      prod = {
+        storage_account_name   = "cgnonboardingportalpsaws"
+        profile_name_cdn_azure = "cgnonboardingportal-p-cdn-common"
+        endpoint_azure         = "cgnonboardingportal-p-cdnendpoint-frontend"
+        resource_group_azure   = "cgnonboardingportal-p-cdn-rg"
+      }
+      uat = {
+        storage_account_name   = "cgnonboardingportalusaws"
+        profile_name_cdn_azure = "cgnonboardingportal-u-cdn-common"
+        endpoint_azure         = "cgnonboardingportal-u-cdnendpoint-frontend"
+        resource_group_azure   = "cgnonboardingportal-u-cdn-rg"
+      }
     }
   }
 }
@@ -95,7 +105,6 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-deploy" 
   }
 
 
-  # TODO vars
   variable {
     name  = "GIT_EMAIL"
     value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
@@ -112,34 +121,68 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-deploy" 
   }
 
   variable {
+    name  = "BLOB_CONTAINER_NAME"
+    value = var.cgn-onboarding-portal-frontend.pipeline.blob_container_name
+  }
+
+  variable {
+    name  = "MY_INDEX"
+    value = var.cgn-onboarding-portal-frontend.pipeline.my_index
+  }
+
+  variable {
     name  = "CACHE_VERSION_ID"
     value = var.cgn-onboarding-portal-frontend.pipeline.cache_version_id
   }
 
-
-
-  //    variable {
-  //      name  = "PRODUCTION_AZURE_SUBSCRIPTION"
-  //      value = azuredevops_serviceendpoint_azurerm.PROD-CGN.service_endpoint_name
-  //    }
-
   variable {
-    name  = "PRODUCTION_STORAGE_ACCOUNT_NAME"
-    value = var.cgn-onboarding-portal-frontend.pipeline.production_storage_account_name
+    name  = "PROD_AZURE_SUBSCRIPTION"
+    value = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
   }
 
   variable {
-    name  = "BLOB_CONTAINER_NAME"
-    value = var.cgn-onboarding-portal-frontend.pipeline.blob_container_name
+    name  = "PROD_STORAGE_ACCOUNT_NAME"
+    value = var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name
   }
-  //    variable {
-  //      name  = "STAGING_AZURE_SUBSCRIPTION"
-  //      value = azuredevops_serviceendpoint_azurerm.STAGING-CGN.service_endpoint_name
-  //    }
 
   variable {
-    name  = "STAGING_STORAGE_ACCOUNT_NAME"
-    value = var.cgn-onboarding-portal-frontend.pipeline.staging_storage_account_name
+    name  = "PROD_ENDPOINT_AZURE"
+    value = var.cgn-onboarding-portal-frontend.pipeline.prod.endpoint_azure
+  }
+
+  variable {
+    name  = "PROD_PROFILE_NAME_CDN_AZURE"
+    value = var.cgn-onboarding-portal-frontend.pipeline.prod.profile_name_cdn_azure
+  }
+
+  variable {
+    name  = "PROD_RESOURCE_GROUP_AZURE"
+    value = var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure
+  }
+
+  variable {
+    name  = "UAT_AZURE_SUBSCRIPTION"
+    value = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
+  }
+
+  variable {
+    name  = "UAT_STORAGE_ACCOUNT_NAME"
+    value = var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name
+  }
+
+  variable {
+    name  = "UAT_ENDPOINT_AZURE"
+    value = var.cgn-onboarding-portal-frontend.pipeline.prod.endpoint_azure
+  }
+
+  variable {
+    name  = "UAT_PROFILE_NAME_CDN_AZURE"
+    value = var.cgn-onboarding-portal-frontend.pipeline.prod.profile_name_cdn_azure
+  }
+
+  variable {
+    name  = "UAT_RESOURCE_GROUP_AZURE"
+    value = var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure
   }
 }
 
@@ -164,12 +207,39 @@ resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-de
   type          = "endpoint"
 }
 
-//resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-deploy-azurerm-PROD-CGN-auth" {
-//  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-CGN, azuredevops_build_definition.cgn-onboarding-portal-frontend-deploy, time_sleep.wait]
+//resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-deploy-azurerm-PROD-GCNPORTAL-auth" {
+//  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL, azuredevops_build_definition.cgn-onboarding-portal-frontend-deploy, time_sleep.wait]
 //
 //  project_id    = azuredevops_project.project.id
-//  resource_id   = azuredevops_serviceendpoint_azurerm.PROD-CGN.id
+//  resource_id   = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.id
 //  definition_id = azuredevops_build_definition.cgn-onboarding-portal-frontend-deploy.id
 //  authorized    = true
 //  type          = "endpoint"
+//}
+
+# resource "azurerm_role_assignment" "cgn-onboarding-portal-frontend-deploy-azurerm-PROD-GCNPORTAL-storageaccount" {
+#   depends_on = [data.azuread_service_principal.service_principals]
+
+#   principal_id         = data.azuread_service_principal.service_principals[local.PROD-GCNPORTAL-UID].id
+#   role_definition_name = "Storage Blob Data Contributor"
+#   scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value}/resourceGroups/${var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name}"
+# }
+
+resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-deploy-azurerm-UAT-GCNPORTAL-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL, azuredevops_build_definition.cgn-onboarding-portal-frontend-deploy, time_sleep.wait]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL.id
+  definition_id = azuredevops_build_definition.cgn-onboarding-portal-frontend-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+# Comment for now due two different tenat ad used
+//resource "azurerm_role_assignment" "cgn-onboarding-portal-frontend-deploy-azurerm-UAT-GCNPORTAL-storageaccount" {
+//  depends_on = [data.azuread_service_principal.service_principals]
+//
+//  principal_id         = data.azuread_service_principal.service_principals[local.UAT-GCNPORTAL-UID].id
+//  role_definition_name = "Storage Blob Data Contributor"
+//  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value}/resourceGroups/${var.cgn-onboarding-portal-frontend.pipeline.uat.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.cgn-onboarding-portal-frontend.pipeline.uat.storage_account_name}"
 //}
