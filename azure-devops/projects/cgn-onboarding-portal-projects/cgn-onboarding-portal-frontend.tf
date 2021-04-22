@@ -136,27 +136,27 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-deploy" 
   }
 
   variable {
-    name  = "PRODUCTION_AZURE_SUBSCRIPTION"
+    name  = "PROD_AZURE_SUBSCRIPTION"
     value = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
   }
 
   variable {
-    name  = "PRODUCTION_STORAGE_ACCOUNT_NAME"
+    name  = "PROD_STORAGE_ACCOUNT_NAME"
     value = var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name
   }
 
   variable {
-    name  = "PRODUCTION_ENDPOINT_AZURE"
+    name  = "PROD_ENDPOINT_AZURE"
     value = var.cgn-onboarding-portal-frontend.pipeline.prod.endpoint_azure
   }
 
   variable {
-    name  = "PRODUCTION_PROFILE_NAME_CDN_AZURE"
+    name  = "PROD_PROFILE_NAME_CDN_AZURE"
     value = var.cgn-onboarding-portal-frontend.pipeline.prod.profile_name_cdn_azure
   }
 
   variable {
-    name  = "PRODUCTION_RESOURCE_GROUP_AZURE"
+    name  = "PROD_RESOURCE_GROUP_AZURE"
     value = var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure
   }
 
@@ -235,10 +235,11 @@ resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-de
   type          = "endpoint"
 }
 
-resource "azurerm_role_assignment" "cgn-onboarding-portal-frontend-deploy-azurerm-UAT-GCNPORTAL-storageaccount" {
-  depends_on = [data.azuread_service_principal.service_principals]
-
-  principal_id         = data.azuread_service_principal.service_principals[local.UAT-GCNPORTAL-UID].id
-  role_definition_name = "Storage Blob Data Contributor"
-  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value}/resourceGroups/${var.cgn-onboarding-portal-frontend.pipeline.uat.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.cgn-onboarding-portal-frontend.pipeline.uat.storage_account_name}"
-}
+# Comment for now due two different tenat ad used
+//resource "azurerm_role_assignment" "cgn-onboarding-portal-frontend-deploy-azurerm-UAT-GCNPORTAL-storageaccount" {
+//  depends_on = [data.azuread_service_principal.service_principals]
+//
+//  principal_id         = data.azuread_service_principal.service_principals[local.UAT-GCNPORTAL-UID].id
+//  role_definition_name = "Storage Blob Data Contributor"
+//  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value}/resourceGroups/${var.cgn-onboarding-portal-frontend.pipeline.uat.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.cgn-onboarding-portal-frontend.pipeline.uat.storage_account_name}"
+//}

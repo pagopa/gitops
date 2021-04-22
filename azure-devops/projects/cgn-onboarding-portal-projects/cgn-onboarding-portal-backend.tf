@@ -96,18 +96,18 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-backend-deploy" {
   }
 
   variable {
-    name  = "PRODUCTION_AZURE_SUBSCRIPTION"
+    name  = "PROD_AZURE_SUBSCRIPTION"
     value = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
   }
 
   # TODO
   //  variable {
-  //    name  = "PRODUCTION_CONTAINER_REGISTRY"
+  //    name  = "PROD_CONTAINER_REGISTRY"
   //    value = azuredevops_serviceendpoint_azurecr.cgnonboardingportal_prod_azurecr.service_endpoint_name
   //  }
 
   variable {
-    name  = "PRODUCTION_WEB_APP_NAME"
+    name  = "PROD_WEB_APP_NAME"
     value = var.cgn-onboarding-portal-backend.pipeline.prod.webAppName
   }
 
