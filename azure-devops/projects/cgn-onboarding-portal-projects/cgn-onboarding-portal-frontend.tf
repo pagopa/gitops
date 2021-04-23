@@ -61,9 +61,10 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-code-rev
   }
 
   variable {
-    name         = "DANGER_GITHUB_API_TOKEN"
-    secret_value = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
-    is_secret    = true
+    name           = "DANGER_GITHUB_API_TOKEN"
+    secret_value   = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
+    is_secret      = true
+    allow_override = false
   }
 }
 
@@ -106,83 +107,99 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-deploy" 
 
 
   variable {
-    name  = "GIT_EMAIL"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    name           = "GIT_EMAIL"
+    value          = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    allow_override = false
   }
 
   variable {
-    name  = "GIT_USERNAME"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    name           = "GIT_USERNAME"
+    value          = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    allow_override = false
   }
 
   variable {
-    name  = "GITHUB_CONNECTION"
-    value = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    name           = "GITHUB_CONNECTION"
+    value          = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "BLOB_CONTAINER_NAME"
-    value = var.cgn-onboarding-portal-frontend.pipeline.blob_container_name
+    name           = "BLOB_CONTAINER_NAME"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.blob_container_name
+    allow_override = false
   }
 
   variable {
-    name  = "MY_INDEX"
-    value = var.cgn-onboarding-portal-frontend.pipeline.my_index
+    name           = "MY_INDEX"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.my_index
+    allow_override = false
   }
 
   variable {
-    name  = "CACHE_VERSION_ID"
-    value = var.cgn-onboarding-portal-frontend.pipeline.cache_version_id
+    name           = "CACHE_VERSION_ID"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.cache_version_id
+    allow_override = false
   }
 
   variable {
-    name  = "PROD_AZURE_SUBSCRIPTION"
-    value = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
+    name           = "PROD_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "PROD_STORAGE_ACCOUNT_NAME"
-    value = var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name
+    name           = "PROD_STORAGE_ACCOUNT_NAME"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name
+    allow_override = false
   }
 
   variable {
-    name  = "PROD_ENDPOINT_AZURE"
-    value = var.cgn-onboarding-portal-frontend.pipeline.prod.endpoint_azure
+    name           = "PROD_ENDPOINT_AZURE"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.endpoint_azure
+    allow_override = false
   }
 
   variable {
-    name  = "PROD_PROFILE_NAME_CDN_AZURE"
-    value = var.cgn-onboarding-portal-frontend.pipeline.prod.profile_name_cdn_azure
+    name           = "PROD_PROFILE_NAME_CDN_AZURE"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.profile_name_cdn_azure
+    allow_override = false
   }
 
   variable {
-    name  = "PROD_RESOURCE_GROUP_AZURE"
-    value = var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure
+    name           = "PROD_RESOURCE_GROUP_AZURE"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure
+    allow_override = false
   }
 
   variable {
-    name  = "UAT_AZURE_SUBSCRIPTION"
-    value = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
+    name           = "UAT_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "UAT_STORAGE_ACCOUNT_NAME"
-    value = var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name
+    name           = "UAT_STORAGE_ACCOUNT_NAME"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name
+    allow_override = false
   }
 
   variable {
-    name  = "UAT_ENDPOINT_AZURE"
-    value = var.cgn-onboarding-portal-frontend.pipeline.prod.endpoint_azure
+    name           = "UAT_ENDPOINT_AZURE"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.endpoint_azure
+    allow_override = false
   }
 
   variable {
-    name  = "UAT_PROFILE_NAME_CDN_AZURE"
-    value = var.cgn-onboarding-portal-frontend.pipeline.prod.profile_name_cdn_azure
+    name           = "UAT_PROFILE_NAME_CDN_AZURE"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.profile_name_cdn_azure
+    allow_override = false
   }
 
   variable {
-    name  = "UAT_RESOURCE_GROUP_AZURE"
-    value = var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure
+    name           = "UAT_RESOURCE_GROUP_AZURE"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure
+    allow_override = false
   }
 }
 
@@ -207,15 +224,15 @@ resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-de
   type          = "endpoint"
 }
 
-//resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-deploy-azurerm-PROD-GCNPORTAL-auth" {
-//  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL, azuredevops_build_definition.cgn-onboarding-portal-frontend-deploy, time_sleep.wait]
-//
-//  project_id    = azuredevops_project.project.id
-//  resource_id   = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.id
-//  definition_id = azuredevops_build_definition.cgn-onboarding-portal-frontend-deploy.id
-//  authorized    = true
-//  type          = "endpoint"
-//}
+resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-deploy-azurerm-PROD-GCNPORTAL-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL, azuredevops_build_definition.cgn-onboarding-portal-frontend-deploy, time_sleep.wait]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.id
+  definition_id = azuredevops_build_definition.cgn-onboarding-portal-frontend-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
 
 # resource "azurerm_role_assignment" "cgn-onboarding-portal-frontend-deploy-azurerm-PROD-GCNPORTAL-storageaccount" {
 #   depends_on = [data.azuread_service_principal.service_principals]

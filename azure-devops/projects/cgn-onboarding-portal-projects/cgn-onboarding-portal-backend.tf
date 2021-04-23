@@ -91,39 +91,46 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-backend-deploy" {
 
 
   variable {
-    name  = "GITHUB_CONNECTION"
-    value = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    name           = "GITHUB_CONNECTION"
+    value          = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "PROD_AZURE_SUBSCRIPTION"
-    value = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
+    name           = "PROD_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
+    allow_override = false
   }
 
   # TODO
-  //  variable {
-  //    name  = "PROD_CONTAINER_REGISTRY"
-  //    value = azuredevops_serviceendpoint_azurecr.cgnonboardingportal_prod_azurecr.service_endpoint_name
-  //  }
+  # variable {
+  #   name  = "PROD_CONTAINER_REGISTRY"
+  #   value = azuredevops_serviceendpoint_azurecr.cgnonboardingportal-prod-azurecr.service_endpoint_name
+  #   allow_override = false
+  # }
 
   variable {
-    name  = "PROD_WEB_APP_NAME"
-    value = var.cgn-onboarding-portal-backend.pipeline.prod.webAppName
+    name           = "PROD_WEB_APP_NAME"
+    value          = var.cgn-onboarding-portal-backend.pipeline.prod.webAppName
+    allow_override = false
   }
 
   variable {
-    name  = "UAT_AZURE_SUBSCRIPTION"
-    value = azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL.service_endpoint_name
+    name           = "UAT_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "UAT_CONTAINER_REGISTRY"
-    value = azuredevops_serviceendpoint_azurecr.cgnonboardingportal-uat-azurecr.service_endpoint_name
+    name           = "UAT_CONTAINER_REGISTRY"
+    value          = azuredevops_serviceendpoint_azurecr.cgnonboardingportal-uat-azurecr.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "UAT_WEB_APP_NAME"
-    value = var.cgn-onboarding-portal-backend.pipeline.uat.webAppName
+    name           = "UAT_WEB_APP_NAME"
+    value          = var.cgn-onboarding-portal-backend.pipeline.uat.webAppName
+    allow_override = false
   }
 }
 
@@ -178,14 +185,13 @@ resource "azuredevops_resource_authorization" "cgn-onboarding-portal-backend-dep
   type          = "endpoint"
 }
 
-
 # TODO
-//resource "azuredevops_resource_authorization" "cgn-onboarding-portal-backend-deploy-azurecr-prod-auth" {
-//  depends_on = [azuredevops_serviceendpoint_azurecr.cgnonboardingportal_prod_azurecr, azuredevops_build_definition.cgn-onboarding-portal-backend-deploy, time_sleep.wait]
-//
-//  project_id    = azuredevops_project.project.id
-//  resource_id   = azuredevops_serviceendpoint_azurecr.cgnonboardingportal_prod_azurecr.id
-//  definition_id = azuredevops_build_definition.cgn-onboarding-portal-backend-deploy.id
-//  authorized    = true
-//  type          = "endpoint"
-//}
+# resource "azuredevops_resource_authorization" "cgn-onboarding-portal-backend-deploy-azurecr-prod-auth" {
+#   depends_on = [azuredevops_serviceendpoint_azurecr.cgnonboardingportal-prod-azurecr, azuredevops_build_definition.cgn-onboarding-portal-backend-deploy, time_sleep.wait]
+
+#   project_id    = azuredevops_project.project.id
+#   resource_id   = azuredevops_serviceendpoint_azurecr.cgnonboardingportal-prod-azurecr.id
+#   definition_id = azuredevops_build_definition.cgn-onboarding-portal-backend-deploy.id
+#   authorized    = true
+#   type          = "endpoint"
+# }
