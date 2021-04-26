@@ -3,7 +3,7 @@ locals {
 }
 
 resource "azuredevops_project" "project" {
-  name               = "pagopa-packages"
+  name               = "pagopa-packages-projects"
   description        = "This is the DevOps project for all packages published in the public registry"
   visibility         = "public"
   version_control    = "Git"
