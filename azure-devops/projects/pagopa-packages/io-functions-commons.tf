@@ -51,9 +51,10 @@ resource "azuredevops_build_definition" "io-functions-commons-code-review" {
   }
 
   variable {
-    name         = "DANGER_GITHUB_API_TOKEN"
-    secret_value = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
-    is_secret    = true
+    name           = "DANGER_GITHUB_API_TOKEN"
+    secret_value   = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
+    is_secret      = true
+    allow_override = false
   }
 }
 
