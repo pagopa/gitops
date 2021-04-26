@@ -148,17 +148,6 @@ resource "azuredevops_resource_authorization" "io-functions-commons-deploy-githu
   type          = "endpoint"
 }
 
-# Allow deploy pipeline to access Azure PROD-IO subscription service connection, needed to interact with Azure resources
-resource "azuredevops_resource_authorization" "io-functions-commons-deploy-azurerm-PROD-IO-auth" {
-  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_build_definition.io-functions-commons-deploy, time_sleep.wait]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurerm.PROD-IO.id
-  definition_id = azuredevops_build_definition.io-functions-commons-deploy.id
-  authorized    = true
-  type          = "endpoint"
-}
-
 # Allow deploy pipeline to access NPM service connection, needed to publish sdk packages to the public registry
 resource "azuredevops_resource_authorization" "io-functions-commons-deploy-npm-auth" {
   depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.io-functions-commons-deploy, time_sleep.wait]
