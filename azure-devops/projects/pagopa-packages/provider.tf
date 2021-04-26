@@ -4,7 +4,7 @@ terraform {
     resource_group_name  = "io-infra-rg"
     storage_account_name = "ioinfrastterraform"
     container_name       = "azuredevopsstate"
-    key                  = "io-backend-projects.terraform.tfstate"
+    key                  = "pagopa-packages.terraform.tfstate"
   }
   required_providers {
     azuredevops = {
