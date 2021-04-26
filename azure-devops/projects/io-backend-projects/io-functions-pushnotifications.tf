@@ -45,6 +45,17 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-yarn-loc
   }
 }
 
+# Allow yarn.lock upgrade pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
+resource "azuredevops_resource_authorization" "io-functions-pushnotifications-yarn-lock-upgrade-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-pushnotifications-yarn-lock-upgrade, azuredevops_project.project]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  definition_id = azuredevops_build_definition.io-functions-pushnotifications-yarn-lock-upgrade.id
+  authorized    = true
+  type          = "endpoint"
+}
+
 #
 # Code Review pipeline
 #
