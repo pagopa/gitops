@@ -86,7 +86,7 @@ resource "azuredevops_resource_authorization" "io-functions-commons-code-review-
 
 # Define deploy pipeline
 resource "azuredevops_build_definition" "io-functions-commons-deploy" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
   name       = "${var.io-functions-commons.repository.name}.deploy"
@@ -101,18 +101,21 @@ resource "azuredevops_build_definition" "io-functions-commons-deploy" {
   }
 
   variable {
-    name  = "GIT_EMAIL"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    name           = "GIT_EMAIL"
+    value          = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    allow_override = false
   }
 
   variable {
-    name  = "GIT_USERNAME"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    name           = "GIT_USERNAME"
+    value          = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    allow_override = false
   }
 
   variable {
-    name  = "GITHUB_CONNECTION"
-    value = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    name           = "GITHUB_CONNECTION"
+    value          = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    allow_override = false
   }
 
   variable {
@@ -121,8 +124,9 @@ resource "azuredevops_build_definition" "io-functions-commons-deploy" {
   }
 
   variable {
-    name  = "CACHE_VERSION_ID"
-    value = var.io-functions-commons.pipeline.cache_version_id
+    name           = "CACHE_VERSION_ID"
+    value          = var.io-functions-commons.pipeline.cache_version_id
+    allow_override = false
   }
 
 }
