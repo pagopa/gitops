@@ -230,7 +230,7 @@ resource "azuredevops_resource_authorization" "io-pay-portal-fe-deploy-azurerm-P
   type          = "endpoint"
 }
 
-resource "azurerm_role_assignment" "io-pay-deploy-azurerm-PROD-IO-iopstcdniopayportal" {
+resource "azurerm_role_assignment" "io-pay-portal-fe-deploy-azurerm-PROD-IO-iopstcdniopayportal" {
   depends_on = [data.azuread_service_principal.service_principals]
 
   principal_id         = data.azuread_service_principal.service_principals[local.PROD-IO-UID].id
