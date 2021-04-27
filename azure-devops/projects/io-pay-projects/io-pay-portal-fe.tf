@@ -60,6 +60,7 @@ resource "azuredevops_build_definition" "io-pay-portal-fe-code-review" {
     name         = "DANGER_GITHUB_API_TOKEN"
     secret_value = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
     is_secret    = true
+    allow_override = false
   }
 }
 
@@ -103,81 +104,97 @@ resource "azuredevops_build_definition" "io-pay-portal-fe-deploy" {
   variable {
     name  = "GIT_EMAIL"
     value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    allow_override = false
   }
 
   variable {
     name  = "GIT_USERNAME"
     value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    allow_override = false
   }
 
   variable {
     name  = "GITHUB_CONNECTION"
     value = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    allow_override = false
   }
 
   variable {
     name  = "PRODUCTION_AZURE_SUBSCRIPTION"
     value = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+    allow_override = false
   }
 
   variable {
     name  = "STAGING_AZURE_SUBSCRIPTION"
     value = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+    allow_override = false
   }
 
   variable {
     name  = "CACHE_VERSION_ID"
     value = var.io-pay-portal-fe.pipeline.cache_version_id
+    allow_override = false
   }
 
   variable {
     name  = "BLOB_CONTAINER_NAME"
     value = var.io-pay-portal-fe.pipeline.blob_container_name
+    allow_override = false
   }
 
   variable {
     name  = "ENDPOINT_AZURE"
     value = var.io-pay-portal-fe.pipeline.endpoint_azure
+    allow_override = false
   }
 
   variable {
     name  = "IO_PAY_PORTAL_API_HOST"
     value = var.io-pay-portal-fe.pipeline.io_pay_portal_api_host
+    allow_override = false
   }
 
   variable {
     name  = "IO_PAY_PORTAL_API_REQUEST_TIMEOUT"
     value = var.io-pay-portal-fe.pipeline.io_pay_portal_api_request_timeout
+    allow_override = false
   }
 
   variable {
     name  = "IO_PAY_PORTAL_PAY_WL_HOST"
     value = var.io-pay-portal-fe.pipeline.io_pay_portal_pay_wl_host
+    allow_override = false
   }
   
   variable {
     name  = "IO_PAY_PORTAL_PAY_WL_POLLING_ATTEMPTS"
     value = var.io-pay-portal-fe.pipeline.io_pay_portal_pay_wl_polling_attempts
+    allow_override = false
   }
   
   variable {
     name  = "IO_PAY_PORTAL_PAY_WL_POLLING_INTERVAL"
     value = var.io-pay-portal-fe.pipeline.io_pay_portal_pay_wl_polling_interval
+    allow_override = false
   }
   
   variable {
     name  = "PROFILE_NAME_CDN_AZURE"
     value = var.io-pay-portal-fe.pipeline.profile_name_cdn_azure
+    allow_override = false
   }
     
   variable {
     name  = "RESOURCE_GROUP_AZURE"
     value = var.io-pay-portal-fe.pipeline.resource_group_azure
+    allow_override = false
   }
 
   variable {
     name  = "STORAGE_ACCOUNT_NAME"
     value = var.io-pay-portal-fe.pipeline.storage_account_name
+    allow_override = false
   }
 
 }

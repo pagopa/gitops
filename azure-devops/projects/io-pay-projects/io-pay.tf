@@ -59,6 +59,7 @@ resource "azuredevops_build_definition" "io-pay-code-review" {
     name         = "DANGER_GITHUB_API_TOKEN"
     secret_value = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
     is_secret    = true
+    allow_override = false
   }
 }
 
@@ -102,76 +103,91 @@ resource "azuredevops_build_definition" "io-pay-deploy" {
   variable {
     name  = "GIT_EMAIL"
     value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    allow_override = false
   }
 
   variable {
     name  = "GIT_USERNAME"
     value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    allow_override = false
   }
 
   variable {
     name  = "GITHUB_CONNECTION"
     value = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    allow_override = false
   }
 
   variable {
     name  = "PRODUCTION_AZURE_SUBSCRIPTION"
     value = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+    allow_override = false
   }
 
   variable {
     name  = "STAGING_AZURE_SUBSCRIPTION"
     value = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+    allow_override = false
   }
 
   variable {
     name  = "CACHE_VERSION_ID"
     value = var.io-pay.pipeline.cache_version_id
+    allow_override = false
   }
 
   variable {
     name  = "BLOB_CONTAINER_NAME"
     value = var.io-pay.pipeline.blob_container_name
+    allow_override = false
   }
 
   variable {
     name  = "ENDPOINT_AZURE"
     value = var.io-pay.pipeline.endpoint_azure
+    allow_override = false
   }
 
   variable {
     name  = "IO_PAY_FUNCTIONS_HOST"
     value = var.io-pay.pipeline.io_pay_functions_host
+    allow_override = false
   }
 
   variable {
     name  = "IO_PAY_PAYMENT_MANAGER_HOST"
     value = var.io-pay.pipeline.io_pay_payment_manager_host
+    allow_override = false
   }
 
   variable {
     name  = "MY_INDEX"
     value = var.io-pay.pipeline.my_index
+    allow_override = false
   }
 
   variable {
     name  = "PROFILE_NAME_CDN_AZURE"
     value = var.io-pay.pipeline.profile_name_cdn_azure
+    allow_override = false
   }
 
   variable {
     name  = "RESOURCE_GROUP_AZURE"
     value = var.io-pay.pipeline.resource_group_azure
+    allow_override = false
   }
 
   variable {
     name  = "STAGING_STORAGE_ACCOUNT_NAME"
     value = var.io-pay.pipeline.staging_storage_account_name
+    allow_override = false
   }
 
   variable {
     name  = "PRODUCTION_STORAGE_ACCOUNT_NAME"
     value = var.io-pay.pipeline.production_storage_account_name
+    allow_override = false
   }
 
 }
