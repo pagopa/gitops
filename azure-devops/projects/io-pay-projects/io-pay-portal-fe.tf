@@ -12,7 +12,7 @@ variable "io-pay-portal-fe" {
       endpoint_azure                        = "io-p-cdnendpoint-iopayportal"
       io_pay_portal_api_host                = "https://api.io.italia.it"
       io_pay_portal_api_request_timeout     = "5000"
-      io_pay_portal_pay_wl_host             = "https://io-p-cdnendpoint-iopay.azureedge.net"
+      io_pay_portal_pay_wl_host             = "https://checkout.pagopa.gov.it"
       io_pay_portal_pay_wl_polling_attempts = "10"
       io_pay_portal_pay_wl_polling_interval = "3000"
       profile_name_cdn_azure                = "io-p-cdn-common"
