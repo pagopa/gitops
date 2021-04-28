@@ -7,6 +7,13 @@ variable "cgn-onboarding-portal-backend" {
       pipelines_path = ".devops"
     }
     pipeline = {
+      sonarcloud = {
+        # TODO azure devops terraform provider does not support SonarCloud service endpoint
+        service_connection = "SONARCLOUD-SERVICE-CONN"
+        org                = "pagopa"
+        project_key        = "pagopa_cgn-onboarding-portal-backend"
+        project_name       = "cgn-onboarding-portal-backend"
+      }
       prod = {
         webAppName = "cgnonboardingportal-p-portal-backend1"
       }
@@ -50,6 +57,30 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-backend-code-revi
     yml_path              = "${var.cgn-onboarding-portal-backend.repository.pipelines_path}/code-review-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   }
+
+  variable {
+    name           = "SONARCLOUD_SERVICE_CONN"
+    value          = var.cgn-onboarding-portal-backend.pipeline.sonarcloud.service_connection
+    allow_override = false
+  }
+
+  variable {
+    name           = "SONARCLOUD_ORG"
+    value          = var.cgn-onboarding-portal-backend.pipeline.sonarcloud.org
+    allow_override = false
+  }
+
+  variable {
+    name           = "SONARCLOUD_PROJECT_KEY"
+    value          = var.cgn-onboarding-portal-backend.pipeline.sonarcloud.project_key
+    allow_override = false
+  }
+
+  variable {
+    name           = "SONARCLOUD_PROJECT_NAME"
+    value          = var.cgn-onboarding-portal-backend.pipeline.sonarcloud.project_name
+    allow_override = false
+  }
 }
 
 # code review serviceendpoint authorization
@@ -88,7 +119,6 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-backend-deploy" {
     yml_path              = "${var.cgn-onboarding-portal-backend.repository.pipelines_path}/deploy-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
-
 
   variable {
     name           = "GITHUB_CONNECTION"
