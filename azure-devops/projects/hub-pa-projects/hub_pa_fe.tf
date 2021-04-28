@@ -8,10 +8,17 @@ variable "hub-pa-fe" {
     }
     pipeline = {
       # TODO
-      production_storage_account_name = ""
-      staging_storage_account_name    = ""
-      blob_container_name             = ""
-      cache_version_id                = "v1"
+      cache_version_id    = "v1"
+      blob_container_name = ""
+      dev = {
+        storage_account_name = ""
+      }
+      uat = {
+        storage_account_name = ""
+      }
+      prod = {
+        storage_account_name = ""
+      }
     }
   }
 }
@@ -50,14 +57,10 @@ resource "azuredevops_build_definition" "hub-pa-fe-code-review" {
   }
 
   variable {
-    name         = "DANGER_GITHUB_API_TOKEN"
-    secret_value = module.secrets.values["DANGER-GITHUB-API-TOKEN"].value
-    is_secret    = true
-  }
-
-  variable {
-    name  = "SONARQUBE_CONNECTION"
-    value = azuredevops_serviceendpoint_sonarqube.pagopa-sonarqube.service_endpoint_name
+    name           = "DANGER_GITHUB_API_TOKEN"
+    secret_value   = module.secrets.values["DANGER-GITHUB-API-TOKEN"].value
+    is_secret      = true
+    allow_override = false
   }
 }
 
@@ -101,51 +104,70 @@ resource "azuredevops_build_definition" "hub-pa-fe-deploy" {
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
-  # TODO vars
   variable {
-    name  = "GIT_EMAIL"
-    value = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    name           = "GIT_EMAIL"
+    value          = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    allow_override = false
   }
 
   variable {
-    name  = "GIT_USERNAME"
-    value = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    name           = "GIT_USERNAME"
+    value          = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    allow_override = false
   }
 
   variable {
-    name  = "GITHUB_CONNECTION"
-    value = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    name           = "GITHUB_CONNECTION"
+    value          = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "CACHE_VERSION_ID"
-    value = var.hub-pa-fe.pipeline.cache_version_id
-  }
-
-  # TODO PRODUCTION
-  # variable {
-  #   name  = "PRODUCTION_AZURE_SUBSCRIPTION"
-  #   value = azuredevops_serviceendpoint_azurerm.PROD-HUBPA.service_endpoint_name
-  # }
-
-  variable {
-    name  = "STAGING_AZURE_SUBSCRIPTION"
-    value = azuredevops_serviceendpoint_azurerm.DEV-HUBPA.service_endpoint_name
+    name           = "CACHE_VERSION_ID"
+    value          = var.hub-pa-fe.pipeline.cache_version_id
+    allow_override = false
   }
 
   variable {
-    name  = "PRODUCTION_STORAGE_ACCOUNT_NAME"
-    value = var.hub-pa-fe.pipeline.production_storage_account_name
+    name           = "DEV_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.DEV-HUBPA.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "STAGING_STORAGE_ACCOUNT_NAME"
-    value = var.hub-pa-fe.pipeline.staging_storage_account_name
+    name           = "UAT_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.UAT-HUBPA.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "BLOB_CONTAINER_NAME"
-    value = var.hub-pa-fe.pipeline.blob_container_name
+    name           = "PROD_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.PROD-HUBPA.service_endpoint_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "DEV_STORAGE_ACCOUNT_NAME"
+    value          = var.hub-pa-fe.pipeline.dev.storage_account_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "UAT_STORAGE_ACCOUNT_NAME"
+    value          = var.hub-pa-fe.pipeline.uat.storage_account_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_STORAGE_ACCOUNT_NAME"
+    value          = var.hub-pa-fe.pipeline.prod.storage_account_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "BLOB_CONTAINER_NAME"
+    value          = var.hub-pa-fe.pipeline.blob_container_name
+    allow_override = false
   }
 }
 
@@ -180,13 +202,22 @@ resource "azuredevops_resource_authorization" "hub-pa-fe-deploy-azurerm-DEV-HUBP
   type          = "endpoint"
 }
 
-# TODO PRODUCTION
-# resource "azuredevops_resource_authorization" "hub-pa-fe-deploy-azurerm-PROD-HUBPA-auth" {
-#   depends_on = [azuredevops_serviceendpoint_azurerm.PROD-HUBPA, azuredevops_build_definition.hub-pa-fe-deploy, time_sleep.wait]
+resource "azuredevops_resource_authorization" "hub-pa-fe-deploy-azurerm-UAT-HUBPA-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.UAT-HUBPA, azuredevops_build_definition.hub-pa-fe-deploy, time_sleep.wait]
 
-#   project_id    = azuredevops_project.project.id
-#   resource_id   = azuredevops_serviceendpoint_azurerm.PROD-HUBPA.id
-#   definition_id = azuredevops_build_definition.hub-pa-fe-deploy.id
-#   authorized    = true
-#   type          = "endpoint"
-# }
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_azurerm.UAT-HUBPA.id
+  definition_id = azuredevops_build_definition.hub-pa-fe-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+resource "azuredevops_resource_authorization" "hub-pa-fe-deploy-azurerm-PROD-HUBPA-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-HUBPA, azuredevops_build_definition.hub-pa-fe-deploy, time_sleep.wait]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_azurerm.PROD-HUBPA.id
+  definition_id = azuredevops_build_definition.hub-pa-fe-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}

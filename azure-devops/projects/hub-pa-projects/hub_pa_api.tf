@@ -7,11 +7,23 @@ variable "hub-pa-api" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      production_resource_group_name = ""
-      staging_resource_group_name    = ""
-      production_app_name            = ""
-      staging_app_name               = ""
-      cache_version_id               = "v1"
+      cache_version_id = "v1"
+      sonarcloud = {
+        # TODO azure devops terraform provider does not support SonarCloud service endpoint
+        service_connection = "SONARCLOUD-SERVICE-CONN"
+        org                = "pagopa"
+        project_key        = "pagopa_hub-pa-api"
+        project_name       = "hub-pa-api"
+      }
+      dev = {
+        web_app_name = "hubpa-d-service-ms"
+      }
+      uat = {
+        web_app_name = "hubpa-u-service-ms"
+      }
+      prod = {
+        web_app_name = "hubpa-p-service-ms"
+      }
     }
   }
 }
@@ -47,18 +59,31 @@ resource "azuredevops_build_definition" "hub-pa-api-code-review" {
     repo_id               = join("/", [var.hub-pa-api.repository.organization, var.hub-pa-api.repository.name])
     branch_name           = var.hub-pa-api.repository.branch_name
     yml_path              = join("/", [var.hub-pa-api.repository.pipelines_path, "code-review-pipelines.yml"])
-    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
+    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   }
 
   variable {
-    name         = "DANGER_GITHUB_API_TOKEN"
-    secret_value = module.secrets.values["DANGER-GITHUB-API-TOKEN"].value
-    is_secret    = true
+    name           = "SONARCLOUD_SERVICE_CONN"
+    value          = var.hub-pa-api.pipeline.sonarcloud.service_connection
+    allow_override = false
   }
 
   variable {
-    name  = "SONARQUBE_CONNECTION"
-    value = azuredevops_serviceendpoint_sonarqube.pagopa-sonarqube.service_endpoint_name
+    name           = "SONARCLOUD_ORG"
+    value          = var.hub-pa-api.pipeline.sonarcloud.org
+    allow_override = false
+  }
+
+  variable {
+    name           = "SONARCLOUD_PROJECT_KEY"
+    value          = var.hub-pa-api.pipeline.sonarcloud.project_key
+    allow_override = false
+  }
+
+  variable {
+    name           = "SONARCLOUD_PROJECT_NAME"
+    value          = var.hub-pa-api.pipeline.sonarcloud.project_name
+    allow_override = false
   }
 }
 
@@ -76,27 +101,14 @@ resource "azuredevops_resource_authorization" "hub-pa-api-code-review-github-ro-
   type          = "endpoint"
 }
 
-resource "azuredevops_resource_authorization" "hub-pa-api-code-review-github-rw-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw,
+resource "azuredevops_resource_authorization" "hub-pa-api-code-review-github-pr-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr,
     azuredevops_build_definition.hub-pa-api-code-review,
     azuredevops_project.project
   ]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
-  definition_id = azuredevops_build_definition.hub-pa-api-code-review.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-resource "azuredevops_resource_authorization" "hub-pa-api-code-review-sonarqube-auth" {
-  depends_on = [azuredevops_serviceendpoint_sonarqube.pagopa-sonarqube,
-    azuredevops_build_definition.hub-pa-api-code-review,
-    azuredevops_project.project
-  ]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_sonarqube.pagopa-sonarqube.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   definition_id = azuredevops_build_definition.hub-pa-api-code-review.id
   authorized    = true
   type          = "endpoint"
@@ -122,56 +134,83 @@ resource "azuredevops_build_definition" "hub-pa-api-deploy" {
   }
 
   variable {
-    name  = "GIT_EMAIL"
-    value = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    name           = "GIT_EMAIL"
+    value          = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    allow_override = false
   }
 
   variable {
-    name  = "GIT_USERNAME"
-    value = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    name           = "GIT_USERNAME"
+    value          = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    allow_override = false
   }
 
   variable {
-    name  = "GITHUB_CONNECTION"
-    value = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    name           = "GITHUB_CONNECTION"
+    value          = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "CACHE_VERSION_ID"
-    value = var.hub-pa-api.pipeline.cache_version_id
+    name           = "CACHE_VERSION_ID"
+    value          = var.hub-pa-api.pipeline.cache_version_id
+    allow_override = false
   }
 
-  # TODO PRODUCTION
+  variable {
+    name           = "DEV_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.DEV-HUBPA.service_endpoint_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "UAT_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.UAT-HUBPA.service_endpoint_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.PROD-HUBPA.service_endpoint_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "DEV_CONTAINER_REGISTRY"
+    value          = azuredevops_serviceendpoint_azurecr.hubpa-azurecr-dev.service_endpoint_name
+    allow_override = false
+  }
+
+  # TODO UAT missing container registry
   # variable {
-  #   name  = "PRODUCTION_AZURE_SUBSCRIPTION"
-  #   value = azuredevops_serviceendpoint_azurerm.PROD-HUBPA.service_endpoint_name
+  #   name           = "UAT_CONTAINER_REGISTRY"
+  #   value          = azuredevops_serviceendpoint_azurecr.hubpa-azurecr-uat.service_endpoint_name
+  #   allow_override = false
   # }
 
   variable {
-    name  = "STAGING_AZURE_SUBSCRIPTION"
-    value = azuredevops_serviceendpoint_azurerm.DEV-HUBPA.service_endpoint_name
+    name           = "PROD_CONTAINER_REGISTRY"
+    value          = azuredevops_serviceendpoint_azurecr.hubpa-azurecr-prod.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "PRODUCTION_APP_NAME"
-    value = var.hub-pa-api.pipeline.production_app_name
+    name           = "DEV_WEB_APP_NAME"
+    value          = var.hub-pa-api.pipeline.dev.web_app_name
+    allow_override = false
   }
 
   variable {
-    name  = "STAGING_APP_NAME"
-    value = var.hub-pa-api.pipeline.staging_app_name
+    name           = "UAT_WEB_APP_NAME"
+    value          = var.hub-pa-api.pipeline.uat.web_app_name
+    allow_override = false
   }
 
   variable {
-    name  = "PRODUCTION_RESOURCE_GROUP_NAME"
-    value = var.hub-pa-api.pipeline.production_resource_group_name
+    name           = "PROD_WEB_APP_NAME"
+    value          = var.hub-pa-api.pipeline.prod.web_app_name
+    allow_override = false
   }
-
-  variable {
-    name  = "STAGING_RESOURCE_GROUP_NAME"
-    value = var.hub-pa-api.pipeline.staging_resource_group_name
-  }
-
 }
 
 # deploy serviceendpoint authorization
@@ -205,19 +244,53 @@ resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurerm-DEV-HUB
   type          = "endpoint"
 }
 
-
-
-/* TODO this service endpoint already exists. Recreate it as soon as the dev subscription will move to the PagoPa tenant.
-resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurecr-auth-dev" {
-  depends_on = [
-    azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev,
-    azuredevops_build_definition.hub-pa-api-deploy,
-  time_sleep.wait]
+resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurerm-UAT-HUBPA-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.UAT-HUBPA, azuredevops_build_definition.hub-pa-api-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev.id
+  resource_id   = azuredevops_serviceendpoint_azurerm.UAT-HUBPA.id
   definition_id = azuredevops_build_definition.hub-pa-api-deploy.id
   authorized    = true
   type          = "endpoint"
 }
-*/
+
+resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurerm-PROD-HUBPA-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-HUBPA, azuredevops_build_definition.hub-pa-api-deploy, time_sleep.wait]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_azurerm.PROD-HUBPA.id
+  definition_id = azuredevops_build_definition.hub-pa-api-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurecr-DEV-HUBPA-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurecr.hubpa-azurecr-dev, azuredevops_build_definition.hub-pa-api-deploy, time_sleep.wait]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_azurecr.hubpa-azurecr-dev.id
+  definition_id = azuredevops_build_definition.hub-pa-api-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+# TODO UAT missing container registry
+# resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurecr-UAT-HUBPA-auth" {
+#   depends_on = [azuredevops_serviceendpoint_azurecr.hubpa-azurecr-uat, azuredevops_build_definition.hub-pa-api-deploy, time_sleep.wait]
+
+#   project_id    = azuredevops_project.project.id
+#   resource_id   = azuredevops_serviceendpoint_azurecr.hubpa-azurecr-uat.id
+#   definition_id = azuredevops_build_definition.hub-pa-api-deploy.id
+#   authorized    = true
+#   type          = "endpoint"
+# }
+
+resource "azuredevops_resource_authorization" "hub-pa-api-deploy-azurecr-PROD-HUBPA-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurecr.hubpa-azurecr-prod, azuredevops_build_definition.hub-pa-api-deploy, time_sleep.wait]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_azurecr.hubpa-azurecr-prod.id
+  definition_id = azuredevops_build_definition.hub-pa-api-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}

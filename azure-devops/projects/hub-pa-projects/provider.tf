@@ -4,12 +4,12 @@ terraform {
     resource_group_name  = "io-infra-rg"
     storage_account_name = "ioinfrastterraform"
     container_name       = "azuredevopsstate"
-    key                  = "hub-pa-projects-new.terraform.tfstate"
+    key                  = "hub-pa-projects.terraform.tfstate"
   }
   required_providers {
     azuredevops = {
       source  = "microsoft/azuredevops"
-      version = "~> 0.1.3"
+      version = "= 0.1.4"
     }
     azurerm = {
       version = "~> 2.52.0"
