@@ -78,41 +78,42 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
 }
 
 # azure container registry dev service connection
-/* TODO this service endpoint already exists. Recreate it as soon as the dev subscription will move to the PagoPa tenant.
-resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-dev" {
+resource "azuredevops_serviceendpoint_azurecr" "hubpa-azurecr-dev" {
   depends_on = [azuredevops_project.project]
 
   project_id                = azuredevops_project.project.id
-  service_endpoint_name     = "pagopa-azurecr"
+  service_endpoint_name     = "hubpa-azurecr-dev"
   resource_group            = "hubpa-d-api-rg"
   azurecr_name              = "hubpadarc"
-  azurecr_subscription_name = "HUBPA"
-  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-DEV-HUBPA-SUBSCRIPTION-ID"].value
+  azurecr_subscription_name = "DEV-HUBPA"
+  #TODO: this is going to move to the PagoPA subscription.
+  azurecr_spn_tenantid    = module.secrets.values["TTDIO-SPN-TENANTID"].value
+  azurecr_subscription_id = module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
 }
-*/
+
+# TODO UAT missing container registry
+# # azure container registry uat service connection
+# resource "azuredevops_serviceendpoint_azurecr" "hubpa-azurecr-uat" {
+#   depends_on = [azuredevops_project.project]
+
+#   project_id                = azuredevops_project.project.id
+#   service_endpoint_name     = "hubpa-azurecr-uat"
+#   resource_group            = "hubpa-u-api-rg"
+#   azurecr_name              = "hubpauarc"
+#   azurecr_subscription_name = "UAT-HubPA"
+#   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+#   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-UAT-HUBPA-SUBSCRIPTION-ID"].value
+# }
 
 # azure container registry prod service connection
-resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-prod" {
+resource "azuredevops_serviceendpoint_azurecr" "hubpa-azurecr-prod" {
   depends_on = [azuredevops_project.project]
 
   project_id                = azuredevops_project.project.id
-  service_endpoint_name     = "pagopa-azurecr"
+  service_endpoint_name     = "hubpa-azurecr-prod"
   resource_group            = "hubpa-p-api-rg"
   azurecr_name              = "hubpaparc"
   azurecr_subscription_name = "PROD-HubPA"
   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-HUBPA-SUBSCRIPTION-ID"].value
-}
-
-# sonarqube service connection
-resource "azuredevops_serviceendpoint_sonarqube" "pagopa-sonarqube" {
-  depends_on = [azuredevops_project.project]
-
-  project_id            = azuredevops_project.project.id
-  service_endpoint_name = "pagopa-sonarqube"
-  # TODO migrate sonarqube
-  url         = module.secrets.values["sonarqube-URL"].value
-  token       = module.secrets.values["sonarqube-TOKEN"].value
-  description = "Managed by Terraform"
 }
