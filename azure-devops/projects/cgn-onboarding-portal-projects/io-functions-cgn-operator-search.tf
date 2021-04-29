@@ -88,7 +88,7 @@ resource "azuredevops_resource_authorization" "io-functions-cgn-operator-search-
 
 # Define deploy pipeline
 resource "azuredevops_build_definition" "io-functions-cgn-operator-search-deploy" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
   name       = "${var.io-functions-cgn-operator-search.repository.name}.deploy"
@@ -167,8 +167,8 @@ resource "azuredevops_resource_authorization" "io-functions-cgn-operator-search-
   type          = "endpoint"
 }
 
-# Allow deploy pipeline to access Azure PROD-IO subscription service connection, needed to interact with Azure resources
-resource "azuredevops_resource_authorization" "io-functions-cgn-operator-search-deploy-azurerm-PROD-IO-auth" {
+# Allow deploy pipeline to access Azure PROD-GCNPORTAL subscription service connection, needed to interact with Azure resources
+resource "azuredevops_resource_authorization" "io-functions-cgn-operator-search-deploy-azurerm-PROD-GCNPORTAL-auth" {
   depends_on = [azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL, azuredevops_build_definition.io-functions-cgn-operator-search-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
