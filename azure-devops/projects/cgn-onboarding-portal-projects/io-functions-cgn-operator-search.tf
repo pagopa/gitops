@@ -56,15 +56,16 @@ resource "azuredevops_build_definition" "io-functions-cgn-operator-search-code-r
     name         = "DANGER_GITHUB_API_TOKEN"
     secret_value = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
     is_secret    = true
+    allow_override = false
   }
 }
 
 # Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
 resource "azuredevops_resource_authorization" "io-functions-cgn-operator-search-code-review-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.io-functions-cgn-operator-search-code-review, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-cgn-operator-search-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.pagopa.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
   definition_id = azuredevops_build_definition.io-functions-cgn-operator-search-code-review.id
   authorized    = true
   type          = "endpoint"
@@ -104,50 +105,52 @@ resource "azuredevops_build_definition" "io-functions-cgn-operator-search-deploy
   variable {
     name  = "GIT_EMAIL"
     value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    allow_override = false
   }
 
   variable {
     name  = "GIT_USERNAME"
     value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    allow_override = false
   }
 
   variable {
     name  = "GITHUB_CONNECTION"
     value = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
-  }
-
-  variable {
-    name  = "NPM_CONNECTION"
-    value = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
+    allow_override = false
   }
 
   variable {
     name  = "CACHE_VERSION_ID"
     value = var.io-functions-cgn-operator-search.pipeline.cache_version_id
+    allow_override = false
   }
 
   variable {
     name  = "PRODUCTION_AZURE_SUBSCRIPTION"
-    value = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+    value = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
+    allow_override = false
   }
 
   variable {
     name  = "PRODUCTION_APP_NAME"
     value = var.io-functions-cgn-operator-search.pipeline.production_app_name
+    allow_override = false
   }
 
   variable {
     name  = "PRODUCTION_RESOURCE_GROUP_NAME"
     value = var.io-functions-cgn-operator-search.pipeline.production_resource_group_name
+    allow_override = false
   }
 }
 
 # Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
 resource "azuredevops_resource_authorization" "io-functions-cgn-operator-search-deploy-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.io-functions-cgn-operator-search-deploy, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-cgn-operator-search-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.pagopa.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
   definition_id = azuredevops_build_definition.io-functions-cgn-operator-search-deploy.id
   authorized    = true
   type          = "endpoint"
@@ -166,21 +169,10 @@ resource "azuredevops_resource_authorization" "io-functions-cgn-operator-search-
 
 # Allow deploy pipeline to access Azure PROD-IO subscription service connection, needed to interact with Azure resources
 resource "azuredevops_resource_authorization" "io-functions-cgn-operator-search-deploy-azurerm-PROD-IO-auth" {
-  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_build_definition.io-functions-cgn-operator-search-deploy, time_sleep.wait]
+  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL, azuredevops_build_definition.io-functions-cgn-operator-search-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurerm.PROD-IO.id
-  definition_id = azuredevops_build_definition.io-functions-cgn-operator-search-deploy.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-# Allow deploy pipeline to access NPM service connection, needed to publish sdk packages to the public registry
-resource "azuredevops_resource_authorization" "io-functions-cgn-operator-search-deploy-npm-auth" {
-  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.io-functions-cgn-operator-search-deploy, time_sleep.wait]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_npm.pagopa-npm-bot.id
+  resource_id   = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.id
   definition_id = azuredevops_build_definition.io-functions-cgn-operator-search-deploy.id
   authorized    = true
   type          = "endpoint"
