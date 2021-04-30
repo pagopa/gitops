@@ -8,8 +8,8 @@ variable "io-functions-cgn-operator-search" {
     }
     pipeline = {
       cache_version_id               = "v3"
-      production_resource_group_name = "io-p-rg-cgn"
-      production_app_name            = "io-p-func-cgnoperatorsearch"
+      production_resource_group_name = ""
+      production_app_name            = ""
     }
   }
 }
