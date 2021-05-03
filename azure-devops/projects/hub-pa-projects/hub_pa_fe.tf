@@ -9,12 +9,16 @@ variable "hub-pa-fe" {
     pipeline = {
       # TODO
       cache_version_id    = "v1"
-      blob_container_name = ""
+      blob_container_name = "$web"
+      my_index            = "index.html"
       dev = {
         storage_account_name = ""
       }
       uat = {
-        storage_account_name = ""
+        storage_account_name   = "hubpadsa"
+        profile_name_cdn_azure = "hubpa-d-cdn-common"
+        endpoint_azure         = "hubpa-d-cdnendpoint-frontend"
+        resource_group_azure   = "hubpa-d-fe-rg"
       }
       prod = {
         storage_account_name = ""
