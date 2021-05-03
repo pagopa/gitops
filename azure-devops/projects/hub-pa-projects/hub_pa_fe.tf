@@ -158,79 +158,79 @@ resource "azuredevops_build_definition" "hub-pa-fe-deploy" {
 
   variable {
     name           = "DEV_STORAGE_ACCOUNT_NAME"
-    value          = var.hub-pa-fe.pipeline.dev.storage_account
+    value          = var.hub-pa-fe.pipeline.dev.storage_account_name
     allow_override = false
   }
 
   variable {
     name           = "UAT_STORAGE_ACCOUNT_NAME"
-    value          = var.hub-pa-fe.pipeline.uat.storage_account
+    value          = var.hub-pa-fe.pipeline.uat.storage_account_name
     allow_override = false
   }
 
   variable {
     name           = "PROD_STORAGE_ACCOUNT_NAME"
-    value          = var.hub-pa-fe.pipeline.prod.storage_account
+    value          = var.hub-pa-fe.pipeline.prod.storage_account_name
     allow_override = false
   }
 
   variable {
     name           = "DEV_PROFILE_CDN_NAME"
-    value          = var.hub-pa-fe.pipeline.dev.profile_cdn
+    value          = var.hub-pa-fe.pipeline.dev.profile_cdn_name
     allow_override = false
   }
 
   variable {
     name           = "UAT_PROFILE_CDN_NAME"
-    value          = var.hub-pa-fe.pipeline.uat.profile_cdn
+    value          = var.hub-pa-fe.pipeline.uat.profile_cdn_name
     allow_override = false
   }
 
   variable {
     name           = "PROD_PROFILE_CDN_NAME"
-    value          = var.hub-pa-fe.pipeline.prod.profile_cdn
+    value          = var.hub-pa-fe.pipeline.prod.profile_cdn_name
     allow_override = false
   }
 
   variable {
     name           = "DEV_ENDPOINT_NAME"
-    value          = var.hub-pa-fe.pipeline.dev.endpoint
+    value          = var.hub-pa-fe.pipeline.dev.endpoint_name
     allow_override = false
   }
 
   variable {
     name           = "UAT_ENDPOINT_NAME"
-    value          = var.hub-pa-fe.pipeline.uat.endpoint
+    value          = var.hub-pa-fe.pipeline.uat.endpoint_name
     allow_override = false
   }
 
   variable {
     name           = "PROD_ENDPOINT_NAME"
-    value          = var.hub-pa-fe.pipeline.prod.endpoint
+    value          = var.hub-pa-fe.pipeline.prod.endpoint_name
     allow_override = false
   }
 
   variable {
     name           = "DEV_RESOURCE_GROUP_NAME"
-    value          = var.hub-pa-fe.pipeline.dev.resource_group
+    value          = var.hub-pa-fe.pipeline.dev.resource_group_name
     allow_override = false
   }
 
   variable {
     name           = "UAT_RESOURCE_GROUP_NAME"
-    value          = var.hub-pa-fe.pipeline.uat.resource_group
+    value          = var.hub-pa-fe.pipeline.uat.resource_group_name
     allow_override = false
   }
 
   variable {
     name           = "PROD_RESOURCE_GROUP_NAME"
-    value          = var.hub-pa-fe.pipeline.prod.resource_group
+    value          = var.hub-pa-fe.pipeline.prod.resource_group_name
     allow_override = false
   }
 
   variable {
     name           = "BLOB_CONTAINER_NAME"
-    value          = var.hub-pa-fe.pipeline.blob_container
+    value          = var.hub-pa-fe.pipeline.blob_container_name
     allow_override = false
   }
 }
