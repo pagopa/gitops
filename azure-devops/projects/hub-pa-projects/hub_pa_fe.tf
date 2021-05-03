@@ -103,7 +103,7 @@ resource "azuredevops_build_definition" "hub-pa-fe-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = format("%s..deploy", var.hub-pa-fe.repository.name)
+  name       = format("%s.deploy", var.hub-pa-fe.repository.name)
   path       = format("\\%s", var.hub-pa-fe.repository.name)
 
   repository {
