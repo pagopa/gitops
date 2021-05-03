@@ -9,15 +9,25 @@ variable "hub-pa-fe" {
     pipeline = {
       # TODO
       cache_version_id    = "v1"
-      blob_container_name = ""
+      blob_container_name = "$web"
+      my_index            = "index.html"
       dev = {
         storage_account_name = ""
+        profile_cdn_name     = ""
+        endpoint_name        = ""
+        resource_group_name  = ""
       }
       uat = {
-        storage_account_name = ""
+        storage_account_name = "hubpadsa"
+        profile_cdn_name     = "hubpa-d-cdn-common"
+        endpoint_name        = "hubpa-d-cdnendpoint-frontend"
+        resource_group_name  = "hubpa-d-fe-rg"
       }
       prod = {
         storage_account_name = ""
+        profile_cdn_name     = ""
+        endpoint_name        = ""
+        resource_group_name  = ""
       }
     }
   }
@@ -93,7 +103,7 @@ resource "azuredevops_build_definition" "hub-pa-fe-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = format("%s..deploy", var.hub-pa-fe.repository.name)
+  name       = format("%s.deploy", var.hub-pa-fe.repository.name)
   path       = format("\\%s", var.hub-pa-fe.repository.name)
 
   repository {
@@ -161,6 +171,60 @@ resource "azuredevops_build_definition" "hub-pa-fe-deploy" {
   variable {
     name           = "PROD_STORAGE_ACCOUNT_NAME"
     value          = var.hub-pa-fe.pipeline.prod.storage_account_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "DEV_PROFILE_CDN_NAME"
+    value          = var.hub-pa-fe.pipeline.dev.profile_cdn_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "UAT_PROFILE_CDN_NAME"
+    value          = var.hub-pa-fe.pipeline.uat.profile_cdn_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_PROFILE_CDN_NAME"
+    value          = var.hub-pa-fe.pipeline.prod.profile_cdn_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "DEV_ENDPOINT_NAME"
+    value          = var.hub-pa-fe.pipeline.dev.endpoint_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "UAT_ENDPOINT_NAME"
+    value          = var.hub-pa-fe.pipeline.uat.endpoint_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_ENDPOINT_NAME"
+    value          = var.hub-pa-fe.pipeline.prod.endpoint_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "DEV_RESOURCE_GROUP_NAME"
+    value          = var.hub-pa-fe.pipeline.dev.resource_group_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "UAT_RESOURCE_GROUP_NAME"
+    value          = var.hub-pa-fe.pipeline.uat.resource_group_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_RESOURCE_GROUP_NAME"
+    value          = var.hub-pa-fe.pipeline.prod.resource_group_name
     allow_override = false
   }
 
