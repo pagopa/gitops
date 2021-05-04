@@ -12,22 +12,22 @@ variable "hub-pa-fe" {
       blob_container_name = "$web"
       my_index            = "index.html"
       dev = {
-        storage_account_name = ""
-        profile_cdn_name     = ""
-        endpoint_name        = ""
-        resource_group_name  = ""
-      }
-      uat = {
         storage_account_name = "hubpadsa"
         profile_cdn_name     = "hubpa-d-cdn-common"
         endpoint_name        = "hubpa-d-cdnendpoint-frontend"
         resource_group_name  = "hubpa-d-fe-rg"
       }
+      uat = {
+        storage_account_name = "hubpausa"
+        profile_cdn_name     = "hubpa-u-cdn-common"
+        endpoint_name        = "hubpa-u-cdnendpoint-frontend"
+        resource_group_name  = "hubpa-u-fe-rg"
+      }
       prod = {
-        storage_account_name = ""
-        profile_cdn_name     = ""
-        endpoint_name        = ""
-        resource_group_name  = ""
+        storage_account_name = "hubpapsa"
+        profile_cdn_name     = "hubpa-p-cdn-common"
+        endpoint_name        = "hubpa-p-cdnendpoint-frontend"
+        resource_group_name  = "hubpa-p-fe-rg"
       }
     }
   }
@@ -64,6 +64,12 @@ resource "azuredevops_build_definition" "hub-pa-fe-code-review" {
     branch_name           = var.hub-pa-fe.repository.branch_name
     yml_path              = join("/", [var.hub-pa-fe.repository.pipelines_path, "/code-review-pipelines.yml"])
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
+  }
+
+  variable {
+    name           = "DEFAULT_BRANCH"
+    value          = var.hub-pa-fe.repository.branch_name
+    allow_override = false
   }
 
   variable {
@@ -112,6 +118,12 @@ resource "azuredevops_build_definition" "hub-pa-fe-deploy" {
     branch_name           = var.hub-pa-fe.repository.branch_name
     yml_path              = join("/", [var.hub-pa-fe.repository.pipelines_path], ["deploy-pipelines.yml"])
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
+  }
+
+  variable {
+    name           = "DEFAULT_BRANCH"
+    value          = var.hub-pa-fe.repository.branch_name
+    allow_override = false
   }
 
   variable {
