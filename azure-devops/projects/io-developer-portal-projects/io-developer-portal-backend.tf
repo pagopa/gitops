@@ -7,9 +7,17 @@ variable "io-developer-portal-backend" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      production_resource_group_name = "io-p-rg-internal"
-      production_app_name            = "io-p-app-developerportalbackend"
-      cache_version_id               = "v3"
+      cache_version_id = "v1"
+      dev = {
+        deploy_type                 = "production_slot" #or staging_slot_and_swap
+        web_app_name                = ""
+        web_app_resource_group_name = ""
+      }
+      prod = {
+        deploy_type                 = "production_slot" #or staging_slot_and_swap
+        web_app_name                = "io-p-app-developerportalbackend"
+        web_app_resource_group_name = "io-p-rg-internal"
+      }
     }
   }
 }
@@ -49,9 +57,22 @@ resource "azuredevops_build_definition" "io-developer-portal-backend-code-review
   }
 
   variable {
-    name         = "DANGER_GITHUB_API_TOKEN"
-    secret_value = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
-    is_secret    = true
+    name           = "DEFAULT_BRANCH"
+    value          = var.io-developer-portal-backend.repository.branch_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "CACHE_VERSION_ID"
+    value          = var.io-developer-portal-backend.pipeline.cache_version_id
+    allow_override = false
+  }
+
+  variable {
+    name           = "DANGER_GITHUB_API_TOKEN"
+    secret_value   = module.secrets.values["DANGER-GITHUB-API-TOKEN"].value
+    is_secret      = true
+    allow_override = false
   }
 }
 
@@ -93,40 +114,69 @@ resource "azuredevops_build_definition" "io-developer-portal-backend-deploy" {
   }
 
   variable {
-    name  = "GIT_EMAIL"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    name           = "DEFAULT_BRANCH"
+    value          = var.io-developer-portal-backend.repository.branch_name
+    allow_override = false
+  }
+  variable {
+    name           = "CACHE_VERSION_ID"
+    value          = var.io-developer-portal-backend.pipeline.cache_version_id
+    allow_override = false
   }
 
   variable {
-    name  = "GIT_USERNAME"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    name           = "GIT_EMAIL"
+    value          = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    allow_override = false
   }
 
   variable {
-    name  = "GITHUB_CONNECTION"
-    value = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    name           = "GIT_USERNAME"
+    value          = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    allow_override = false
   }
 
   variable {
-    name  = "CACHE_VERSION_ID"
-    value = var.io-developer-portal-backend.pipeline.cache_version_id
+    name           = "GITHUB_CONNECTION"
+    value          = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "PRODUCTION_AZURE_SUBSCRIPTION"
-    value = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+    name           = "PROD_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "PRODUCTION_APP_NAME"
-    value = var.io-developer-portal-backend.pipeline.production_app_name
+    name           = "DEV_AZURE_SUBSCRIPTION"
+    value          = ""
+    allow_override = false
   }
 
   variable {
-    name  = "PRODUCTION_RESOURCE_GROUP_NAME"
-    value = var.io-developer-portal-backend.pipeline.production_resource_group_name
+    name           = "PROD_WEB_APP_NAME"
+    value          = var.io-developer-portal-backend.pipeline.prod.web_app_name
+    allow_override = false
   }
 
+  variable {
+    name           = "DEV_WEB_APP_NAME"
+    value          = var.io-developer-portal-backend.pipeline.dev.web_app_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_WEB_APP_RESOURCE_GROUP_NAME"
+    value          = var.io-developer-portal-backend.pipeline.prod.web_app_resource_group_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "DEV_RESOURCE_GROUP_NAME"
+    value          = var.io-developer-portal-backend.pipeline.dev.web_app_resource_group_name
+    allow_override = false
+  }
 }
 
 # deploy serviceendpoint authorization
