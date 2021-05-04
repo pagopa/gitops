@@ -110,14 +110,3 @@ resource "azuredevops_serviceendpoint_azurecr" "cgnonboardingportal-uat-azurecr"
 #   azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
 #   azurecr_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value
 # }
-
-# # sonarqube service connection
-# resource "azuredevops_serviceendpoint_sonarqube" "cgnonboardingportal-sonarqube" {
-#   depends_on = [azuredevops_project.project]
-
-#   project_id            = azuredevops_project.project.id
-#   service_endpoint_name = "cgnonboardingportal-sonarqube"
-#   url                   = data.azurerm_key_vault_secret.key_vault_secret["cgnportal-sonarqube-URL"].value
-#   token                 = data.azurerm_key_vault_secret.key_vault_secret["cgnportal-sonarqube-TOKEN"].value
-#   description           = "Managed by Terraform"
-# }
