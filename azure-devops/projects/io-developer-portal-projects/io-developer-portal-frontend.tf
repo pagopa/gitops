@@ -11,7 +11,7 @@ variable "io-developer-portal-frontend" {
       io_developer_portal_apim_base_url = "https://api.io.italia.it/api/v1"
       io_developer_portal_backend       = "https://developerportal-backend.io.italia.it"
       io_developer_portal_base_url      = "/"
-      io_developer_portal_logo_path     = "https://assets.cdn.io.italia.it/logos"
+      io_developer_portal_logo_path     = "https://assets.cdn.io.italia.it/logos" #to verify https://assets.cdn.io.italia.it/logos 
       io_developer_portal_port          = "80"
       io_developer_portal_public_path   = "/"
       dev = {
