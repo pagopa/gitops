@@ -8,6 +8,7 @@ variable "io-developer-portal-frontend" {
     }
     pipeline = {
       cache_version_id                  = "v1"
+      blob_container_name               = "$web"
       io_developer_portal_apim_base_url = "https://api.io.italia.it/api/v1"
       io_developer_portal_backend       = "https://developerportal-backend.io.italia.it"
       io_developer_portal_base_url      = "/"
@@ -142,6 +143,12 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-deploy" {
   variable {
     name           = "CACHE_VERSION_ID"
     value          = var.io-developer-portal-frontend.pipeline.cache_version_id
+    allow_override = false
+  }
+
+  variable {
+    name           = "BLOB_CONTAINER_NAME"
+    value          = var.io-developer-portal-frontend.pipeline.blob_container_name
     allow_override = false
   }
 
