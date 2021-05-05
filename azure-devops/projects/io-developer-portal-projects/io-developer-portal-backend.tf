@@ -118,6 +118,7 @@ resource "azuredevops_build_definition" "io-developer-portal-backend-deploy" {
     value          = var.io-developer-portal-backend.repository.branch_name
     allow_override = false
   }
+
   variable {
     name           = "CACHE_VERSION_ID"
     value          = var.io-developer-portal-backend.pipeline.cache_version_id
@@ -151,6 +152,18 @@ resource "azuredevops_build_definition" "io-developer-portal-backend-deploy" {
   variable {
     name           = "DEV_AZURE_SUBSCRIPTION"
     value          = ""
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_DEPLOY_TYPE"
+    value          = var.io-developer-portal-backend.pipeline.prod.deploy_type
+    allow_override = false
+  }
+
+  variable {
+    name           = "DEV_DEPLOY_TYPE"
+    value          = var.io-developer-portal-backend.pipeline.dev.deploy_type
     allow_override = false
   }
 
