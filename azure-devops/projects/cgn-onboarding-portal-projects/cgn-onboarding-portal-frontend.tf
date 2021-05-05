@@ -10,17 +10,17 @@ variable "cgn-onboarding-portal-frontend" {
       blob_container_name = "$web"
       cache_version_id    = "v1"
       my_index            = "index.html"
-      prod = {
-        storage_account_name   = "cgnonboardingportalpsaws"
-        profile_name_cdn_azure = "cgnonboardingportal-p-cdn-common"
-        endpoint_azure         = "cgnonboardingportal-p-cdnendpoint-frontend"
-        resource_group_azure   = "cgnonboardingportal-p-cdn-rg"
-      }
       uat = {
-        storage_account_name   = "cgnonboardingportalusaws"
-        profile_name_cdn_azure = "cgnonboardingportal-u-cdn-common"
-        endpoint_azure         = "cgnonboardingportal-u-cdnendpoint-frontend"
-        resource_group_azure   = "cgnonboardingportal-u-cdn-rg"
+        storage_account_name = "cgnonboardingportalusaws"
+        profile_cdn_name     = "cgnonboardingportal-u-cdn-common"
+        endpoint_name        = "cgnonboardingportal-u-cdnendpoint-frontend"
+        resource_group_name  = "cgnonboardingportal-u-cdn-rg"
+      }
+      prod = {
+        storage_account_name = "cgnonboardingportalpsaws"
+        profile_cdn_name     = "cgnonboardingportal-p-cdn-common"
+        endpoint_name        = "cgnonboardingportal-p-cdnendpoint-frontend"
+        resource_group_name  = "cgnonboardingportal-p-cdn-rg"
       }
     }
   }
@@ -58,6 +58,12 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-code-rev
     branch_name           = var.cgn-onboarding-portal-frontend.repository.branch_name
     yml_path              = "${var.cgn-onboarding-portal-frontend.repository.pipelines_path}/code-review-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+  }
+
+  variable {
+    name           = "DEFAULT_BRANCH"
+    value          = var.cgn-onboarding-portal-frontend.repository.branch_name
+    allow_override = false
   }
 
   variable {
@@ -105,6 +111,17 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-deploy" 
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
+  variable {
+    name           = "DEFAULT_BRANCH"
+    value          = var.cgn-onboarding-portal-frontend.repository.branch_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "CACHE_VERSION_ID"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.cache_version_id
+    allow_override = false
+  }
 
   variable {
     name           = "GIT_EMAIL"
@@ -137,8 +154,8 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-deploy" 
   }
 
   variable {
-    name           = "CACHE_VERSION_ID"
-    value          = var.cgn-onboarding-portal-frontend.pipeline.cache_version_id
+    name           = "UAT_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL.service_endpoint_name
     allow_override = false
   }
 
@@ -149,56 +166,50 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-frontend-deploy" 
   }
 
   variable {
+    name           = "UAT_STORAGE_ACCOUNT_NAME"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.uat.storage_account_name
+    allow_override = false
+  }
+
+  variable {
     name           = "PROD_STORAGE_ACCOUNT_NAME"
     value          = var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name
     allow_override = false
   }
 
   variable {
-    name           = "PROD_ENDPOINT_AZURE"
-    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.endpoint_azure
+    name           = "UAT_ENDPOINT_NAME"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.uat.endpoint_name
     allow_override = false
   }
 
   variable {
-    name           = "PROD_PROFILE_NAME_CDN_AZURE"
-    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.profile_name_cdn_azure
+    name           = "PROD_ENDPOINT_NAME"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.endpoint_name
     allow_override = false
   }
 
   variable {
-    name           = "PROD_RESOURCE_GROUP_AZURE"
-    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure
+    name           = "UAT_PROFILE_CDN_NAME"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.uat.profile_cdn_name
     allow_override = false
   }
 
   variable {
-    name           = "UAT_AZURE_SUBSCRIPTION"
-    value          = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
+    name           = "PROD_PROFILE_CDN_NAME"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.profile_cdn_name
     allow_override = false
   }
 
   variable {
-    name           = "UAT_STORAGE_ACCOUNT_NAME"
-    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name
+    name           = "UAT_RESOURCE_GROUP_NAME"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.uat.resource_group_name
     allow_override = false
   }
 
   variable {
-    name           = "UAT_ENDPOINT_AZURE"
-    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.endpoint_azure
-    allow_override = false
-  }
-
-  variable {
-    name           = "UAT_PROFILE_NAME_CDN_AZURE"
-    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.profile_name_cdn_azure
-    allow_override = false
-  }
-
-  variable {
-    name           = "UAT_RESOURCE_GROUP_AZURE"
-    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure
+    name           = "PROD_RESOURCE_GROUP_NAME"
+    value          = var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_name
     allow_override = false
   }
 }
@@ -239,7 +250,7 @@ resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-de
 
 #   principal_id         = data.azuread_service_principal.service_principals[local.PROD-GCNPORTAL-UID].id
 #   role_definition_name = "Storage Blob Data Contributor"
-#   scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value}/resourceGroups/${var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name}"
+#   scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value}/resourceGroups/${var.cgn-onboarding-portal-frontend.pipeline.prod.resource_group_name}/providers/Microsoft.Storage/storageAccounts/${var.cgn-onboarding-portal-frontend.pipeline.prod.storage_account_name}"
 # }
 
 resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-deploy-azurerm-UAT-GCNPORTAL-auth" {
@@ -258,5 +269,5 @@ resource "azuredevops_resource_authorization" "cgn-onboarding-portal-frontend-de
 //
 //  principal_id         = data.azuread_service_principal.service_principals[local.UAT-GCNPORTAL-UID].id
 //  role_definition_name = "Storage Blob Data Contributor"
-//  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value}/resourceGroups/${var.cgn-onboarding-portal-frontend.pipeline.uat.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.cgn-onboarding-portal-frontend.pipeline.uat.storage_account_name}"
+//  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value}/resourceGroups/${var.cgn-onboarding-portal-frontend.pipeline.uat.resource_group_name}/providers/Microsoft.Storage/storageAccounts/${var.cgn-onboarding-portal-frontend.pipeline.uat.storage_account_name}"
 //}
