@@ -14,13 +14,13 @@ variable "cgn-onboarding-portal-frontend" {
         storage_account_name   = "cgnonboardingportalpsaws"
         profile_name_cdn_azure = "cgnonboardingportal-p-cdn-common"
         endpoint_azure         = "cgnonboardingportal-p-cdnendpoint-frontend"
-        resource_group_azure   = "cgnonboardingportal-p-cdn-rg"
+        resource_group_azure   = "cgnonboardingportal-p-public-rg"
       }
       uat = {
         storage_account_name   = "cgnonboardingportalusaws"
         profile_name_cdn_azure = "cgnonboardingportal-u-cdn-common"
         endpoint_azure         = "cgnonboardingportal-u-cdnendpoint-frontend"
-        resource_group_azure   = "cgnonboardingportal-u-cdn-rg"
+        resource_group_azure   = "cgnonboardingportal-u-public-rg"
       }
     }
   }
