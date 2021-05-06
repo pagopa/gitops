@@ -10,6 +10,8 @@ variable "io-services-metadata" {
       cache_version_id                = "v3"
       production_storage_account_name = "iopstcdnassets"
       production_resource_group       = "io-p-rg-common"
+      endpoint_name                   = "io-p-cdnendpoint-fnassets"
+      profile_cdn_name                = "io-p-cdn-common"
     }
   }
 }
