@@ -177,7 +177,7 @@ resource "azuredevops_build_definition" "ade-aa-ms-mock-deploy" {
 
   variable {
     name           = "PROD_AZURE_SUBSCRIPTION"
-    value          = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
+    value          = ""
     allow_override = false
   }
 
