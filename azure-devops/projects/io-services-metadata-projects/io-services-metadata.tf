@@ -73,31 +73,53 @@ resource "azuredevops_build_definition" "io-services-metadata" {
   }
 
   variable {
-    name  = "ENABLE_DATA_COPY"
-    value = "true"
+    name           = "ENABLE_DATA_COPY"
+    value          = "true"
+    allow_override = false
   }
 
 
   variable {
-    name  = "PRODUCTION_AZURE_SUBSCRIPTION"
-    value = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+    name           = "PRODUCTION_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "PRODUCTION_STORAGE_ACCOUNT_NAME"
-    value = var.io-services-metadata.pipeline.production_storage_account_name
+    name           = "PRODUCTION_STORAGE_ACCOUNT_NAME"
+    value          = var.io-services-metadata.pipeline.production_storage_account_name
+    allow_override = false
   }
 
   variable {
-    name  = "TEST_AZURE_SUBSCRIPTION"
-    value = azuredevops_serviceendpoint_azurerm.DEV-IO.service_endpoint_name
+    name           = "PRODUCTION_RESOURCE_GROUP"
+    value          = var.io-services-metadata.pipeline.production_resource_group
+    allow_override = false
   }
 
   variable {
-    name  = "TEST_STORAGE_ACCOUNT_NAME"
-    value = "NA"
+    name           = "ENDPOINT_NAME"
+    value          = var.io-services-metadata.pipeline.endpoint_name
+    allow_override = false
   }
 
+  variable {
+    name           = "PROFILE_CDN_NAME"
+    value          = var.io-services-metadata.pipeline.profile_cdn_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "TEST_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.DEV-IO.service_endpoint_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "TEST_STORAGE_ACCOUNT_NAME"
+    value          = "NA"
+    allow_override = false
+  }
 }
 
 # Allow pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
