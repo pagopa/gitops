@@ -324,16 +324,3 @@ resource "azuredevops_resource_authorization" "ade-aa-ms-mock-deploy-azurerm-UAT
   authorized    = true
   type          = "endpoint"
 }
-
-# Allow deploy pipeline to access Azure PROD-GCNPORTAL subscription service connection, needed to interact with Azure resources
-resource "azuredevops_resource_authorization" "ade-aa-ms-mock-deploy-azurerm-PROD-GCNPORTAL-auth" {
-  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL, azuredevops_build_definition.ade-aa-ms-mock-deploy, time_sleep.wait]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.id
-  definition_id = azuredevops_build_definition.ade-aa-ms-mock-deploy.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-
