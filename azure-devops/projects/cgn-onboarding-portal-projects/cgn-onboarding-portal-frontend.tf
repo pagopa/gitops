@@ -11,16 +11,16 @@ variable "cgn-onboarding-portal-frontend" {
       cache_version_id    = "v1"
       my_index            = "index.html"
       prod = {
-        storage_account_name   = "cgnonboardingportalpsaws"
-        profile_name_cdn_azure = "cgnonboardingportal-p-cdn-common"
-        endpoint_azure         = "cgnonboardingportal-p-cdnendpoint-frontend"
-        resource_group_azure   = "cgnonboardingportal-p-public-rg"
+        storage_account_name = "cgnonboardingportalpsaws"
+        profile_cdn_name     = "cgnonboardingportal-p-cdn-common"
+        endpoint_name        = "cgnonboardingportal-p-cdnendpoint-frontend"
+        resource_group_name  = "cgnonboardingportal-p-public-rg"
       }
       uat = {
-        storage_account_name   = "cgnonboardingportalusaws"
-        profile_name_cdn_azure = "cgnonboardingportal-u-cdn-common"
-        endpoint_azure         = "cgnonboardingportal-u-cdnendpoint-frontend"
-        resource_group_azure   = "cgnonboardingportal-u-public-rg"
+        storage_account_name = "cgnonboardingportalusaws"
+        profile_cdn_name     = "cgnonboardingportal-u-cdn-common"
+        endpoint_name        = "cgnonboardingportal-u-cdnendpoint-frontend"
+        resource_group_name  = "cgnonboardingportal-u-public-rg"
       }
     }
   }
