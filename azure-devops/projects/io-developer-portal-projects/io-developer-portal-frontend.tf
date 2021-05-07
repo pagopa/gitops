@@ -201,6 +201,18 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-deploy" {
   }
 
   variable {
+    name           = "PROD_STORAGE_ACCOUNT_NAME"
+    value          = var.io-developer-portal-frontend.pipeline.prod.storage_account_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "DEV_STORAGE_ACCOUNT_NAME"
+    value          = var.io-developer-portal-frontend.pipeline.dev.storage_account_name
+    allow_override = false
+  }
+
+  variable {
     name           = "PROD_ENDPOINT_NAME"
     value          = var.io-developer-portal-frontend.pipeline.prod.endpoint_name
     allow_override = false
