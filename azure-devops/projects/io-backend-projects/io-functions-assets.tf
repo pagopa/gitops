@@ -169,3 +169,14 @@ resource "azuredevops_resource_authorization" "io-functions-assets-deploy-azurer
   authorized    = true
   type          = "endpoint"
 }
+
+# Allow deploy pipeline to access NPM service connection, needed to publish sdk packages to the public registry
+resource "azuredevops_resource_authorization" "io-functions-assets-deploy-npm-auth" {
+  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.io-functions-assets-deploy, time_sleep.wait]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_npm.pagopa-npm-bot.id
+  definition_id = azuredevops_build_definition.io-functions-assets-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
