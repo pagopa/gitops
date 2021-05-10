@@ -53,9 +53,10 @@ resource "azuredevops_build_definition" "io-functions-assets-code-review" {
   }
 
   variable {
-    name         = "DANGER_GITHUB_API_TOKEN"
-    secret_value = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
-    is_secret    = true
+    name           = "DANGER_GITHUB_API_TOKEN"
+    secret_value   = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
+    is_secret      = true
+    allow_override = false
   }
 }
 
@@ -102,38 +103,51 @@ resource "azuredevops_build_definition" "io-functions-assets-deploy" {
   }
 
   variable {
-    name  = "GIT_EMAIL"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    name           = "GIT_EMAIL"
+    value          = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    allow_override = false
   }
 
   variable {
-    name  = "GIT_USERNAME"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    name           = "GIT_USERNAME"
+    value          = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    allow_override = false
   }
 
   variable {
-    name  = "GITHUB_CONNECTION"
-    value = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    name           = "GITHUB_CONNECTION"
+    value          = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "CACHE_VERSION_ID"
-    value = var.io-functions-assets.pipeline.cache_version_id
+    name           = "CACHE_VERSION_ID"
+    value          = var.io-functions-assets.pipeline.cache_version_id
+    allow_override = false
   }
 
   variable {
-    name  = "PRODUCTION_AZURE_SUBSCRIPTION"
-    value = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+    name           = "PRODUCTION_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+    allow_override = false
   }
 
   variable {
-    name  = "PRODUCTION_APP_NAME"
-    value = var.io-functions-assets.pipeline.production_app_name
+    name           = "PRODUCTION_APP_NAME"
+    value          = var.io-functions-assets.pipeline.production_app_name
+    allow_override = false
   }
 
   variable {
-    name  = "PRODUCTION_RESOURCE_GROUP_NAME"
-    value = var.io-functions-assets.pipeline.production_resource_group_name
+    name           = "PRODUCTION_RESOURCE_GROUP_NAME"
+    value          = var.io-functions-assets.pipeline.production_resource_group_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "NPM_CONNECTION"
+    value          = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
+    allow_override = false
   }
 }
 
