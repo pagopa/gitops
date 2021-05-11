@@ -7,7 +7,7 @@ variable "uat-cgnonboardingportal-pagopa-it" {
       pipelines_path = "."
     }
     pipeline = {
-      enable_cert_az = false
+      enable_cert_az = true
       path           = "cgnonboardingportal"
       name           = "uat.cgnonboardingportal.pagopa.it"
       # common variables to all pipelines
@@ -43,8 +43,7 @@ locals {
 }
 
 module "uat-cgnonboardingportal-pagopa-it-cert_az" {
-  # source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_certaz?ref=v0.0.2"
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_certaz?ref=IOINFRA-81-fix-certaz-module"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_certaz?ref=v0.0.2"
   count  = var.uat-cgnonboardingportal-pagopa-it.pipeline.enable_cert_az == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id

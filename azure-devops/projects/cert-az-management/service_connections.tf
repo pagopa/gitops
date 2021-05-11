@@ -56,9 +56,9 @@ resource "azuredevops_serviceendpoint_azurerm" "UAT-GCNPORTAL" {
   depends_on = [azuredevops_project.project]
 
   project_id                = azuredevops_project.project.id
-  service_endpoint_name     = "DEV-GCNPORTAL-SERVICE-CONN"
-  description               = "DEV-GCNPORTAL Service connection"
-  azurerm_subscription_name = "DEV-GCNPORTAL"
+  service_endpoint_name     = "UAT-GCNPORTAL-SERVICE-CONN"
+  description               = "UAT-GCNPORTAL Service connection"
+  azurerm_subscription_name = "UAT-GCNPORTAL"
   azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
   azurerm_subscription_id   = module.secrets.values["PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value
 }
