@@ -18,7 +18,7 @@ variable "ade-aa-ms-mock" {
       }
       uat = {
         deploy_type                               = "production_slot" #or staging_slot_and_swap
-        web_app_name                              = "cgnonboardingportal-u-aa-mock"
+        web_app_name                              = "cgnonboardingportal-u-ade-aa-mock"
         web_app_resource_group_name               = "cgnonboardingportal-u-api-rg"
         healthcheck_endpoint                      = "/info" #todo
         healthcheck_container_resource_group_name = "cgnonboardingportal-u-vnet-rg"
@@ -26,7 +26,7 @@ variable "ade-aa-ms-mock" {
       }
       prod = {
         deploy_type                               = "staging_slot_and_swap" #or production_slot
-        web_app_name                              = "cgnonboardingportal-p-aa-mock"
+        web_app_name                              = "cgnonboardingportal-p-ade-aa-mock"
         web_app_resource_group_name               = "cgnonboardingportal-p-api-rg"
         healthcheck_endpoint                      = "/info" #todo
         healthcheck_container_resource_group_name = "cgnonboardingportal-p-vnet-rg"
