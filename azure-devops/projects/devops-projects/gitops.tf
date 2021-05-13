@@ -1,11 +1,11 @@
 variable "gitops" {
   default = {
     repository = {
-      organization   = "pagopa"
-      name           = "gitops"
-      branch_name    = "main"
-      pipelines_path = ".devops"
-      prefix_name    = "azure-devops"
+      organization    = "pagopa"
+      name            = "gitops"
+      branch_name     = "main"
+      pipelines_path  = ".devops"
+      yml_prefix_name = "azure-devops"
     }
     pipeline = {
       enable_code_review = true
@@ -34,7 +34,7 @@ locals {
 }
 
 module "gitops-code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=add-codereview-pipeline-module"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v0.0.3"
   count  = var.gitops.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
@@ -49,8 +49,6 @@ module "gitops-code_review" {
   )
 
   variables_secret = merge(
-    var.gitops.pipeline.variables_secret,
-    var.gitops.pipeline.code_review_variables_secret,
     local.gitops-variables_secret,
     local.gitops-code_review_variables_secrets,
   )
