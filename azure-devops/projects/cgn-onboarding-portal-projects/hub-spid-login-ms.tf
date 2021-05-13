@@ -25,7 +25,7 @@ variable "hub-spid-login-ms" {
         healthcheck_container_vnet                = "cgnonboardingportal-u-vnet"
       }
       prod = {
-        deploy_type                               = "staging_slot_and_swap" #or production_slot
+        deploy_type                               = "production_slot" #or staging_slot_and_swap
         web_app_name                              = "cgnonboardingportal-p-spid-login"
         web_app_resource_group_name               = "cgnonboardingportal-p-api-rg"
         healthcheck_endpoint                      = "/info" #todo
