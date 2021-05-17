@@ -142,7 +142,7 @@ resource "azuredevops_build_definition" "io-functions-cgn-operator-search-deploy
 
   variable {
     name           = "CACHE_VERSION_ID"
-    value          = var.hub-spid-login-ms.pipeline.cache_version_id
+    value          = var.io-functions-cgn-operator-search.pipeline.cache_version_id
     allow_override = false
   }
 
@@ -160,61 +160,61 @@ resource "azuredevops_build_definition" "io-functions-cgn-operator-search-deploy
 
   variable {
     name           = "UAT_DEPLOY_TYPE"
-    value          = var.hub-spid-login-ms.pipeline.uat.deploy_type
+    value          = var.io-functions-cgn-operator-search.pipeline.uat.deploy_type
     allow_override = false
   }
 
   variable {
     name           = "PROD_DEPLOY_TYPE"
-    value          = var.hub-spid-login-ms.pipeline.prod.deploy_type
+    value          = var.io-functions-cgn-operator-search.pipeline.prod.deploy_type
     allow_override = false
   }
 
   variable {
     name           = "UAT_WEB_APP_NAME"
-    value          = var.hub-spid-login-ms.pipeline.uat.web_app_name
+    value          = var.io-functions-cgn-operator-search.pipeline.uat.web_app_name
     allow_override = false
   }
 
   variable {
     name           = "PROD_WEB_APP_NAME"
-    value          = var.hub-spid-login-ms.pipeline.prod.web_app_name
+    value          = var.io-functions-cgn-operator-search.pipeline.prod.web_app_name
     allow_override = false
   }
 
   variable {
     name           = "UAT_WEB_APP_RESOURCE_GROUP_NAME"
-    value          = var.hub-spid-login-ms.pipeline.uat.web_app_resource_group_name
+    value          = var.io-functions-cgn-operator-search.pipeline.uat.web_app_resource_group_name
     allow_override = false
   }
 
   variable {
     name           = "PROD_WEB_APP_RESOURCE_GROUP_NAME"
-    value          = var.hub-spid-login-ms.pipeline.prod.web_app_resource_group_name
+    value          = var.io-functions-cgn-operator-search.prod.web_app_resource_group_name
     allow_override = false
   }
 
   variable {
     name           = "UAT_HEALTHCHECK_ENDPOINT"
-    value          = var.hub-spid-login-ms.pipeline.uat.healthcheck_endpoint
+    value          = var.io-functions-cgn-operator-search.pipeline.uat.healthcheck_endpoint
     allow_override = false
   }
 
   variable {
     name           = "PROD_HEALTHCHECK_ENDPOINT"
-    value          = var.hub-spid-login-ms.pipeline.prod.healthcheck_endpoint
+    value          = var.io-functions-cgn-operator-search.prod.healthcheck_endpoint
     allow_override = false
   }
 
   variable {
     name           = "UAT_HEALTHCHECK_CONTAINER_RESOURCE_GROUP_NAME"
-    value          = var.hub-spid-login-ms.pipeline.uat.healthcheck_container_resource_group_name
+    value          = var.io-functions-cgn-operator-search.pipeline.uat.healthcheck_container_resource_group_name
     allow_override = false
   }
 
   variable {
     name           = "PROD_HEALTHCHECK_CONTAINER_RESOURCE_GROUP_NAME"
-    value          = var.hub-spid-login-ms.pipeline.prod.healthcheck_container_resource_group_name
+    value          = var.io-functions-cgn-operator-search.pipeline.prod.healthcheck_container_resource_group_name
     allow_override = false
   }
 
@@ -226,7 +226,7 @@ resource "azuredevops_build_definition" "io-functions-cgn-operator-search-deploy
 
   variable {
     name           = "PROD_HEALTHCHECK_CONTAINER_VNET"
-    value          = var.hub-spid-login-ms.pipeline.prod.healthcheck_container_vnet
+    value          = var.io-functions-cgn-operator-search.pipeline.prod.healthcheck_container_vnet
     allow_override = false
   }
 }
