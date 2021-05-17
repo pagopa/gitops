@@ -7,9 +7,23 @@ variable "io-functions-cgn-operator-search" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      cache_version_id               = "v3"
-      production_resource_group_name = ""
-      production_app_name            = ""
+      cache_version_id = "v3"
+      uat = {
+        deploy_type                               = "production_slot" #or staging_slot_and_swap
+        web_app_name                              = "cgnonboardingportal-u-os"
+        web_app_resource_group_name               = "cgnonboardingportal-u-api-rg"
+        healthcheck_endpoint                      = "https://cgnonboardingportal-u-os.azurewebsites.net/info"
+        healthcheck_container_resource_group_name = "cgnonboardingportal-u-vnet-rg"
+        healthcheck_container_vnet                = "cgnonboardingportal-u-vnet"
+      }
+      prod = {
+        deploy_type                               = "production_slot" #or staging_slot_and_swap
+        web_app_name                              = "cgnonboardingportal-p-os"
+        web_app_resource_group_name               = "cgnonboardingportal-p-api-rg"
+        healthcheck_endpoint                      = "https://cgnonboardingportal-p-os.azurewebsites.net/info"
+        healthcheck_container_resource_group_name = "cgnonboardingportal-p-vnet-rg"
+        healthcheck_container_vnet                = "cgnonboardingportal-p-vnet"
+      }
     }
   }
 }
@@ -103,6 +117,12 @@ resource "azuredevops_build_definition" "io-functions-cgn-operator-search-deploy
   }
 
   variable {
+    name           = "DEFAULT_BRANCH"
+    value          = var.hub-spid-login-ms.repository.branch_name
+    allow_override = false
+  }
+
+  variable {
     name           = "GIT_EMAIL"
     value          = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
     allow_override = false
@@ -122,25 +142,91 @@ resource "azuredevops_build_definition" "io-functions-cgn-operator-search-deploy
 
   variable {
     name           = "CACHE_VERSION_ID"
-    value          = var.io-functions-cgn-operator-search.pipeline.cache_version_id
+    value          = var.hub-spid-login-ms.pipeline.cache_version_id
     allow_override = false
   }
 
   variable {
-    name           = "PRODUCTION_AZURE_SUBSCRIPTION"
+    name           = "UAT_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL.service_endpoint_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_AZURE_SUBSCRIPTION"
     value          = azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL.service_endpoint_name
     allow_override = false
   }
 
   variable {
-    name           = "PRODUCTION_APP_NAME"
-    value          = var.io-functions-cgn-operator-search.pipeline.production_app_name
+    name           = "UAT_DEPLOY_TYPE"
+    value          = var.hub-spid-login-ms.pipeline.uat.deploy_type
     allow_override = false
   }
 
   variable {
-    name           = "PRODUCTION_RESOURCE_GROUP_NAME"
-    value          = var.io-functions-cgn-operator-search.pipeline.production_resource_group_name
+    name           = "PROD_DEPLOY_TYPE"
+    value          = var.hub-spid-login-ms.pipeline.prod.deploy_type
+    allow_override = false
+  }
+
+  variable {
+    name           = "UAT_WEB_APP_NAME"
+    value          = var.hub-spid-login-ms.pipeline.uat.web_app_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_WEB_APP_NAME"
+    value          = var.hub-spid-login-ms.pipeline.prod.web_app_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "UAT_WEB_APP_RESOURCE_GROUP_NAME"
+    value          = var.hub-spid-login-ms.pipeline.uat.web_app_resource_group_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_WEB_APP_RESOURCE_GROUP_NAME"
+    value          = var.hub-spid-login-ms.pipeline.prod.web_app_resource_group_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "UAT_HEALTHCHECK_ENDPOINT"
+    value          = var.hub-spid-login-ms.pipeline.uat.healthcheck_endpoint
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_HEALTHCHECK_ENDPOINT"
+    value          = var.hub-spid-login-ms.pipeline.prod.healthcheck_endpoint
+    allow_override = false
+  }
+
+  variable {
+    name           = "UAT_HEALTHCHECK_CONTAINER_RESOURCE_GROUP_NAME"
+    value          = var.hub-spid-login-ms.pipeline.uat.healthcheck_container_resource_group_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_HEALTHCHECK_CONTAINER_RESOURCE_GROUP_NAME"
+    value          = var.hub-spid-login-ms.pipeline.prod.healthcheck_container_resource_group_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "UAT_HEALTHCHECK_CONTAINER_VNET"
+    value          = var.hub-spid-login-ms.pipeline.uat.healthcheck_container_vnet
+    allow_override = false
+  }
+
+  variable {
+    name           = "PROD_HEALTHCHECK_CONTAINER_VNET"
+    value          = var.hub-spid-login-ms.pipeline.prod.healthcheck_container_vnet
     allow_override = false
   }
 }
