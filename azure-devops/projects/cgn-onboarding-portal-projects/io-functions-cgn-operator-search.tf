@@ -253,6 +253,17 @@ resource "azuredevops_resource_authorization" "io-functions-cgn-operator-search-
   type          = "endpoint"
 }
 
+# Allow deploy pipeline to access Azure UAT-GCNPORTAL subscription service connection, needed to interact with Azure resources
+resource "azuredevops_resource_authorization" "io-functions-cgn-operator-search-deploy-azurerm-UAT-GCNPORTAL-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL, azuredevops_build_definition.io-functions-cgn-operator-search-deploy, time_sleep.wait]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL.id
+  definition_id = azuredevops_build_definition.io-functions-cgn-operator-search-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
+
 # Allow deploy pipeline to access Azure PROD-GCNPORTAL subscription service connection, needed to interact with Azure resources
 resource "azuredevops_resource_authorization" "io-functions-cgn-operator-search-deploy-azurerm-PROD-GCNPORTAL-auth" {
   depends_on = [azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL, azuredevops_build_definition.io-functions-cgn-operator-search-deploy, time_sleep.wait]
