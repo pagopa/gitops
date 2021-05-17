@@ -118,7 +118,7 @@ resource "azuredevops_build_definition" "io-functions-cgn-operator-search-deploy
 
   variable {
     name           = "DEFAULT_BRANCH"
-    value          = var.hub-spid-login-ms.repository.branch_name
+    value          = var.io-functions-cgn-operator-search.repository.branch_name
     allow_override = false
   }
 
@@ -220,7 +220,7 @@ resource "azuredevops_build_definition" "io-functions-cgn-operator-search-deploy
 
   variable {
     name           = "UAT_HEALTHCHECK_CONTAINER_VNET"
-    value          = var.hub-spid-login-ms.pipeline.uat.healthcheck_container_vnet
+    value          = var.io-functions-cgn-operator-search.pipeline.uat.healthcheck_container_vnet
     allow_override = false
   }
 
