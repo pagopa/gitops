@@ -190,7 +190,7 @@ resource "azuredevops_build_definition" "io-functions-cgn-operator-search-deploy
 
   variable {
     name           = "PROD_WEB_APP_RESOURCE_GROUP_NAME"
-    value          = var.io-functions-cgn-operator-search.prod.web_app_resource_group_name
+    value          = var.io-functions-cgn-operator-search.pipeline.prod.web_app_resource_group_name
     allow_override = false
   }
 
@@ -202,7 +202,7 @@ resource "azuredevops_build_definition" "io-functions-cgn-operator-search-deploy
 
   variable {
     name           = "PROD_HEALTHCHECK_ENDPOINT"
-    value          = var.io-functions-cgn-operator-search.prod.healthcheck_endpoint
+    value          = var.io-functions-cgn-operator-search.pipeline.prod.healthcheck_endpoint
     allow_override = false
   }
 
