@@ -11,6 +11,7 @@ variable "io-italia-it" {
       enable_deploy = true
       # common variables to all pipelines
       variables = {
+        BLOB_CONTAINER_NAME       = "$web"
         DEV_STORAGE_ACCOUNT_NAME  = "NA"
         DEV_PROFILE_CDN_NAME      = "NA"
         DEV_ENDPOINT_NAME         = "NA"
