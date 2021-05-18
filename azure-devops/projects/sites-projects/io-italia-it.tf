@@ -16,9 +16,9 @@ variable "io-italia-it" {
         DEV_PROFILE_CDN_NAME      = "NA"
         DEV_ENDPOINT_NAME         = "NA"
         DEV_RESOURCE_GROUP_NAME   = "NA"
-        PROD_STORAGE_ACCOUNT_NAME = "iopstcdniosite"
+        PROD_STORAGE_ACCOUNT_NAME = "iopstcdniowebsite"
         PROD_PROFILE_CDN_NAME     = "io-p-cdn-common"
-        PROD_ENDPOINT_NAME        = "io-p-cdnendpoint-iosite"
+        PROD_ENDPOINT_NAME        = "io-p-cdnendpoint-iowebsite"
         PROD_RESOURCE_GROUP_NAME  = "io-p-rg-common"
       }
       # common secret variables to all pipelines
