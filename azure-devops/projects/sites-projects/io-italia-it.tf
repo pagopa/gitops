@@ -43,8 +43,6 @@ module "io-italia-it-deploy" {
 
   project_id = azuredevops_project.project.id
   repository = var.io-italia-it.repository
-  # name                         = var.io-italia-it.pipeline.name
-  # path                         = var.io-italia-it.pipeline.path
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   variables = merge(
