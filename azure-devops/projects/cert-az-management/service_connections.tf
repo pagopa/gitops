@@ -97,3 +97,4 @@ resource "azuredevops_serviceendpoint_azurerm" "DEV-IO" {
   azurerm_subscription_name = "DEV-IO"
   azurerm_spn_tenantid      = module.secrets.values["TTDIO-SPN-TENANTID"].value
   azurerm_subscription_id   = module.secrets.values["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value
+}
