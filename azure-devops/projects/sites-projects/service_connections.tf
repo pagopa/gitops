@@ -34,7 +34,6 @@ resource "azuredevops_serviceendpoint_azurerm" "DEV-IO" {
   service_endpoint_name     = "DEV-IO-SERVICE-CONN"
   description               = "DEV-IO Service connection"
   azurerm_subscription_name = "DEV-IO"
-  #TODO: this is going to move to the PagoPA subscription.
   azurerm_spn_tenantid    = module.secrets.values["TTDIO-SPN-TENANTID"].value
   azurerm_subscription_id = module.secrets.values["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value
 }
