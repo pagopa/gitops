@@ -3,7 +3,7 @@ variable "api-hubpa-pagopa-it" {
     repository = {
       organization   = "pagopa"
       name           = "cert-az-management"
-      branch_name    = "main"
+      branch_name    = "master"
       pipelines_path = "."
     }
     pipeline = {
