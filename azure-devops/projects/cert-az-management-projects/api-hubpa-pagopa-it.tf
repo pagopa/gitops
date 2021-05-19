@@ -3,7 +3,7 @@ variable "api-hubpa-pagopa-it" {
     repository = {
       organization   = "pagopa"
       name           = "cert-az-management"
-      branch_name    = "main"
+      branch_name    = "master"
       pipelines_path = "."
     }
     pipeline = {
@@ -19,8 +19,8 @@ variable "api-hubpa-pagopa-it" {
         PRODUCTION_KeyVault         = "hubpa-p-key-vault"
         TEST_AcmeDirectory          = "LE_STAGE"
         TEST_CertificateNames       = "NA"
-        TEST_ResourceGroup          = "hubpa-d-sec-rg"
-        TEST_KeyVault               = "hubpa-d-key-vault"
+        TEST_ResourceGroup          = "NA"
+        TEST_KeyVault               = "NA"
       }
       # common secret variables to all pipelines
       variables_secret = {
@@ -30,15 +30,15 @@ variable "api-hubpa-pagopa-it" {
 }
 
 locals {
-  api-hubpad-pagopa-it-variables = {
+  api-hubpa-pagopa-it-variables = {
     PRODUCTION_AcmeContact        = module.secrets.values["CERT-AZ-MANAGEMENT-MAIL-CONTACT"].value
     PRODUCTION_AZURE_SUBSCRIPTION = azuredevops_serviceendpoint_azurerm.DEV-HUBPA.service_endpoint_name
     PRODUCTION_KeyVaultResourceId = "/subscriptions/${module.secrets.values["PAGOPAIT-PROD-HUBPA-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-hubpa-pagopa-it.pipeline.variables.PRODUCTION_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-hubpa-pagopa-it.pipeline.variables.PRODUCTION_KeyVault}"
     TEST_AcmeContact              = "NA"
     TEST_AZURE_SUBSCRIPTION       = azuredevops_serviceendpoint_azurerm.DEV-HUBPA.service_endpoint_name
-    TEST_KeyVaultResourceId       = "/subscriptions/${module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-hubpa-pagopa-it.pipeline.variables.TEST_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-hubpa-pagopa-it.pipeline.variables.TEST_KeyVault}"
+    TEST_KeyVaultResourceId       = "/subscriptions/${module.secrets.values["PAGOPAIT-PROD-HUBPA-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-hubpa-pagopa-it.pipeline.variables.TEST_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-hubpa-pagopa-it.pipeline.variables.TEST_KeyVault}"
   }
-  api-hubpad-pagopa-it-variables_secret = {
+  api-hubpa-pagopa-it-variables_secret = {
   }
 }
 
