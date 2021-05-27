@@ -47,7 +47,7 @@ locals {
   }
 }
 
-module "io-functions-eucovidcerts-code-review" {
+module "io-functions-eucovidcerts_code_review" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v0.0.3"
   count  = var.io-functions-eucovidcerts.pipeline.enable_code_review == true ? 1 : 0
 
@@ -70,7 +70,7 @@ module "io-functions-eucovidcerts-code-review" {
   ]
 }
 
-module "io-functions-eucovidcerts-deploy" {
+module "io-functions-eucovidcerts_deploy" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v0.0.3"
   count  = var.io-functions-eucovidcerts.pipeline.enable_deploy == true ? 1 : 0
 
