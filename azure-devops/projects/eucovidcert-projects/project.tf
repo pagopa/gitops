@@ -1,9 +1,9 @@
 locals {
-  azure_devops_org = "pagopa-io"
+  azure_devops_org = "pagopaspa"
 }
 
 resource "azuredevops_project" "project" {
-  name               = "eucertcovid-projects"
+  name               = "eucovidcert-projects"
   description        = "This is the DevOps project for all EU Digital Covid Certificate projects"
   visibility         = "public"
   version_control    = "Git"
