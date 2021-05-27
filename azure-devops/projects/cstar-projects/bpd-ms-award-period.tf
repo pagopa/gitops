@@ -45,12 +45,14 @@ locals {
 }
 
 module "bpd-ms-award-period_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v0.0.4"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review_cstar?ref=v0.0.5"
   count  = var.bpd-ms-award-period.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.bpd-ms-award-period.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+
+  pull_request_trigger_use_yaml = true
 
   variables = merge(
     local.bpd-ms-award-period-variables,
@@ -69,12 +71,14 @@ module "bpd-ms-award-period_code_review" {
 }
 
 module "bpd-ms-award-period_deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy_cstar?ref=v0.0.4"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy_cstar?ref=v0.0.5"
   count  = var.bpd-ms-award-period.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.bpd-ms-award-period.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+
+  ci_trigger_use_yaml = true
 
   variables = merge(
     local.bpd-ms-award-period-variables,
