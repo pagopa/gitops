@@ -11,5 +11,7 @@ module "secrets" {
     "PAGOPAIT-DEV-CSTAR-SUBSCRIPTION-ID",
     "PAGOPAIT-UAT-CSTAR-SUBSCRIPTION-ID",
     "PAGOPAIT-PROD-CSTAR-SUBSCRIPTION-ID",
+    "cstar-aks-dev-apiserver-url",
+    "cstar-aks-dev-kubeconfig",
   ]
 }
