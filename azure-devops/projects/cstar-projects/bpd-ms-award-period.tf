@@ -9,7 +9,7 @@ variable "bpd-ms-award-period" {
     }
     pipeline = {
       enable_code_review = true
-      enable_deploy      = false
+      enable_deploy      = true
     }
   }
 }
@@ -45,7 +45,7 @@ locals {
 }
 
 module "bpd-ms-award-period_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v0.0.3"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v0.0.4"
   count  = var.bpd-ms-award-period.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
@@ -69,7 +69,7 @@ module "bpd-ms-award-period_code_review" {
 }
 
 module "bpd-ms-award-period_deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v0.0.3"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy_cstar?ref=v0.0.4"
   count  = var.bpd-ms-award-period.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
