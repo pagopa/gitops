@@ -25,10 +25,10 @@ locals {
   }
   # code_review vars
   template-pipeline-microservice-variables_code_review = {
-    sonarcloud_service_connection = "SONARCLOUD-SERVICE-CONN"
-    sonarcloud_org                = var.template-pipeline-microservice.repository.organization
-    sonarcloud_project_key        = "${var.template-pipeline-microservice.repository.organization}_${var.template-pipeline-microservice.repository.name}"
-    sonarcloud_project_name       = var.template-pipeline-microservice.repository.name
+    sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
+    sonarcloud_org          = var.template-pipeline-microservice.repository.organization
+    sonarcloud_project_key  = "${var.template-pipeline-microservice.repository.organization}_${var.template-pipeline-microservice.repository.name}"
+    sonarcloud_project_name = var.template-pipeline-microservice.repository.name
   }
   # code_review secrets
   template-pipeline-microservice-variables_secret_code_review = {
