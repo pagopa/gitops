@@ -25,10 +25,10 @@ locals {
   }
   # code_review vars
   bpd-commons-variables_code_review = {
-    sonarcloud_service_connection = "SONARCLOUD-SERVICE-CONN"
-    sonarcloud_org                = var.bpd-commons.repository.organization
-    sonarcloud_project_key        = "${var.bpd-commons.repository.organization}_${var.bpd-commons.repository.name}"
-    sonarcloud_project_name       = var.bpd-commons.repository.name
+    sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
+    sonarcloud_org          = var.bpd-commons.repository.organization
+    sonarcloud_project_key  = "${var.bpd-commons.repository.organization}_${var.bpd-commons.repository.name}"
+    sonarcloud_project_name = var.bpd-commons.repository.name
   }
   # code_review secrets
   bpd-commons-variables_secret_code_review = {

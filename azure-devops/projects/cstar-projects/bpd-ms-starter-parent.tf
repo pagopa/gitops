@@ -25,10 +25,10 @@ locals {
   }
   # code_review vars
   bpd-ms-starter-parent-variables_code_review = {
-    sonarcloud_service_connection = "SONARCLOUD-SERVICE-CONN"
-    sonarcloud_org                = var.bpd-ms-starter-parent.repository.organization
-    sonarcloud_project_key        = "${var.bpd-ms-starter-parent.repository.organization}_${var.bpd-ms-starter-parent.repository.name}"
-    sonarcloud_project_name       = var.bpd-ms-starter-parent.repository.name
+    sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
+    sonarcloud_org          = var.bpd-ms-starter-parent.repository.organization
+    sonarcloud_project_key  = "${var.bpd-ms-starter-parent.repository.organization}_${var.bpd-ms-starter-parent.repository.name}"
+    sonarcloud_project_name = var.bpd-ms-starter-parent.repository.name
   }
   # code_review secrets
   bpd-ms-starter-parent-variables_secret_code_review = {

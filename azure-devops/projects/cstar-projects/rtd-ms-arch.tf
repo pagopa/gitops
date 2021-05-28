@@ -25,10 +25,10 @@ locals {
   }
   # code_review vars
   rtd-ms-arch-variables_code_review = {
-    sonarcloud_service_connection = "SONARCLOUD-SERVICE-CONN"
-    sonarcloud_org                = var.rtd-ms-arch.repository.organization
-    sonarcloud_project_key        = "${var.rtd-ms-arch.repository.organization}_${var.rtd-ms-arch.repository.name}"
-    sonarcloud_project_name       = var.rtd-ms-arch.repository.name
+    sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
+    sonarcloud_org          = var.rtd-ms-arch.repository.organization
+    sonarcloud_project_key  = "${var.rtd-ms-arch.repository.organization}_${var.rtd-ms-arch.repository.name}"
+    sonarcloud_project_name = var.rtd-ms-arch.repository.name
   }
   # code_review secrets
   rtd-ms-arch-variables_secret_code_review = {

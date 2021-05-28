@@ -8,8 +8,8 @@ variable "meda-bom" {
       yml_prefix_name = null
     }
     pipeline = {
-      enable_code_review = false
-      enable_deploy      = false
+      enable_code_review = true
+      enable_deploy      = true
     }
   }
 }
@@ -25,10 +25,10 @@ locals {
   }
   # code_review vars
   meda-bom-variables_code_review = {
-    sonarcloud_service_connection = "SONARCLOUD-SERVICE-CONN"
-    sonarcloud_org                = var.meda-bom.repository.organization
-    sonarcloud_project_key        = "${var.meda-bom.repository.organization}_${var.meda-bom.repository.name}"
-    sonarcloud_project_name       = var.meda-bom.repository.name
+    sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
+    sonarcloud_org          = var.meda-bom.repository.organization
+    sonarcloud_project_key  = "${var.meda-bom.repository.organization}_${var.meda-bom.repository.name}"
+    sonarcloud_project_name = var.meda-bom.repository.name
   }
   # code_review secrets
   meda-bom-variables_secret_code_review = {

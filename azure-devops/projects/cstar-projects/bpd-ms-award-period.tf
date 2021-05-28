@@ -25,10 +25,10 @@ locals {
   }
   # code_review vars
   bpd-ms-award-period-variables_code_review = {
-    sonarcloud_service_connection = "SONARCLOUD-SERVICE-CONN"
-    sonarcloud_org                = var.bpd-ms-award-period.repository.organization
-    sonarcloud_project_key        = "${var.bpd-ms-award-period.repository.organization}_${var.bpd-ms-award-period.repository.name}"
-    sonarcloud_project_name       = var.bpd-ms-award-period.repository.name
+    sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
+    sonarcloud_org          = var.bpd-ms-award-period.repository.organization
+    sonarcloud_project_key  = "${var.bpd-ms-award-period.repository.organization}_${var.bpd-ms-award-period.repository.name}"
+    sonarcloud_project_name = var.bpd-ms-award-period.repository.name
   }
   # code_review secrets
   bpd-ms-award-period-variables_secret_code_review = {
