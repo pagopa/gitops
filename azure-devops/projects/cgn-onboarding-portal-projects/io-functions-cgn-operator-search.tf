@@ -11,7 +11,7 @@ variable "io-functions-cgn-operator-search" {
       uat = {
         deploy_type                               = "production_slot" #or staging_slot_and_swap
         web_app_name                              = "cgnonboardingportal-u-os"
-        web_app_resource_group_name               = "cgnonboardingportal-u-api-rg"
+        web_app_resource_group_name               = "cgnonboardingportal-u-search-rg"
         healthcheck_endpoint                      = "https://cgnonboardingportal-u-os.azurewebsites.net/info"
         healthcheck_container_resource_group_name = "cgnonboardingportal-u-vnet-rg"
         healthcheck_container_vnet                = "cgnonboardingportal-u-vnet"
@@ -19,7 +19,7 @@ variable "io-functions-cgn-operator-search" {
       prod = {
         deploy_type                               = "production_slot" #or staging_slot_and_swap
         web_app_name                              = "cgnonboardingportal-p-os"
-        web_app_resource_group_name               = "cgnonboardingportal-p-api-rg"
+        web_app_resource_group_name               = "cgnonboardingportal-p-search-rg"
         healthcheck_endpoint                      = "https://cgnonboardingportal-p-os.azurewebsites.net/info"
         healthcheck_container_resource_group_name = "cgnonboardingportal-p-vnet-rg"
         healthcheck_container_vnet                = "cgnonboardingportal-p-vnet"
