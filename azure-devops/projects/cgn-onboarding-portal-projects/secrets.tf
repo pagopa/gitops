@@ -13,8 +13,6 @@ variable "secrets" {
     "PAGOPAIT-TENANTID",
     "PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID",
     "PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID",
-    "cgnportal-sonarqube-URL",
-    "cgnportal-sonarqube-TOKEN"
   ]
 }
 
