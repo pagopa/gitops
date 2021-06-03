@@ -36,7 +36,15 @@ locals {
   }
   # deploy vars
   bpd-ms-award-period-fork-variables_deploy = {
-
+    k8s_image_repository_name           = replace("bpd-ms-award-period", "-", "")
+    k8s_image_pull_secret_name          = "k8s-acr-pull-secret"
+    deploy_namespace                    = "bpd"
+    settings_xml_rw_secure_file_name    = "settings-rw.xml"
+    settings_xml_ro_secure_file_name    = "settings-ro.xml"
+    dev_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.cstar-azurecr-dev.service_endpoint_name
+    dev_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.cstar-aks-dev.service_endpoint_name
+    dev_container_registry_name         = "cstardacr.azurecr.io"
+    dev_agent_pool                      = "cstar-dev-linux"
   }
   # deploy secrets
   bpd-ms-award-period-fork-variables_secret_deploy = {
