@@ -11,7 +11,7 @@ variable "io-italia-it" {
       enable_deploy = true
       # common variables to all pipelines
       variables = {
-        BLOB_CONTAINER_NAME       = "$web"
+        BLOB_CONTAINER_NAME       = "'$web'"
         DEV_STORAGE_ACCOUNT_NAME  = "NA"
         DEV_PROFILE_CDN_NAME      = "NA"
         DEV_ENDPOINT_NAME         = "NA"
@@ -41,8 +41,8 @@ module "io-italia-it-deploy" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v0.0.3"
   count  = var.io-italia-it.pipeline.enable_deploy == true ? 1 : 0
 
-  project_id = azuredevops_project.project.id
-  repository = var.io-italia-it.repository
+  project_id                   = azuredevops_project.project.id
+  repository                   = var.io-italia-it.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   variables = merge(
