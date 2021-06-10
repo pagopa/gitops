@@ -1,18 +1,15 @@
 # Automatically triggered on PR
-# Only triggers on branches
+# No CI triggers on branches
 pr:
   autoCancel: true
-  branches:
-    exclude:
-      - '*'
-
-trigger:
   branches:
     exclude:
       - main
   paths:
     include:
       - 'azure-devops/*'
+
+trigger: none
 
 parameters:
   - name: 'AZURERM_PROVIDER_CUSTOM_VERSION'
@@ -46,91 +43,116 @@ jobs:
           AZURERM_PROVIDER_CUSTOM_VERSION: '${{ parameters.AZURERM_PROVIDER_CUSTOM_VERSION }}'
           AZURERM_PROVIDER_CUSTOM_RELEASE: '${{ parameters.AZURERM_PROVIDER_CUSTOM_RELEASE }}'
       # 3. Install precommit
-      # 4. Run precommit checks
-      # 5. Run terraform plan
-      - task: AzureCLI@2
-        env:
-          GIT_BRANCH: $(Build.SourceBranchName)
-        displayName: 'Run terraform plans'
+      - task: Bash@3
+        displayName: 'precommit checks'
         inputs:
-          azureSubscription: 'AZURE_SERVICE_CONNECTION'
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
+          targetType: 'inline'
           failOnStandardError: false
           inlineScript: |
-            RED='\033[0;31m'
-            NC='\033[0m' # No Color
-
-            export ARM_CLIENT_ID=$(CLIENT_ID)
-            export ARM_CLIENT_SECRET=$(CLIENT_SECRET)
-            export ARM_SUBSCRIPTION_ID=$(SUBSCRIPTION_ID)
-            export ARM_TENANT_ID=$(TENANT_ID)
-
-            # download terraform providers and modules once.
-            export TF_PLUGIN_CACHE_DIR=~/.terraform.d/plugin-cache/
-            export TERRAGRUNT_DOWNLOAD=~/.terragrunt-cache/
-
-            # task output status code
-            output_status_code=0
-
-            checkerror() {
-              # parameters:
-              # $1: status code of the last command.
-              # $2: terragrunt module path.
-              if [[ $1 -ne 0 ]]; then
-                echo -e "${RED}$2 plan failed${NC}"
-                output_status_code=1
-              fi
-            }
-
+            wget https://raw.githubusercontent.com/pagopa/pre-commit-terraform/master/Dockerfile
+            docker build -t pre-commit .
             base_dir=$(pwd)
-            current_branch=${GIT_BRANCH}
-            echo "Current branch ${current_branch}"
+            main_files=$(find . -name "project.tf")
 
-            # Get new files or changed in the current branch
-            file_changed=$(git diff --diff-filter=AM --name-only origin/master | grep '.hcl\|.xml\|.tmpl')
-
-            for item in ${file_changed}
+            for item in ${main_files}
             do
               cd ${base_dir}
               # get working dir ... where to run the apply.
               wdir=$(dirname $item)
+              echo $wdir
 
-              echo "Processing ${item}"
+              cd $wdir
+              rm .terraform.lock.hcl
+              terraform init
 
-              # do not check config files.
-              if ! [[ ${item} =~ "vars.hcl" ]]; then
-                cd ${wdir}
-                # TODO init command is not required when you use standard providers.
-                terragrunt init
-                terragrunt plan
-
-                # if plan fails and output_status_code is 0
-                # set output_status_code to 1 (error)
-                checkerror $? ${item}
-              fi
-
+              docker run -v $(pwd):/lint -w /lint/$wdir pre-commit run -a
             done
 
-            # get file deleted in the current branch.
-            file_deleted=$(git diff --diff-filter=D --name-only origin/master | grep terragrunt.hcl)
+      # 4. Run precommit checks
+      # 5. Run terraform plan
+      # - task: AzureCLI@2
+      #   env:
+      #     GIT_BRANCH: $(Build.SourceBranchName)
+      #   displayName: 'Run terraform plans'
+      #   inputs:
+      #     azureSubscription: 'AZURE_SERVICE_CONNECTION'
+      #     scriptType: 'bash'
+      #     scriptLocation: 'inlineScript'
+      #     failOnStandardError: false
+      #     inlineScript: |
+      #       RED='\033[0;31m'
+      #       NC='\033[0m' # No Color
 
-            if [ ${#file_deleted} -gt 0 ]; then
-              git fetch
-              git checkout master
-            fi
+      #       export ARM_CLIENT_ID=$(CLIENT_ID)
+      #       export ARM_CLIENT_SECRET=$(CLIENT_SECRET)
+      #       export ARM_SUBSCRIPTION_ID=$(SUBSCRIPTION_ID)
+      #       export ARM_TENANT_ID=$(TENANT_ID)
 
-            for item in ${file_deleted}
-            do
-              cd ${base_dir}
-              wdir=$(dirname $item)
-              echo "Processing ${item}"
+      #       # download terraform providers and modules once.
+      #       export TF_PLUGIN_CACHE_DIR=~/.terraform.d/plugin-cache/
+      #       export TERRAGRUNT_DOWNLOAD=~/.terragrunt-cache/
 
-              cd ${wdir}
-              # TODO init command is not required when you use standard providers.
-              terragrunt init
-              terragrunt plan -destroy
-              checkerror $? ${item}
-            done
+      #       # task output status code
+      #       output_status_code=0
 
-            exit ${output_status_code}
+      #       checkerror() {
+      #         # parameters:
+      #         # $1: status code of the last command.
+      #         # $2: terragrunt module path.
+      #         if [[ $1 -ne 0 ]]; then
+      #           echo -e "${RED}$2 plan failed${NC}"
+      #           output_status_code=1
+      #         fi
+      #       }
+
+      #       base_dir=$(pwd)
+      #       current_branch=${GIT_BRANCH}
+      #       echo "Current branch ${current_branch}"
+
+      #       # Get new files or changed in the current branch
+      #       file_changed=$(git diff --diff-filter=AM --name-only origin/master | grep '.hcl\|.xml\|.tmpl')
+
+      #       for item in ${file_changed}
+      #       do
+      #         cd ${base_dir}
+      #         # get working dir ... where to run the apply.
+      #         wdir=$(dirname $item)
+
+      #         echo "Processing ${item}"
+
+      #         # do not check config files.
+      #         if ! [[ ${item} =~ "vars.hcl" ]]; then
+      #           cd ${wdir}
+      #           # TODO init command is not required when you use standard providers.
+      #           terragrunt init
+      #           terragrunt plan
+
+      #           # if plan fails and output_status_code is 0
+      #           # set output_status_code to 1 (error)
+      #           checkerror $? ${item}
+      #         fi
+
+      #       done
+
+      #       # get file deleted in the current branch.
+      #       file_deleted=$(git diff --diff-filter=D --name-only origin/master | grep terragrunt.hcl)
+
+      #       if [ ${#file_deleted} -gt 0 ]; then
+      #         git fetch
+      #         git checkout master
+      #       fi
+
+      #       for item in ${file_deleted}
+      #       do
+      #         cd ${base_dir}
+      #         wdir=$(dirname $item)
+      #         echo "Processing ${item}"
+
+      #         cd ${wdir}
+      #         # TODO init command is not required when you use standard providers.
+      #         terragrunt init
+      #         terragrunt plan -destroy
+      #         checkerror $? ${item}
+      #       done
+
+      #       exit ${output_status_code}

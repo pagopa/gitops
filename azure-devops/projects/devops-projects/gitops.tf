@@ -9,52 +9,58 @@ variable "gitops" {
     }
     pipeline = {
       enable_code_review = true
-      # common variables to all pipelines
-      variables = {
-      }
-      code_review_variables = {
-      }
     }
   }
 }
 
 locals {
-  # common variables and secrets to all pipelines
+  # global vars
   gitops-variables = {
+
   }
+  # global secrets
   gitops-variables_secret = {
-    # AZDO_ORG_SERVICE_URL       = module.secrets.values["azure-devops-AZDO-ORG-SERVICE-URL"].value
-    # AZDO_PERSONAL_ACCESS_TOKEN = module.secrets.values["azure-devops-AZDO-PERSONAL-ACCESS-TOKEN"].value
+
   }
-  # code review variables and secrets
-  gitops-code_review_variables = {
+  # code_review vars
+  gitops-variables_code_review = {
+
   }
-  gitops-code_review_variables_secrets = {
+  # code_review secrets
+  gitops-variables_secret_code_review = {
+
+  }
+  # deploy vars
+  gitops-variables_deploy = {
+
+  }
+  # deploy secrets
+  gitops-variables_secret_deploy = {
+
   }
 }
 
-module "gitops-code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v0.0.3"
+module "gitops_code_review" {
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review_cstar?ref=v0.0.5"
   count  = var.gitops.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.gitops.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
+  pull_request_trigger_use_yaml = true
+
   variables = merge(
-    var.gitops.pipeline.variables,
-    var.gitops.pipeline.code_review_variables,
     local.gitops-variables,
-    local.gitops-code_review_variables,
+    local.gitops-variables_code_review,
   )
 
   variables_secret = merge(
     local.gitops-variables_secret,
-    local.gitops-code_review_variables_secrets,
+    local.gitops-variables_secret_code_review,
   )
 
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
-    azuredevops_serviceendpoint_azurerm.PROD-IO.id,
   ]
 }

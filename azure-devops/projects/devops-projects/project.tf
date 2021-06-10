@@ -5,7 +5,7 @@ locals {
 resource "azuredevops_project" "project" {
   name               = "devops-projects"
   description        = "This is the DevOps project for all DevOps"
-  visibility         = "private"
+  visibility         = "public"
   version_control    = "Git"
   work_item_template = "Basic"
 }
