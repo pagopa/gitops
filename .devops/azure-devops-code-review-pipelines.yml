@@ -44,7 +44,7 @@ jobs:
           AZURERM_PROVIDER_CUSTOM_RELEASE: '${{ parameters.AZURERM_PROVIDER_CUSTOM_RELEASE }}'
       # 3. Install precommit
       - task: Bash@3
-        displayName: 'precommit checks'
+        displayName: 'precommit checks2'
         inputs:
           targetType: 'inline'
           failOnStandardError: false
