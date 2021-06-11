@@ -1,27 +1,14 @@
-provider "azurerm" {
-  features {}
-}
+module "secrets" {
+  source = "../../modules/secrets/"
 
-variable "secrets" {
-  default = [
-    "DANGER-GITHUB-API-TOKEN",
+  resource_group = "io-p-rg-operations"
+  keyvault_name  = "io-p-kv-azuredevops"
+
+  secrets = [
     "io-azure-devops-github-ro-TOKEN",
-    "io-azure-devops-github-rw-TOKEN",
     "io-azure-devops-github-pr-TOKEN",
-    "io-azure-devops-github-EMAIL",
-    "io-azure-devops-github-USERNAME",
     "PAGOPAIT-TENANTID",
+    "PAGOPAIT-DEV-PAGOPA-SUBSCRIPTION-ID",
     "PAGOPAIT-UAT-PAGOPA-SUBSCRIPTION-ID",
   ]
-}
-
-data "azurerm_key_vault" "keyvault" {
-  name                = "io-p-kv-azuredevops"
-  resource_group_name = "io-p-rg-operations"
-}
-
-data "azurerm_key_vault_secret" "key_vault_secret" {
-  for_each     = toset(var.secrets)
-  name         = each.value
-  key_vault_id = data.azurerm_key_vault.keyvault.id
 }

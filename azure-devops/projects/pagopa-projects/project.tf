@@ -17,7 +17,6 @@ resource "azuredevops_project_features" "project-features" {
     "repositories" = "disabled"
     "pipelines"    = "enabled"
     "testplans"    = "disabled"
-    "artifacts"    = "disabled"
+    "artifacts"    = "enabled"
   }
 }
-
