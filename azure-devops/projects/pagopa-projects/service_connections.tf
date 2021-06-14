@@ -28,7 +28,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
 
 # TODO azure devops terraform provider does not support SonarCloud service endpoint
 locals {
-  azuredevops_serviceendpoint_sonarcloud_id = "1a9c808a-84ca-4d0c-8d5a-1976a1ae685f"
+  azuredevops_serviceendpoint_sonarcloud_id = "NA"
 }
 
 # DEV service connection
@@ -53,17 +53,4 @@ resource "azuredevops_serviceendpoint_azurerm" "UAT-PAGOPA" {
   azurerm_subscription_name = "UAT-PAGOPA"
   azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
   azurerm_subscription_id   = module.secrets.values["PAGOPAIT-UAT-PAGOPA-SUBSCRIPTION-ID"].value
-}
-
-# DEV service connection for azure container registry 
-resource "azuredevops_serviceendpoint_azurecr" "pagopa_mokcec-uat" {
-  depends_on = [azuredevops_project.project]
-
-  project_id                = azuredevops_project.project.id
-  service_endpoint_name     = "pagopa-azurecr-dev"
-  resource_group            = "pagopa-d-aks-rg"
-  azurecr_name              = "pagopadacr"
-  azurecr_subscription_name = "DEV-PAGOPA"
-  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-DEV-PAGOPA-SUBSCRIPTION-ID"].value
 }

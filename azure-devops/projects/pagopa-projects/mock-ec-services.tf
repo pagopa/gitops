@@ -22,13 +22,7 @@ locals {
   mock-ec-services-variables_secret = {
 
   }
-  # code_review vars
-  mock-ec-services-variables_code_review = {
-    sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
-    sonarcloud_org          = var.mock-ec-services.repository.organization
-    sonarcloud_project_key  = "${var.mock-ec-services.repository.organization}_${var.mock-ec-services.repository.name}"
-    sonarcloud_project_name = var.mock-ec-services.repository.name
-  }
+
   # code_review secrets
   mock-ec-services-variables_secret_code_review = {
 
@@ -44,14 +38,12 @@ locals {
 }
 
 module "mock-ec-services_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review_cstar?ref=v0.0.5"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v0.0.5"
   count  = var.mock-ec-services.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.mock-ec-services.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
-
-  pull_request_trigger_use_yaml = true
 
   variables = merge(
     local.mock-ec-services-variables,
@@ -70,14 +62,12 @@ module "mock-ec-services_code_review" {
 }
 
 module "mock-ec-services_deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy_cstar?ref=v0.0.5"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v0.0.5"
   count  = var.mock-ec-services.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.mock-ec-services.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
-
-  ci_trigger_use_yaml = true
 
   variables = merge(
     local.mock-ec-services-variables,
@@ -93,7 +83,5 @@ module "mock-ec-services_deploy" {
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.id,
     azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.id,
-    azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev.id,
-    azuredevops_serviceendpoint_kubernetes.pagopa-aks-dev.id,
   ]
 }

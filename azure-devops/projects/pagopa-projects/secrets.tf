@@ -1,8 +1,8 @@
 module "secrets" {
-  source = "../../modules/secrets/"
+  source = "git::https://github.com/pagopa/azurerm.git//key_vault_secrets_query?ref=main"
 
   resource_group = "io-p-rg-operations"
-  keyvault_name  = "io-p-kv-azuredevops"
+  key_vault_name = "io-p-kv-azuredevops"
 
   secrets = [
     "io-azure-devops-github-ro-TOKEN",
