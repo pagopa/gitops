@@ -49,8 +49,12 @@ jobs:
           targetType: 'inline'
           failOnStandardError: false
           inlineScript: |
-            wget https://raw.githubusercontent.com/pagopa/pre-commit-terraform/master/Dockerfile
-            docker build -t pre-commit .
+            # wget https://raw.githubusercontent.com/pagopa/pre-commit-terraform/master/Dockerfile
+            # docker build -t pre-commit .
+
+            TERRAFORM_VERSION="$(cat .terraform-version)"
+            echo $ACR_PASSWORD | docker login commoncacr.azurecr.io --username $ACR_USER --password-stdin
+
             base_dir=$(pwd)
             main_files=$(find . -name "project.tf")
 
@@ -65,5 +69,5 @@ jobs:
               rm .terraform.lock.hcl
               terraform init
 
-              docker run -v $(pwd):/lint -w /lint/$wdir pre-commit run -a
+              docker run -v $(pwd):/lint -w /lint/$wdir commoncacr.azurecr.io/pre-commit-terraform:$TERRAFORM_VERSION run -a
             done
