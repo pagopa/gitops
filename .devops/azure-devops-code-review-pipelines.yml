@@ -43,31 +43,28 @@ jobs:
           AZURERM_PROVIDER_CUSTOM_VERSION: '${{ parameters.AZURERM_PROVIDER_CUSTOM_VERSION }}'
           AZURERM_PROVIDER_CUSTOM_RELEASE: '${{ parameters.AZURERM_PROVIDER_CUSTOM_RELEASE }}'
       # 3. Install precommit
-      - task: Bash@3
-        displayName: 'precommit checks'
-        inputs:
-          targetType: 'inline'
-          failOnStandardError: false
-          inlineScript: |
-            # wget https://raw.githubusercontent.com/pagopa/pre-commit-terraform/master/Dockerfile
-            # docker build -t pre-commit .
+      - displayName: 'precommit checks'
+        failOnStandardError: false
+        script: |
+          # wget https://raw.githubusercontent.com/pagopa/pre-commit-terraform/master/Dockerfile
+          # docker build -t pre-commit .
 
-            TERRAFORM_VERSION="$(cat .terraform-version)"
-            echo $ACR_PASSWORD | docker login commoncacr.azurecr.io --username $ACR_USER --password-stdin
+          TERRAFORM_VERSION="$(cat .terraform-version)"
+          echo $ACR_PASSWORD | docker login commoncacr.azurecr.io --username $ACR_USER --password-stdin
 
-            base_dir=$(pwd)
-            main_files=$(find . -name "project.tf")
+          base_dir=$(pwd)
+          main_files=$(find . -name "project.tf")
 
-            for item in ${main_files}
-            do
-              cd ${base_dir}
-              # get working dir ... where to run the apply.
-              wdir=$(dirname $item)
-              echo $wdir
+          for item in ${main_files}
+          do
+            cd ${base_dir}
+            # get working dir ... where to run the apply.
+            wdir=$(dirname $item)
+            echo $wdir
 
-              cd $wdir
-              rm .terraform.lock.hcl
-              terraform init
+            cd $wdir
+            rm .terraform.lock.hcl
+            terraform init
 
-              docker run -v $(pwd):/lint -w /lint/$wdir commoncacr.azurecr.io/pre-commit-terraform:$TERRAFORM_VERSION run -a
-            done
+            docker run -v $(pwd):/lint -w /lint/$wdir commoncacr.azurecr.io/pre-commit-terraform:$TERRAFORM_VERSION run -a
+          done
