@@ -43,9 +43,7 @@ jobs:
           AZURERM_PROVIDER_CUSTOM_VERSION: '${{ parameters.AZURERM_PROVIDER_CUSTOM_VERSION }}'
           AZURERM_PROVIDER_CUSTOM_RELEASE: '${{ parameters.AZURERM_PROVIDER_CUSTOM_RELEASE }}'
       # 3. Install precommit
-      - displayName: 'precommit checks'
-        failOnStandardError: false
-        script: |
+      - script: |
           # wget https://raw.githubusercontent.com/pagopa/pre-commit-terraform/master/Dockerfile
           # docker build -t pre-commit .
 
@@ -68,3 +66,5 @@ jobs:
 
             docker run -v $(pwd):/lint -w /lint/$wdir commoncacr.azurecr.io/pre-commit-terraform:$TERRAFORM_VERSION run -a
           done
+        displayName: 'precommit checks'
+        failOnStderr: false
