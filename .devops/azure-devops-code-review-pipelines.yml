@@ -48,7 +48,7 @@ jobs:
           # docker build -t pre-commit .
 
           TERRAFORM_VERSION="$(cat .terraform-version)"
-          echo $ACR_PASSWORD | docker login commoncacr.azurecr.io --username $ACR_USER --password-stdin
+          docker login commoncacr.azurecr.io --username $ACR_USER --password $ACR_PASSWORD
 
           base_dir=$(pwd)
           main_files=$(find . -name "project.tf")
