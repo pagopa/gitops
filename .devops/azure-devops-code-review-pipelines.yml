@@ -61,7 +61,7 @@ jobs:
             echo $wdir
 
             cd $wdir
-            rm .terraform.lock.hcl
+            rm -rf .terraform.lock.hcl
             terraform init
 
             docker run -v $(pwd):/lint -w /lint/$wdir commoncacr.azurecr.io/pre-commit-terraform:$TERRAFORM_VERSION run -a
