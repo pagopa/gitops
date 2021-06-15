@@ -28,7 +28,8 @@ locals {
   }
   # code_review secrets
   gitops-variables_secret_code_review = {
-
+    acr_user     = module.secrets.values["acr-common-service-principal-pull-user"].value
+    acr_password = module.secrets.values["acr-common-service-principal-pull-password"].value
   }
   # deploy vars
   gitops-variables_deploy = {
@@ -64,5 +65,3 @@ module "gitops_code_review" {
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
   ]
 }
-
-
