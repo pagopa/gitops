@@ -92,5 +92,6 @@ resource "azuredevops_serviceendpoint_kubernetes" "cstar-aks-dev" {
   kubeconfig {
     kube_config            = base64decode(module.secrets.values["cstar-aks-dev-kubeconfig"].value)
     accept_untrusted_certs = false
+    cluster_context        = "cstar-d-aks"
   }
 }
