@@ -1,8 +1,8 @@
-variable "bpd-ms-award-period-fork" {
+variable "bpd-ms-payment-instrument" {
   default = {
     repository = {
       organization    = "pagopa"
-      name            = "bpd-ms-award-period-fork"
+      name            = "bpd-ms-payment-instrument"
       branch_name     = "master"
       pipelines_path  = ".devops"
       yml_prefix_name = null
@@ -16,27 +16,27 @@ variable "bpd-ms-award-period-fork" {
 
 locals {
   # global vars
-  bpd-ms-award-period-fork-variables = {
+  bpd-ms-payment-instrument-variables = {
 
   }
   # global secrets
-  bpd-ms-award-period-fork-variables_secret = {
+  bpd-ms-payment-instrument-variables_secret = {
 
   }
   # code_review vars
-  bpd-ms-award-period-fork-variables_code_review = {
+  bpd-ms-payment-instrument-variables_code_review = {
     sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
-    sonarcloud_org          = var.bpd-ms-award-period-fork.repository.organization
-    sonarcloud_project_key  = "${var.bpd-ms-award-period-fork.repository.organization}_${var.bpd-ms-award-period-fork.repository.name}"
-    sonarcloud_project_name = var.bpd-ms-award-period-fork.repository.name
+    sonarcloud_org          = var.bpd-ms-payment-instrument.repository.organization
+    sonarcloud_project_key  = "${var.bpd-ms-payment-instrument.repository.organization}_${var.bpd-ms-payment-instrument.repository.name}"
+    sonarcloud_project_name = var.bpd-ms-payment-instrument.repository.name
   }
   # code_review secrets
-  bpd-ms-award-period-fork-variables_secret_code_review = {
+  bpd-ms-payment-instrument-variables_secret_code_review = {
 
   }
   # deploy vars
-  bpd-ms-award-period-fork-variables_deploy = {
-    k8s_image_repository_name           = replace("bpd-ms-award-period", "-", "")
+  bpd-ms-payment-instrument-variables_deploy = {
+    k8s_image_repository_name           = replace(var.bpd-ms-payment-instrument.repository.name, "-", "")
     k8s_image_pull_secret_name          = "k8s-acr-pull-secret"
     deploy_namespace                    = "bpd"
     settings_xml_rw_secure_file_name    = "settings-rw.xml"
@@ -55,29 +55,29 @@ locals {
     # prod_agent_pool                      = "cstar-prod-linux"
   }
   # deploy secrets
-  bpd-ms-award-period-fork-variables_secret_deploy = {
+  bpd-ms-payment-instrument-variables_secret_deploy = {
 
   }
 }
 
-module "bpd-ms-award-period-fork_code_review" {
+module "bpd-ms-payment-instrument_code_review" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
-  count  = var.bpd-ms-award-period-fork.pipeline.enable_code_review == true ? 1 : 0
+  count  = var.bpd-ms-payment-instrument.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.bpd-ms-award-period-fork.repository
+  repository                   = var.bpd-ms-payment-instrument.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   pull_request_trigger_use_yaml = true
 
   variables = merge(
-    local.bpd-ms-award-period-fork-variables,
-    local.bpd-ms-award-period-fork-variables_code_review,
+    local.bpd-ms-payment-instrument-variables,
+    local.bpd-ms-payment-instrument-variables_code_review,
   )
 
   variables_secret = merge(
-    local.bpd-ms-award-period-fork-variables_secret,
-    local.bpd-ms-award-period-fork-variables_secret_code_review,
+    local.bpd-ms-payment-instrument-variables_secret,
+    local.bpd-ms-payment-instrument-variables_secret_code_review,
   )
 
   service_connection_ids_authorization = [
@@ -86,24 +86,24 @@ module "bpd-ms-award-period-fork_code_review" {
   ]
 }
 
-module "bpd-ms-award-period-fork_deploy" {
+module "bpd-ms-payment-instrument_deploy" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
-  count  = var.bpd-ms-award-period-fork.pipeline.enable_deploy == true ? 1 : 0
+  count  = var.bpd-ms-payment-instrument.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.bpd-ms-award-period-fork.repository
+  repository                   = var.bpd-ms-payment-instrument.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   ci_trigger_use_yaml = true
 
   variables = merge(
-    local.bpd-ms-award-period-fork-variables,
-    local.bpd-ms-award-period-fork-variables_deploy,
+    local.bpd-ms-payment-instrument-variables,
+    local.bpd-ms-payment-instrument-variables_deploy,
   )
 
   variables_secret = merge(
-    local.bpd-ms-award-period-fork-variables_secret,
-    local.bpd-ms-award-period-fork-variables_secret_deploy,
+    local.bpd-ms-payment-instrument-variables_secret,
+    local.bpd-ms-payment-instrument-variables_secret_deploy,
   )
 
   service_connection_ids_authorization = [

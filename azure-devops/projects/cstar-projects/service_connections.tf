@@ -80,6 +80,32 @@ resource "azuredevops_serviceendpoint_azurecr" "cstar-azurecr-dev" {
   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-DEV-CSTAR-SUBSCRIPTION-ID"].value
 }
 
+# # UAT service connection for azure container registry 
+# resource "azuredevops_serviceendpoint_azurecr" "cstar-azurecr-uat" {
+#   depends_on = [azuredevops_project.project]
+
+#   project_id                = azuredevops_project.project.id
+#   service_endpoint_name     = "cstar-azurecr-uat"
+#   resource_group            = "cstar-u-aks-rg"
+#   azurecr_name              = "cstaruacr"
+#   azurecr_subscription_name = "UAT-CSTAR"
+#   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+#   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-UAT-CSTAR-SUBSCRIPTION-ID"].value
+# }
+
+# # PROD service connection for azure container registry 
+# resource "azuredevops_serviceendpoint_azurecr" "cstar-azurecr-prod" {
+#   depends_on = [azuredevops_project.project]
+
+#   project_id                = azuredevops_project.project.id
+#   service_endpoint_name     = "cstar-azurecr-prod"
+#   resource_group            = "cstar-p-aks-rg"
+#   azurecr_name              = "cstarpacr"
+#   azurecr_subscription_name = "PROD-CSTAR"
+#   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+#   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-CSTAR-SUBSCRIPTION-ID"].value
+# }
+
 # DEV service connection for azure kubernetes service
 resource "azuredevops_serviceendpoint_kubernetes" "cstar-aks-dev" {
   depends_on = [azuredevops_project.project]
@@ -95,3 +121,35 @@ resource "azuredevops_serviceendpoint_kubernetes" "cstar-aks-dev" {
     cluster_context        = "cstar-d-aks"
   }
 }
+
+# # UAT service connection for azure kubernetes service
+# resource "azuredevops_serviceendpoint_kubernetes" "cstar-aks-uat" {
+#   depends_on = [azuredevops_project.project]
+
+#   project_id            = azuredevops_project.project.id
+#   service_endpoint_name = "cstar-aks-uat"
+#   apiserver_url         = module.secrets.values["cstar-aks-uat-apiserver-url"].value
+#   authorization_type    = "Kubeconfig"
+
+#   kubeconfig {
+#     kube_config            = base64decode(module.secrets.values["cstar-aks-uat-kubeconfig"].value)
+#     accept_untrusted_certs = false
+#     cluster_context        = "cstar-u-aks"
+#   }
+# }
+
+# # PROD service connection for azure kubernetes service
+# resource "azuredevops_serviceendpoint_kubernetes" "cstar-aks-prod" {
+#   depends_on = [azuredevops_project.project]
+
+#   project_id            = azuredevops_project.project.id
+#   service_endpoint_name = "cstar-aks-prod"
+#   apiserver_url         = module.secrets.values["cstar-aks-prod-apiserver-url"].value
+#   authorization_type    = "Kubeconfig"
+
+#   kubeconfig {
+#     kube_config            = base64decode(module.secrets.values["cstar-aks-prod-kubeconfig"].value)
+#     accept_untrusted_certs = false
+#     cluster_context        = "cstar-p-aks"
+#   }
+# }

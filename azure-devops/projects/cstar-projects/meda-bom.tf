@@ -45,7 +45,7 @@ locals {
 }
 
 module "meda-bom_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review_cstar?ref=v0.0.5"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
   count  = var.meda-bom.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
@@ -71,7 +71,7 @@ module "meda-bom_code_review" {
 }
 
 module "meda-bom_deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy_cstar?ref=v0.0.5"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
   count  = var.meda-bom.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id

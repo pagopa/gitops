@@ -36,7 +36,23 @@ locals {
   }
   # deploy vars
   bpd-ms-award-period-variables_deploy = {
-
+    k8s_image_repository_name           = replace(var.bpd-ms-award-period.repository.name, "-", "")
+    k8s_image_pull_secret_name          = "k8s-acr-pull-secret"
+    deploy_namespace                    = "bpd"
+    settings_xml_rw_secure_file_name    = "settings-rw.xml"
+    settings_xml_ro_secure_file_name    = "settings-ro.xml"
+    dev_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.cstar-azurecr-dev.service_endpoint_name
+    dev_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.cstar-aks-dev.service_endpoint_name
+    dev_container_registry_name         = "cstardacr.azurecr.io"
+    dev_agent_pool                      = "cstar-dev-linux"
+    # uat_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.cstar-azurecr-uat.service_endpoint_name
+    # uat_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.cstar-aks-uat.service_endpoint_name
+    # uat_container_registry_name         = "cstaruacr.azurecr.io"
+    # uat_agent_pool                      = "cstar-uat-linux"
+    # prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.cstar-azurecr-prod.service_endpoint_name
+    # prod_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.cstar-aks-prod.service_endpoint_name
+    # prod_container_registry_name         = "cstarpacr.azurecr.io"
+    # prod_agent_pool                      = "cstar-prod-linux"
   }
   # deploy secrets
   bpd-ms-award-period-variables_secret_deploy = {
@@ -45,7 +61,7 @@ locals {
 }
 
 module "bpd-ms-award-period_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review_cstar?ref=v0.0.5"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
   count  = var.bpd-ms-award-period.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
@@ -71,7 +87,7 @@ module "bpd-ms-award-period_code_review" {
 }
 
 module "bpd-ms-award-period_deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy_cstar?ref=v0.0.5"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
   count  = var.bpd-ms-award-period.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
@@ -97,5 +113,9 @@ module "bpd-ms-award-period_deploy" {
     azuredevops_serviceendpoint_azurerm.PROD-CSTAR.id,
     azuredevops_serviceendpoint_azurecr.cstar-azurecr-dev.id,
     azuredevops_serviceendpoint_kubernetes.cstar-aks-dev.id,
+    # azuredevops_serviceendpoint_azurecr.cstar-azurecr-uat.id,
+    # azuredevops_serviceendpoint_kubernetes.cstar-aks-uat.id,
+    # azuredevops_serviceendpoint_azurecr.cstar-azurecr-prod.id,
+    # azuredevops_serviceendpoint_kubernetes.cstar-aks-prod.id,
   ]
 }
