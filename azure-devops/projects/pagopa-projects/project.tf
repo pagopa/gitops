@@ -3,8 +3,8 @@ locals {
 }
 
 resource "azuredevops_project" "project" {
-  name               = "pagopa-projects"
-  description        = "This is the DevOps project for pagoPa service projects"
+  name               = "pagoPA-projects"
+  description        = "This is the DevOps project for pagoPA service projects"
   visibility         = "public"
   version_control    = "Git"
   work_item_template = "Basic"
@@ -17,6 +17,6 @@ resource "azuredevops_project_features" "project-features" {
     "repositories" = "disabled"
     "pipelines"    = "enabled"
     "testplans"    = "disabled"
-    "artifacts"    = "enabled"
+    "artifacts"    = "disabled"
   }
 }
