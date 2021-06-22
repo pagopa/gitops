@@ -46,6 +46,8 @@ export AZDO_ORG_SERVICE_URL="https://dev.azure.com/pagopa-io"
 export AZDO_PERSONAL_ACCESS_TOKEN="__YOUR_PERSONAL_ACCESS_TOKEN__"
 ```
 
+AZDO_ORG_SERVICE_URL can be with `pagopa-io` or the new `pagopaspa`
+
 ## How to
 
 Create a new project or a pipeline into appropriate directory.
@@ -85,36 +87,4 @@ terraform init
 terraform plan
 
 terraform apply
-```
-
-## Custom provider
-
-Actually we use a custom azuredevops terraform provider until these pr will be relaesed:
-
-1. npm service endpoints [#microsoft/terraform-provider-azuredevops/335](https://github.com/microsoft/terraform-provider-azuredevops/pull/335)
-
-Current custom azuredevops provider version: **v0.1.3-beta.1**
-
-### How to install custom provider
-
-1. Download custom azuredevops provider from [#pagopa/terraform-provider-azuredevops](https://github.com/pagopa/terraform-provider-azuredevops/releases)
-2. Copy it on your plugin version dir `"${HOME}/.terraform.d/plugin-cache/registry.terraform.io/microsoft/azuredevops"`
-3. in `azure-devops/projects` and delete all `.terraform` folder and `.terraform.lock.hcl files`
-4. `terraform init --upgrade`
-
-```sh
-# install custom azuredevops terraform provider
-VERSION="0.1.3"
-CUSTOM_VERSION="0.1.3-beta.1"
-OS="darwin" #or linux
-OS_ARCH="amd64" #or 386, arm, arm64...
-
-wget "https://github.com/pagopa/terraform-provider-azuredevops/releases/download/v${CUSTOM_VERSION}/terraform-provider-azuredevops_${CUSTOM_VERSION}_${OS}_${OS_ARCH}.zip"
-unzip "terraform-provider-azuredevops_${CUSTOM_VERSION}_${OS}_${OS_ARCH}.zip"
-rm "terraform-provider-azuredevops_${CUSTOM_VERSION}_${OS}_${OS_ARCH}.zip"
-mkdir -p "${HOME}/.terraform.d/plugin-cache/registry.terraform.io/microsoft/azuredevops/${VERSION}/${OS}_${OS_ARCH}"
-mv "terraform-provider-azuredevops_v${CUSTOM_VERSION}" "${HOME}/.terraform.d/plugin-cache/registry.terraform.io/microsoft/azuredevops/${VERSION}/${OS}_${OS_ARCH}/terraform-provider-azuredevops_v${VERSION}"
-
-# in azure-devops/projects and delete all .terraform folder and .terraform.lock.hcl files
-terraform init --upgrade
 ```
