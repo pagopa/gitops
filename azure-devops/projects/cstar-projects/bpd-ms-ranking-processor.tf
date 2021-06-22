@@ -1,8 +1,8 @@
-variable "bpd-ms-award-period" {
+variable "bpd-ms-ranking-processor" {
   default = {
     repository = {
       organization    = "pagopa"
-      name            = "bpd-ms-award-period"
+      name            = "bpd-ms-ranking-processor"
       branch_name     = "master"
       pipelines_path  = ".devops"
       yml_prefix_name = null
@@ -16,27 +16,27 @@ variable "bpd-ms-award-period" {
 
 locals {
   # global vars
-  bpd-ms-award-period-variables = {
+  bpd-ms-ranking-processor-variables = {
 
   }
   # global secrets
-  bpd-ms-award-period-variables_secret = {
+  bpd-ms-ranking-processor-variables_secret = {
 
   }
   # code_review vars
-  bpd-ms-award-period-variables_code_review = {
+  bpd-ms-ranking-processor-variables_code_review = {
     sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
-    sonarcloud_org          = var.bpd-ms-award-period.repository.organization
-    sonarcloud_project_key  = "${var.bpd-ms-award-period.repository.organization}_${var.bpd-ms-award-period.repository.name}"
-    sonarcloud_project_name = var.bpd-ms-award-period.repository.name
+    sonarcloud_org          = var.bpd-ms-ranking-processor.repository.organization
+    sonarcloud_project_key  = "${var.bpd-ms-ranking-processor.repository.organization}_${var.bpd-ms-ranking-processor.repository.name}"
+    sonarcloud_project_name = var.bpd-ms-ranking-processor.repository.name
   }
   # code_review secrets
-  bpd-ms-award-period-variables_secret_code_review = {
+  bpd-ms-ranking-processor-variables_secret_code_review = {
 
   }
   # deploy vars
-  bpd-ms-award-period-variables_deploy = {
-    k8s_image_repository_name           = replace(var.bpd-ms-award-period.repository.name, "-", "")
+  bpd-ms-ranking-processor-variables_deploy = {
+    k8s_image_repository_name           = replace(var.bpd-ms-ranking-processor.repository.name, "-", "")
     deploy_namespace                    = "bpd"
     settings_xml_rw_secure_file_name    = "settings-rw.xml"
     settings_xml_ro_secure_file_name    = "settings-ro.xml"
@@ -54,29 +54,29 @@ locals {
     # prod_agent_pool                      = "cstar-prod-linux"
   }
   # deploy secrets
-  bpd-ms-award-period-variables_secret_deploy = {
+  bpd-ms-ranking-processor-variables_secret_deploy = {
 
   }
 }
 
-module "bpd-ms-award-period_code_review" {
+module "bpd-ms-ranking-processor_code_review" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
-  count  = var.bpd-ms-award-period.pipeline.enable_code_review == true ? 1 : 0
+  count  = var.bpd-ms-ranking-processor.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.bpd-ms-award-period.repository
+  repository                   = var.bpd-ms-ranking-processor.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   pull_request_trigger_use_yaml = true
 
   variables = merge(
-    local.bpd-ms-award-period-variables,
-    local.bpd-ms-award-period-variables_code_review,
+    local.bpd-ms-ranking-processor-variables,
+    local.bpd-ms-ranking-processor-variables_code_review,
   )
 
   variables_secret = merge(
-    local.bpd-ms-award-period-variables_secret,
-    local.bpd-ms-award-period-variables_secret_code_review,
+    local.bpd-ms-ranking-processor-variables_secret,
+    local.bpd-ms-ranking-processor-variables_secret_code_review,
   )
 
   service_connection_ids_authorization = [
@@ -85,24 +85,24 @@ module "bpd-ms-award-period_code_review" {
   ]
 }
 
-module "bpd-ms-award-period_deploy" {
+module "bpd-ms-ranking-processor_deploy" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
-  count  = var.bpd-ms-award-period.pipeline.enable_deploy == true ? 1 : 0
+  count  = var.bpd-ms-ranking-processor.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.bpd-ms-award-period.repository
+  repository                   = var.bpd-ms-ranking-processor.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   ci_trigger_use_yaml = true
 
   variables = merge(
-    local.bpd-ms-award-period-variables,
-    local.bpd-ms-award-period-variables_deploy,
+    local.bpd-ms-ranking-processor-variables,
+    local.bpd-ms-ranking-processor-variables_deploy,
   )
 
   variables_secret = merge(
-    local.bpd-ms-award-period-variables_secret,
-    local.bpd-ms-award-period-variables_secret_deploy,
+    local.bpd-ms-ranking-processor-variables_secret,
+    local.bpd-ms-ranking-processor-variables_secret_deploy,
   )
 
   service_connection_ids_authorization = [
