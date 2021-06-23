@@ -26,6 +26,20 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
   }
 }
 
+# Github service connection (read-write)
+resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-rw" {
+  depends_on = [azuredevops_project.project]
+
+  project_id            = azuredevops_project.project.id
+  service_endpoint_name = "io-azure-devops-github-rw"
+  auth_personal {
+    personal_access_token = module.secrets.values["io-azure-devops-github-rw-TOKEN"].value
+  }
+  lifecycle {
+    ignore_changes = [description, authorization]
+  }
+}
+
 # TODO azure devops terraform provider does not support SonarCloud service endpoint
 locals {
   azuredevops_serviceendpoint_sonarcloud_id = "NA"
