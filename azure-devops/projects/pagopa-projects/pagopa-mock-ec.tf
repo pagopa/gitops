@@ -26,11 +26,11 @@ locals {
   }
   # code_review vars
   pagopa-mock-ec-variables_code_review = {
-
+    danger_github_api_token = "skip"
   }
   # code_review secrets
   pagopa-mock-ec-variables_secret_code_review = {
-    danger_github_api_token = "skip"
+
   }
   # deploy vars
   pagopa-mock-ec-variables_deploy = {
