@@ -30,7 +30,7 @@ locals {
   }
   # code_review secrets
   pagopa-mock-ec-variables_secret_code_review = {
-    danger_github_api_token = module.secrets.values["DANGER-GITHUB-API-TOKEN"].value
+    danger_github_api_token = "skip"
   }
   # deploy vars
   pagopa-mock-ec-variables_deploy = {
