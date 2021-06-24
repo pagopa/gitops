@@ -36,7 +36,7 @@ locals {
   }
   # deploy vars
   bpd-io-backend-test-variables_deploy = {
-    k8s_image_repository_name           = replace(var.bpd-ms-award-period.repository.name, "-", "")
+    k8s_image_repository_name           = "cstariobackendtest"
     deploy_namespace                    = "bpd"
     settings_xml_rw_secure_file_name    = "settings-rw.xml"
     settings_xml_ro_secure_file_name    = "settings-ro.xml"
