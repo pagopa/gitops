@@ -17,7 +17,7 @@ variable "bpd-ms-winning-transaction" {
 locals {
   # global vars
   bpd-ms-winning-transaction-variables = {
-
+    dockerfile = "DockerfileV1"
   }
   # global secrets
   bpd-ms-winning-transaction-variables_secret = {

@@ -17,7 +17,7 @@ variable "bpd-ms-consap-csv-connector" {
 locals {
   # global vars
   bpd-ms-consap-csv-connector-variables = {
-
+    dockerfile = "DockerfileV1"
   }
   # global secrets
   bpd-ms-consap-csv-connector-variables_secret = {

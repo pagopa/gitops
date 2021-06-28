@@ -17,7 +17,7 @@ variable "bpd-ms-payment-instrument" {
 locals {
   # global vars
   bpd-ms-payment-instrument-variables = {
-
+    dockerfile = "DockerfileV1"
   }
   # global secrets
   bpd-ms-payment-instrument-variables_secret = {
