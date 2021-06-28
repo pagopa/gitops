@@ -17,7 +17,7 @@ variable "bpd-io-backend-test" {
 locals {
   # global vars
   bpd-io-backend-test-variables = {
-
+    dockerfile = "DockerfileV1"
   }
   # global secrets
   bpd-io-backend-test-variables_secret = {

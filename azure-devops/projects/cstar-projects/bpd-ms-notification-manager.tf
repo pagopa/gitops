@@ -17,7 +17,7 @@ variable "bpd-ms-notification-manager" {
 locals {
   # global vars
   bpd-ms-notification-manager-variables = {
-
+    dockerfile = "DockerfileV1"
   }
   # global secrets
   bpd-ms-notification-manager-variables_secret = {

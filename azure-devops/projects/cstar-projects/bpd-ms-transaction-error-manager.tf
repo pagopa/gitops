@@ -17,7 +17,7 @@ variable "bpd-ms-transaction-error-manager" {
 locals {
   # global vars
   bpd-ms-transaction-error-manager-variables = {
-
+    dockerfile = "DockerfileV1"
   }
   # global secrets
   bpd-ms-transaction-error-manager-variables_secret = {

@@ -17,7 +17,7 @@ variable "bpd-ms-enrollment" {
 locals {
   # global vars
   bpd-ms-enrollment-variables = {
-
+    dockerfile = "DockerfileV1"
   }
   # global secrets
   bpd-ms-enrollment-variables_secret = {

@@ -17,7 +17,7 @@ variable "bpd-ms-award-period" {
 locals {
   # global vars
   bpd-ms-award-period-variables = {
-
+    dockerfile = "DockerfileV1"
   }
   # global secrets
   bpd-ms-award-period-variables_secret = {

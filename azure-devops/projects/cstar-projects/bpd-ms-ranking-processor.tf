@@ -17,7 +17,7 @@ variable "bpd-ms-ranking-processor" {
 locals {
   # global vars
   bpd-ms-ranking-processor-variables = {
-
+    dockerfile = "DockerfileV1"
   }
   # global secrets
   bpd-ms-ranking-processor-variables_secret = {

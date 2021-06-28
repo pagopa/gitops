@@ -17,7 +17,7 @@ variable "bpd-ms-point-processor" {
 locals {
   # global vars
   bpd-ms-point-processor-variables = {
-
+    dockerfile = "DockerfileV1"
   }
   # global secrets
   bpd-ms-point-processor-variables_secret = {

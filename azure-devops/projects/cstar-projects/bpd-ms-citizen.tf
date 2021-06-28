@@ -17,7 +17,7 @@ variable "bpd-ms-citizen" {
 locals {
   # global vars
   bpd-ms-citizen-variables = {
-
+    dockerfile = "DockerfileV1"
   }
   # global secrets
   bpd-ms-citizen-variables_secret = {
