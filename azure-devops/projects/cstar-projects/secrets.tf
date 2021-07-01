@@ -1,8 +1,8 @@
 module "secrets" {
-  source = "../../modules/secrets/"
+  source = "git::https://github.com/pagopa/azurerm.git//key_vault_secrets_query?ref=v1.0.11"
 
   resource_group = "io-p-rg-operations"
-  keyvault_name  = "io-p-kv-azuredevops"
+  key_vault_name = "io-p-kv-azuredevops"
 
   secrets = [
     "io-azure-devops-github-ro-TOKEN",
@@ -11,8 +11,9 @@ module "secrets" {
     "PAGOPAIT-DEV-CSTAR-SUBSCRIPTION-ID",
     "PAGOPAIT-UAT-CSTAR-SUBSCRIPTION-ID",
     "PAGOPAIT-PROD-CSTAR-SUBSCRIPTION-ID",
-    "cstar-aks-dev-apiserver-url",
-    "cstar-aks-dev-kubeconfig",
+    "dev-cstar-aks-apiserver-url",
+    "dev-cstar-aks-azure-devops-sa-token",
+    "dev-cstar-aks-azure-devops-sa-cacrt",
     # "cstar-aks-uat-apiserver-url",
     # "cstar-aks-uat-kubeconfig",
     # "cstar-aks-prod-apiserver-url",
