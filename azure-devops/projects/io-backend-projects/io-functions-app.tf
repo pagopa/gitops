@@ -59,10 +59,10 @@ resource "azuredevops_build_definition" "io-functions-app-code-review" {
 
 # Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
 resource "azuredevops_resource_authorization" "io-functions-app-code-review-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.io-functions-app-code-review, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-app-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.pagopa.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
   definition_id = azuredevops_build_definition.io-functions-app-code-review.id
   authorized    = true
   type          = "endpoint"
@@ -132,10 +132,10 @@ resource "azuredevops_build_definition" "io-functions-app-deploy" {
 
 # Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
 resource "azuredevops_resource_authorization" "io-functions-app-deploy-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.io-functions-app-deploy, azuredevops_project.project]
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-app-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.pagopa.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
   definition_id = azuredevops_build_definition.io-functions-app-deploy.id
   authorized    = true
   type          = "endpoint"
