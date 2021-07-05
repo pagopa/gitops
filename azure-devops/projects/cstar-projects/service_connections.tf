@@ -114,8 +114,9 @@ resource "azuredevops_serviceendpoint_kubernetes" "cstar-aks-dev" {
   apiserver_url         = module.secrets.values["dev-cstar-aks-apiserver-url"].value
   authorization_type    = "ServiceAccount"
   service_account {
-    token   = base64encode(module.secrets.values["dev-cstar-aks-azure-devops-sa-token"].value)
-    ca_cert = base64encode(module.secrets.values["dev-cstar-aks-azure-devops-sa-cacrt"].value)
+    # base64 values
+    token   = module.secrets.values["dev-cstar-aks-azure-devops-sa-token"].value
+    ca_cert = module.secrets.values["dev-cstar-aks-azure-devops-sa-cacrt"].value
   }
 }
 
