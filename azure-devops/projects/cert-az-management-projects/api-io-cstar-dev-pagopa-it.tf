@@ -1,4 +1,4 @@
-variable "api-cstar-dev-pagopa-it" {
+variable "api-io-cstar-dev-pagopa-it" {
   default = {
     repository = {
       organization   = "pagopa"
@@ -9,12 +9,12 @@ variable "api-cstar-dev-pagopa-it" {
     pipeline = {
       enable_cert_az = true
       path           = "cstar"
-      name           = "api.dev.cstar.pagopa.it"
+      name           = "api-io.dev.cstar.pagopa.it"
       # common variables to all pipelines
       variables = {
         DO_RENEW_CERT               = "true"
         PRODUCTION_AcmeDirectory    = "LE_PROD"
-        PRODUCTION_CertificateNames = "api.dev.cstar.pagopa.it"
+        PRODUCTION_CertificateNames = "api-io.dev.cstar.pagopa.it"
         PRODUCTION_ResourceGroup    = "cstar-d-sec-rg"
         PRODUCTION_KeyVault         = "cstar-d-kv"
         TEST_AcmeDirectory          = "LE_STAGE"
@@ -30,36 +30,36 @@ variable "api-cstar-dev-pagopa-it" {
 }
 
 locals {
-  api-cstar-dev-pagopa-it-variables = {
+  api-io-cstar-dev-pagopa-it-variables = {
     PRODUCTION_AcmeContact        = module.secrets.values["CERT-AZ-MANAGEMENT-MAIL-CONTACT"].value
     PRODUCTION_AZURE_SUBSCRIPTION = azuredevops_serviceendpoint_azurerm.DEV-CSTAR.service_endpoint_name
-    PRODUCTION_KeyVaultResourceId = "/subscriptions/${module.secrets.values["PAGOPAIT-DEV-CSTAR-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-cstar-dev-pagopa-it.pipeline.variables.PRODUCTION_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-cstar-dev-pagopa-it.pipeline.variables.PRODUCTION_KeyVault}"
+    PRODUCTION_KeyVaultResourceId = "/subscriptions/${module.secrets.values["PAGOPAIT-DEV-CSTAR-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-io-cstar-dev-pagopa-it.pipeline.variables.PRODUCTION_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-io-cstar-dev-pagopa-it.pipeline.variables.PRODUCTION_KeyVault}"
     TEST_AcmeContact              = "NA"
     TEST_AZURE_SUBSCRIPTION       = azuredevops_serviceendpoint_azurerm.DEV-CSTAR.service_endpoint_name
-    TEST_KeyVaultResourceId       = "/subscriptions/${module.secrets.values["PAGOPAIT-DEV-CSTAR-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-cstar-dev-pagopa-it.pipeline.variables.TEST_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-cstar-dev-pagopa-it.pipeline.variables.TEST_KeyVault}"
+    TEST_KeyVaultResourceId       = "/subscriptions/${module.secrets.values["PAGOPAIT-DEV-CSTAR-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-io-cstar-dev-pagopa-it.pipeline.variables.TEST_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-io-cstar-dev-pagopa-it.pipeline.variables.TEST_KeyVault}"
   }
-  api-cstar-dev-pagopa-it-variables_secret = {
+  api-io-cstar-dev-pagopa-it-variables_secret = {
   }
 }
 
-module "api-cstar-dev-pagopa-it-cert_az" {
+module "api-io-cstar-dev-pagopa-it-cert_az" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_certaz?ref=v0.0.2"
-  count  = var.api-cstar-dev-pagopa-it.pipeline.enable_cert_az == true ? 1 : 0
+  count  = var.api-io-cstar-dev-pagopa-it.pipeline.enable_cert_az == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.api-cstar-dev-pagopa-it.repository
-  name                         = var.api-cstar-dev-pagopa-it.pipeline.name
-  path                         = var.api-cstar-dev-pagopa-it.pipeline.path
+  repository                   = var.api-io-cstar-dev-pagopa-it.repository
+  name                         = var.api-io-cstar-dev-pagopa-it.pipeline.name
+  path                         = var.api-io-cstar-dev-pagopa-it.pipeline.path
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   variables = merge(
-    var.api-cstar-dev-pagopa-it.pipeline.variables,
-    local.api-cstar-dev-pagopa-it-variables,
+    var.api-io-cstar-dev-pagopa-it.pipeline.variables,
+    local.api-io-cstar-dev-pagopa-it-variables,
   )
 
   variables_secret = merge(
-    var.api-cstar-dev-pagopa-it.pipeline.variables_secret,
-    local.api-cstar-dev-pagopa-it-variables_secret,
+    var.api-io-cstar-dev-pagopa-it.pipeline.variables_secret,
+    local.api-io-cstar-dev-pagopa-it-variables_secret,
   )
 
   service_connection_ids_authorization = [
