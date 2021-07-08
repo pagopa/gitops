@@ -14,7 +14,7 @@ variable "api-cstar-dev-pagopa-it" {
       variables = {
         DO_RENEW_CERT               = "true"
         PRODUCTION_AcmeDirectory    = "LE_PROD"
-        PRODUCTION_CertificateNames = "api.dec.cstar.pagopa.it"
+        PRODUCTION_CertificateNames = "api.dev.cstar.pagopa.it"
         PRODUCTION_ResourceGroup    = "cstar-d-sec-rg"
         PRODUCTION_KeyVault         = "cstar-d-kv"
         TEST_AcmeDirectory          = "LE_STAGE"
