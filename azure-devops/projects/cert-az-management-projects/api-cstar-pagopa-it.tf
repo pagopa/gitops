@@ -32,10 +32,10 @@ variable "api-cstar-pagopa-it" {
 locals {
   api-cstar-pagopa-it-variables = {
     PRODUCTION_AcmeContact        = module.secrets.values["CERT-AZ-MANAGEMENT-MAIL-CONTACT"].value
-    PRODUCTION_AZURE_SUBSCRIPTION = azuredevops_serviceendpoint_azurerm.DEV-CSTAR.service_endpoint_name
+    PRODUCTION_AZURE_SUBSCRIPTION = azuredevops_serviceendpoint_azurerm.PROD-CSTAR.service_endpoint_name
     PRODUCTION_KeyVaultResourceId = "/subscriptions/${module.secrets.values["PAGOPAIT-PROD-CSTAR-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-cstar-pagopa-it.pipeline.variables.PRODUCTION_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-cstar-pagopa-it.pipeline.variables.PRODUCTION_KeyVault}"
     TEST_AcmeContact              = "NA"
-    TEST_AZURE_SUBSCRIPTION       = azuredevops_serviceendpoint_azurerm.DEV-CSTAR.service_endpoint_name
+    TEST_AZURE_SUBSCRIPTION       = azuredevops_serviceendpoint_azurerm.PROD-CSTAR.service_endpoint_name
     TEST_KeyVaultResourceId       = "/subscriptions/${module.secrets.values["PAGOPAIT-PROD-CSTAR-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-cstar-pagopa-it.pipeline.variables.TEST_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-cstar-pagopa-it.pipeline.variables.TEST_KeyVault}"
   }
   api-cstar-pagopa-it-variables_secret = {
