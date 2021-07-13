@@ -57,7 +57,7 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-SITECORP" {
 #   project_id                = azuredevops_project.project.id
 #   service_endpoint_name     = "scorp-azurecr-uat"
 #   resource_group            = "scorp-u-aks-rg"
-#   azurecr_name              = "cstaruacr"
+#   azurecr_name              = "scorpuacr"
 #   azurecr_subscription_name = "UAT-SITECORP"
 #   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
 #   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-UAT-SITECORP-SUBSCRIPTION-ID"].value
@@ -70,7 +70,7 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-SITECORP" {
 #   project_id                = azuredevops_project.project.id
 #   service_endpoint_name     = "scorp-azurecr-prod"
 #   resource_group            = "scorp-p-aks-rg"
-#   azurecr_name              = "cstarpacr"
+#   azurecr_name              = "scorppacr"
 #   azurecr_subscription_name = "PROD-SITECORP"
 #   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
 #   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-SITECORP-SUBSCRIPTION-ID"].value
