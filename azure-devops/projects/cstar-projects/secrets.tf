@@ -15,9 +15,11 @@ module "secrets" {
     "dev-cstar-aks-apiserver-url",
     "dev-cstar-aks-azure-devops-sa-token",
     "dev-cstar-aks-azure-devops-sa-cacrt",
-    # "cstar-aks-uat-apiserver-url",
-    # "cstar-aks-uat-kubeconfig",
-    # "cstar-aks-prod-apiserver-url",
-    # "cstar-aks-prod-kubeconfig",
+    "uat-cstar-aks-apiserver-url",
+    "uat-cstar-aks-azure-devops-sa-token",
+    "uat-cstar-aks-azure-devops-sa-cacrt",
+    "prod-cstar-aks-apiserver-url",
+    "prod-cstar-aks-azure-devops-sa-token",
+    "prod-cstar-aks-azure-devops-sa-cacrt",
   ]
 }
