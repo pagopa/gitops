@@ -11,6 +11,7 @@ module "secrets" {
     "PAGOPAIT-DEV-CSTAR-SUBSCRIPTION-ID",
     "PAGOPAIT-UAT-CSTAR-SUBSCRIPTION-ID",
     "PAGOPAIT-PROD-CSTAR-SUBSCRIPTION-ID",
+    "CERT-AZ-MANAGEMENT-MAIL-CONTACT",
     "dev-cstar-aks-apiserver-url",
     "dev-cstar-aks-azure-devops-sa-token",
     "dev-cstar-aks-azure-devops-sa-cacrt",
