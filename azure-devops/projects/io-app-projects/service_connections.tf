@@ -1,5 +1,3 @@
-# Azure service connection PROD-IO
-
 # Github service connection (read-only)
 resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-ro" {
   depends_on = [azuredevops_project.project]
