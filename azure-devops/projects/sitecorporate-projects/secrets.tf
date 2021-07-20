@@ -10,5 +10,9 @@ module "secrets" {
     "PAGOPAIT-TENANTID",
     "PAGOPAIT-UAT-SITECORP-SUBSCRIPTION-ID",
     "PAGOPAIT-PROD-SITECORP-SUBSCRIPTION-ID",
+    "sitecorp-p-backend-base-url",
+    "sitecorp-p-frontend-password",
+    "sitecorp-u-backend-base-url",
+    "sitecorp-u-frontend-password",
   ]
 }
