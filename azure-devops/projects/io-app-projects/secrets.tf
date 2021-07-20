@@ -1,5 +1,4 @@
 module "secrets" {
-```suggestion
   source = "git::https://github.com/pagopa/azurerm.git//key_vault_secrets_query?ref=v1.0.11"
 
   resource_group = "io-p-rg-operations"
