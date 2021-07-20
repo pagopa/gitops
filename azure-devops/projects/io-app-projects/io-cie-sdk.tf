@@ -2,7 +2,7 @@ variable "io-cie-sdk" {
   default = {
     repository = {
       organization    = "pagopa"
-      name            = "io-app"
+      name            = "io-cie-sdk"
       branch_name     = "master"
       pipelines_path  = ".devops"
       yml_prefix_name = null
