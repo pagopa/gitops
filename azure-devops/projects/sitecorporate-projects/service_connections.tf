@@ -56,22 +56,22 @@ resource "azuredevops_serviceendpoint_azurecr" "scorp-azurecr-uat" {
 
   project_id                = azuredevops_project.project.id
   service_endpoint_name     = "scorp-azurecr-uat"
-  resource_group            = "sitecorp-u-cms-rg"
-  azurecr_name              = "sitecorpuarc"
+  resource_group            = "scorp-u-cms-rg"
+  azurecr_name              = "scorpuarc"
   azurecr_subscription_name = "UAT-SITECORP"
   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-UAT-SITECORP-SUBSCRIPTION-ID"].value
 }
 
-# PROD service connection for azure container registry 
-resource "azuredevops_serviceendpoint_azurecr" "scorp-azurecr-prod" {
-  depends_on = [azuredevops_project.project]
+# # PROD service connection for azure container registry 
+# resource "azuredevops_serviceendpoint_azurecr" "scorp-azurecr-prod" {
+#   depends_on = [azuredevops_project.project]
 
-  project_id                = azuredevops_project.project.id
-  service_endpoint_name     = "scorp-azurecr-prod"
-  resource_group            = "sitecorp-p-cms-rg"
-  azurecr_name              = "sitecorpparc"
-  azurecr_subscription_name = "PROD-SITECORP"
-  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-SITECORP-SUBSCRIPTION-ID"].value
-}
+#   project_id                = azuredevops_project.project.id
+#   service_endpoint_name     = "scorp-azurecr-prod"
+#   resource_group            = "scorp-p-cms-rg"
+#   azurecr_name              = "scorpparc"
+#   azurecr_subscription_name = "PROD-SITECORP"
+#   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+#   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-SITECORP-SUBSCRIPTION-ID"].value
+# }
