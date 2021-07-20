@@ -89,7 +89,6 @@ module "io-cie-sdk_deploy" {
 
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
-    azuredevops_serviceendpoint_azurerm.PROD-IO.id,
     azuredevops_serviceendpoint_npm.pagopa-npm-bot.id,
   ]
 }

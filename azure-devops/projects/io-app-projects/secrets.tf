@@ -1,8 +1,9 @@
 module "secrets" {
-  source = "../../modules/secrets/"
+```suggestion
+  source = "git::https://github.com/pagopa/azurerm.git//key_vault_secrets_query?ref=v1.0.11"
 
   resource_group = "io-p-rg-operations"
-  keyvault_name  = "io-p-kv-azuredevops"
+  key_vault_name = "io-p-kv-azuredevops"
 
   secrets = [
     "DANGER-GITHUB-API-TOKEN",
@@ -12,8 +13,5 @@ module "secrets" {
     "io-azure-devops-github-EMAIL",
     "io-azure-devops-github-USERNAME",
     "pagopa-npm-bot-TOKEN",
-    "TTDIO-PROD-IO-SUBSCRIPTION-ID",
-    "TTDIO-DEV-IO-SUBSCRIPTION-ID",
-    "TTDIO-SPN-TENANTID",
   ]
 }
