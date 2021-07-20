@@ -133,3 +133,27 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-CSTAR" {
   azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
   azurerm_subscription_id   = module.secrets.values["PAGOPAIT-PROD-CSTAR-SUBSCRIPTION-ID"].value
 }
+
+# SITECORP #
+
+resource "azuredevops_serviceendpoint_azurerm" "UAT-SITECORP" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "UAT-SITECORP-SERVICE-CONN"
+  description               = "UAT-SITECORP Service connection"
+  azurerm_subscription_name = "UAT-SITECORP"
+  azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-UAT-SITECORP-SUBSCRIPTION-ID"].value
+}
+
+resource "azuredevops_serviceendpoint_azurerm" "PROD-SITECORP" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "PROD-SITECORP-SERVICE-CONN"
+  description               = "PROD-SITECORP Service connection"
+  azurerm_subscription_name = "PROD-SITECORP"
+  azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-PROD-SITECORP-SUBSCRIPTION-ID"].value
+}
