@@ -16,7 +16,7 @@ variable "cms-sitecorporate-pagopa-it" {
         PRODUCTION_AcmeDirectory    = "LE_PROD"
         PRODUCTION_CertificateNames = "cms.sitecorporate.pagopa.it"
         PRODUCTION_ResourceGroup    = "scorp-p-sec-rg"
-        PRODUCTION_KeyVault         = "scorp-p-kv"
+        PRODUCTION_KeyVault         = "scorp-p-kv-common"
         TEST_AcmeDirectory          = "LE_STAGE"
         TEST_CertificateNames       = "NA"
         TEST_ResourceGroup          = "NA"

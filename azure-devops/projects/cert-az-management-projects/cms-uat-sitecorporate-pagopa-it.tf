@@ -16,7 +16,7 @@ variable "cms-uat-sitecorporate-pagopa-it" {
         PRODUCTION_AcmeDirectory    = "LE_PROD"
         PRODUCTION_CertificateNames = "cms.uat.sitecorporate.pagopa.it"
         PRODUCTION_ResourceGroup    = "scorp-u-sec-rg"
-        PRODUCTION_KeyVault         = "scorp-u-kv"
+        PRODUCTION_KeyVault         = "scorp-u-kv-common"
         TEST_AcmeDirectory          = "LE_STAGE"
         TEST_CertificateNames       = "NA"
         TEST_ResourceGroup          = "NA"
