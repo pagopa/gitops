@@ -34,11 +34,11 @@ locals {
   corporate-site-be-variables_deploy = {
     uat_image_repository                    = "scorp-backend"
     uat_container_registry                  = "scorpuarc.azurecr.io"
-    uat_webapp_name                         = "scorp-u-app-portal-backend"
+    uat_webapp_name                         = "scorp-u-portal-backend"
     uar_agent_pool                          = "scorp-uat-linux"
     uat_azure_subscription                  = azuredevops_serviceendpoint_azurerm.UAT-SITECORP.service_endpoint_name
     uat_docker_registry_service_connection  = azuredevops_serviceendpoint_azurecr.scorp-azurecr-uat.service_endpoint_name
-    prod_webapp_name                        = "scorp-p-app-portal-backend"
+    prod_webapp_name                        = "scorp-p-portal-backend"
     prod_image_repository                   = "scorp-backend"
     prod_container_registry                 = "scorpparc.azurecr.io"
     prod_agent_pool                         = "scorp-prod-linux"
