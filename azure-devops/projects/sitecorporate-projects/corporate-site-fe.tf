@@ -37,19 +37,19 @@ locals {
     prod_endpoint_name        = "scorp-p-cdnendpoint-frontend"
     prod_resource_group_name  = "scorp-p-public-rg"
     prod_frontend_base_url    = "https://www.pagopa.it"
+    prod_backend_base_url     = "https://cms.sitecorporate.pagopa.it"
     prod_azure_subscription   = azuredevops_serviceendpoint_azurerm.PROD-SITECORP.service_endpoint_name
     uat_storage_account_name  = "scorpusaws"
     uat_profile_cdn_name      = "scorp-u-cdn-common"
     uat_endpoint_name         = "scorp-u-cdnendpoint-frontend"
     uat_resource_group_name   = "scorp-u-public-rg"
     uat_frontend_base_url     = "https://www.uat.sitecorporate.pagopa.it"
+    uat_backend_base_url      = "https://cms.uat.sitecorporate.pagopa.it"
     uat_azure_subscription    = azuredevops_serviceendpoint_azurerm.UAT-SITECORP.service_endpoint_name
   }
   # deploy secrets
   corporate-site-fe-variables_secret_deploy = {
-    uat_backend_base_url   = module.secrets.values["sitecorp-u-backend-base-url"].value
     uat_frontend_password  = module.secrets.values["sitecorp-u-frontend-password"].value
-    prod_backend_base_url  = module.secrets.values["sitecorp-p-backend-base-url"].value
     prod_frontend_password = module.secrets.values["sitecorp-p-frontend-password"].value
   }
 }
