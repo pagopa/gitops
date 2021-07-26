@@ -32,18 +32,18 @@ locals {
   }
   # deploy vars
   corporate-site-fe-variables_deploy = {
-    uat_storage_account_name  = "scorppsaws"
-    uat_profile_cdn_name      = "scorp-p-cdn-common"
-    uat_endpoint_name         = "scorp-p-cdnendpoint-frontend"
-    uat_resource_group_name   = "scorp-p-public-rg"
-    uat_frontend_base_url     = ""
-    uat_azure_subscription    = azuredevops_serviceendpoint_azurerm.UAT-SITECORP.service_endpoint_name
-    prod_storage_account_name = "scorpusaws"
-    prod_profile_cdn_name     = "scorp-u-cdn-common"
-    prod_endpoint_name        = "scorp-u-cdnendpoint-frontend"
-    prod_resource_group_name  = "scorp-u-public-rg"
-    prod_frontend_base_url    = ""
+    prod_storage_account_name = "scorppsaws"
+    prod_profile_cdn_name     = "scorp-p-cdn-common"
+    prod_endpoint_name        = "scorp-p-cdnendpoint-frontend"
+    prod_resource_group_name  = "scorp-p-public-rg"
+    prod_frontend_base_url    = "https://www.pagopa.it"
     prod_azure_subscription   = azuredevops_serviceendpoint_azurerm.PROD-SITECORP.service_endpoint_name
+    uat_storage_account_name  = "scorpusaws"
+    uat_profile_cdn_name      = "scorp-u-cdn-common"
+    uat_endpoint_name         = "scorp-u-cdnendpoint-frontend"
+    uat_resource_group_name   = "scorp-u-public-rg"
+    uat_frontend_base_url     = "https://www.uat.sitecorporate.pagopa.it"
+    uat_azure_subscription    = azuredevops_serviceendpoint_azurerm.UAT-SITECORP.service_endpoint_name
   }
   # deploy secrets
   corporate-site-fe-variables_secret_deploy = {
