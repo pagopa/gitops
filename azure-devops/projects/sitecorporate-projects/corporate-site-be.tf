@@ -34,16 +34,16 @@ locals {
   corporate-site-be-variables_deploy = {
     uat_image_repository                    = "scorp-backend"
     uat_container_registry                  = "scorpuarc.azurecr.io"
-    uat_webapp_name                         = "scorp-u-app-portal-backend"
-    uar_agent_pool                          = "scorp-uat-linux"
+    uat_webapp_name                         = "scorp-u-cms"
+    uat_agent_pool                          = "scorp-uat-linux"
     uat_azure_subscription                  = azuredevops_serviceendpoint_azurerm.UAT-SITECORP.service_endpoint_name
     uat_docker_registry_service_connection  = azuredevops_serviceendpoint_azurecr.scorp-azurecr-uat.service_endpoint_name
-    prod_webapp_name                        = "scorp-p-app-portal-backend"
+    prod_webapp_name                        = "scorp-p-cms"
     prod_image_repository                   = "scorp-backend"
     prod_container_registry                 = "scorpparc.azurecr.io"
     prod_agent_pool                         = "scorp-prod-linux"
     prod_azure_subscription                 = azuredevops_serviceendpoint_azurerm.PROD-SITECORP.service_endpoint_name
-    prod_docker_registry_service_connection = azuredevops_serviceendpoint_azurecr.scorp-azurecr-uat.service_endpoint_name
+    prod_docker_registry_service_connection = azuredevops_serviceendpoint_azurecr.scorp-azurecr-prod.service_endpoint_name
   }
   # deploy secrets
   corporate-site-be-variables_secret_deploy = {
@@ -71,7 +71,7 @@ module "corporate-site-be-deploy" {
 
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
-    # azuredevops_serviceendpoint_azurecr.scorp-azurecr-prod.id,
+    azuredevops_serviceendpoint_azurecr.scorp-azurecr-prod.id,
     azuredevops_serviceendpoint_azurecr.scorp-azurecr-uat.id,
     azuredevops_serviceendpoint_azurerm.PROD-SITECORP.id,
     azuredevops_serviceendpoint_azurerm.UAT-SITECORP.id,
