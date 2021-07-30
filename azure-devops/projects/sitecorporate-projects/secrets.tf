@@ -12,6 +12,7 @@ module "secrets" {
     "PAGOPAIT-PROD-SITECORP-SUBSCRIPTION-ID",
     "sitecorp-p-backend-base-url",
     "sitecorp-p-frontend-password",
+    "sitecorp-p-storage-key",
     "sitecorp-u-backend-base-url",
     "sitecorp-u-frontend-password",
   ]
