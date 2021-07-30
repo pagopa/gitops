@@ -52,6 +52,7 @@ locals {
   # deploy secrets
   corporate-site-fe-variables_secret_deploy = {
     uat_frontend_password  = module.secrets.values["sitecorp-u-frontend-password"].value
+    azure_storage_key      = module.secrets.values["sitecorp-p-storage-key"].value
     prod_frontend_password = module.secrets.values["sitecorp-p-frontend-password"].value
   }
 }
