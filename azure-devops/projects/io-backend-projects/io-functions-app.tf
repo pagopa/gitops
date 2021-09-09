@@ -25,7 +25,6 @@ resource "azuredevops_build_definition" "io-functions-app-code-review" {
   path       = "\\${var.io-functions-app.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-functions-app.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false

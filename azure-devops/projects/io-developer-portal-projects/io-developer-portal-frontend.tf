@@ -40,7 +40,6 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-code-revie
   path       = "\\${var.io-developer-portal-frontend.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-developer-portal-frontend.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false

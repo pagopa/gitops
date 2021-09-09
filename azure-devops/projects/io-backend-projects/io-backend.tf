@@ -25,7 +25,7 @@ resource "azuredevops_build_definition" "io-backend-code-review" {
   path       = "\\${var.io-backend.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-backend.repository.branch_name
+
     forks {
       enabled       = false
       share_secrets = false

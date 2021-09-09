@@ -25,7 +25,6 @@ resource "azuredevops_build_definition" "io-services-metadata" {
   path       = format("\\%s", var.io-services-metadata.repository.name)
 
   pull_request_trigger {
-    initial_branch = var.io-services-metadata.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false

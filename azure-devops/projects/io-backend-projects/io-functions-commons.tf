@@ -25,7 +25,6 @@ resource "azuredevops_build_definition" "io-functions-commons-code-review" {
   path       = "\\${var.io-functions-commons.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-functions-commons.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false

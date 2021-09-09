@@ -25,7 +25,6 @@ resource "azuredevops_build_definition" "io-spid-commons-code-review" {
   path       = "\\${var.io-spid-commons.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-spid-commons.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false

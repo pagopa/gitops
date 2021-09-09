@@ -29,7 +29,6 @@ resource "azuredevops_build_definition" "ts-commons-code-review" {
   path       = "\\${var.ts-commons.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.ts-commons.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false
