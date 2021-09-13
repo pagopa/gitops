@@ -1,166 +1,96 @@
 variable "express-azure-functions" {
   default = {
     repository = {
-      organization   = "pagopa"
-      name           = "express-azure-functions"
-      branch_name    = "master"
-      pipelines_path = ".devops"
+      organization    = "pagopa"
+      name            = "io-functions-express"
+      branch_name     = "master"
+      pipelines_path  = ".devops"
+      yml_prefix_name = null
     }
     pipeline = {
-      cache_version_id = "v3"
+      enable_code_review = true
+      enable_deploy      = true
     }
   }
 }
 
-#
-# Code Review pipeline
-#
-
-# Define code review pipeline
-resource "azuredevops_build_definition" "express-azure-functions-code-review" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
-
-  project_id = azuredevops_project.project.id
-  name       = "${var.express-azure-functions.repository.name}.code-review"
-  path       = "\\${var.express-azure-functions.repository.name}"
-
-  pull_request_trigger {
-    initial_branch = var.express-azure-functions.repository.branch_name
-    forks {
-      enabled       = false
-      share_secrets = false
-    }
-    override {
-      auto_cancel = false
-      branch_filter {
-        include = [var.express-azure-functions.repository.branch_name]
-      }
-      path_filter {
-        exclude = []
-        include = []
-      }
-    }
+locals {
+  # global vars
+  express-azure-functions-variables = {
+    cache_version_id = "v1"
   }
+  # global secrets
+  express-azure-functions-variables_secret = {
 
-  repository {
-    repo_type             = "GitHub"
-    repo_id               = "${var.express-azure-functions.repository.organization}/${var.express-azure-functions.repository.name}"
-    branch_name           = var.express-azure-functions.repository.branch_name
-    yml_path              = "${var.express-azure-functions.repository.pipelines_path}/code-review-pipelines.yml"
-    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   }
+  # code_review vars
+  express-azure-functions-variables_code_review = {
 
-  variable {
-    name           = "DANGER_GITHUB_API_TOKEN"
-    secret_value   = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
-    is_secret      = true
-    allow_override = false
+  }
+  # code_review secrets
+  express-azure-functions-variables_secret_code_review = {
+    danger_github_api_token = module.secrets.values["DANGER-GITHUB-API-TOKEN"].value
+  }
+  # deploy vars
+  express-azure-functions-variables_deploy = {
+    git_mail                       = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    git_username                   = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    github_connection              = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    npm_connection                 = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
+    production_resource_group_name = "io-p-rg-eucovidcert"
+    production_app_name            = "io-p-fn3-eucovidcert"
+    production_azure_subscription  = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
+  }
+  # deploy secrets
+  express-azure-functions-variables_secret_deploy = {
+
   }
 }
 
-# Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
-resource "azuredevops_resource_authorization" "express-azure-functions-code-review-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.express-azure-functions-code-review, azuredevops_project.project]
+module "express-azure-functions_code_review" {
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v0.0.3"
+  count  = var.express-azure-functions.pipeline.enable_code_review == true ? 1 : 0
 
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.pagopa.id
-  definition_id = azuredevops_build_definition.express-azure-functions-code-review.id
-  authorized    = true
-  type          = "endpoint"
+  project_id                   = azuredevops_project.project.id
+  repository                   = var.express-azure-functions.repository
+  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+
+  variables = merge(
+    local.express-azure-functions-variables,
+    local.express-azure-functions-variables_code_review,
+  )
+
+  variables_secret = merge(
+    local.express-azure-functions-variables_secret,
+    local.express-azure-functions-variables_secret_code_review,
+  )
+
+  service_connection_ids_authorization = [
+    azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
+  ]
 }
 
-# Allow code review pipeline to access Github pr service connection, needed to checkout code from the pull request branch
-resource "azuredevops_resource_authorization" "express-azure-functions-code-review-github-pr-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.express-azure-functions-code-review, azuredevops_project.project]
+module "express-azure-functions_deploy" {
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v0.0.3"
+  count  = var.express-azure-functions.pipeline.enable_deploy == true ? 1 : 0
 
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
-  definition_id = azuredevops_build_definition.express-azure-functions-code-review.id
-  authorized    = true
-  type          = "endpoint"
-}
+  project_id                   = azuredevops_project.project.id
+  repository                   = var.express-azure-functions.repository
+  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
 
-#
-# Deploy pipeline
-#
+  variables = merge(
+    local.express-azure-functions-variables,
+    local.express-azure-functions-variables_deploy,
+  )
 
-# Define deploy pipeline
-resource "azuredevops_build_definition" "express-azure-functions-deploy" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
+  variables_secret = merge(
+    local.express-azure-functions-variables_secret,
+    local.express-azure-functions-variables_secret_deploy,
+  )
 
-  project_id = azuredevops_project.project.id
-  name       = "${var.express-azure-functions.repository.name}.deploy"
-  path       = "\\${var.express-azure-functions.repository.name}"
-
-  repository {
-    repo_type             = "GitHub"
-    repo_id               = "${var.express-azure-functions.repository.organization}/${var.express-azure-functions.repository.name}"
-    branch_name           = var.express-azure-functions.repository.branch_name
-    yml_path              = "${var.express-azure-functions.repository.pipelines_path}/deploy-pipelines.yml"
-    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
-  }
-
-  variable {
-    name           = "GIT_EMAIL"
-    value          = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
-    allow_override = false
-  }
-
-  variable {
-    name           = "GIT_USERNAME"
-    value          = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
-    allow_override = false
-  }
-
-  variable {
-    name           = "GITHUB_CONNECTION"
-    value          = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "NPM_CONNECTION"
-    value          = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "CACHE_VERSION_ID"
-    value          = var.express-azure-functions.pipeline.cache_version_id
-    allow_override = false
-  }
-
-}
-
-# Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
-resource "azuredevops_resource_authorization" "express-azure-functions-deploy-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.express-azure-functions-deploy, azuredevops_project.project]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.pagopa.id
-  definition_id = azuredevops_build_definition.express-azure-functions-deploy.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-# Allow deploy pipeline to access Github writable service connection, needed to bump project version and publish a new relase
-resource "azuredevops_resource_authorization" "express-azure-functions-deploy-github-rw-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.express-azure-functions-deploy, azuredevops_project.project]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
-  definition_id = azuredevops_build_definition.express-azure-functions-deploy.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-# Allow deploy pipeline to access NPM service connection, needed to publish sdk packages to the public registry
-resource "azuredevops_resource_authorization" "express-azure-functions-deploy-npm-auth" {
-  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.express-azure-functions-deploy, time_sleep.wait]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_npm.pagopa-npm-bot.id
-  definition_id = azuredevops_build_definition.express-azure-functions-deploy.id
-  authorized    = true
-  type          = "endpoint"
+  service_connection_ids_authorization = [
+    azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
+    azuredevops_serviceendpoint_azurerm.PROD-IO.id,
+    azuredevops_serviceendpoint_npm.pagopa-npm-bot.id,
+  ]
 }
