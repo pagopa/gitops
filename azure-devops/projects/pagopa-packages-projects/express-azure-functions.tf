@@ -37,9 +37,6 @@ locals {
     git_username                   = module.secrets.values["io-azure-devops-github-USERNAME"].value
     github_connection              = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
     npm_connection                 = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
-    production_resource_group_name = "io-p-rg-eucovidcert"
-    production_app_name            = "io-p-fn3-eucovidcert"
-    production_azure_subscription  = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
   }
   # deploy secrets
   express-azure-functions-variables_secret_deploy = {
@@ -90,7 +87,6 @@ module "express-azure-functions_deploy" {
 
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
-    azuredevops_serviceendpoint_azurerm.PROD-IO.id,
     azuredevops_serviceendpoint_npm.pagopa-npm-bot.id,
   ]
 }
