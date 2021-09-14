@@ -33,10 +33,10 @@ locals {
   }
   # deploy vars
   express-azure-functions-variables_deploy = {
-    git_mail                       = module.secrets.values["io-azure-devops-github-EMAIL"].value
-    git_username                   = module.secrets.values["io-azure-devops-github-USERNAME"].value
-    github_connection              = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
-    npm_connection                 = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
+    git_mail          = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    git_username      = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    github_connection = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    npm_connection    = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
   }
   # deploy secrets
   express-azure-functions-variables_secret_deploy = {

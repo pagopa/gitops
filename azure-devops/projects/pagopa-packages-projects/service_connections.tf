@@ -5,7 +5,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-ro" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "io-azure-devops-github-ro"
   auth_personal {
-    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-ro-TOKEN"].value
+    personal_access_token = module.secrets.values["io-azure-devops-github-ro-TOKEN"].value
   }
   lifecycle {
     ignore_changes = [description, authorization]
@@ -19,7 +19,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-rw" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "io-azure-devops-github-rw"
   auth_personal {
-    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-rw-TOKEN"].value
+    personal_access_token = module.secrets.values["io-azure-devops-github-rw-TOKEN"].value
   }
   lifecycle {
     ignore_changes = [description, authorization]
@@ -33,7 +33,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "io-azure-devops-github-pr"
   auth_personal {
-    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-pr-TOKEN"].value
+    personal_access_token = module.secrets.values["io-azure-devops-github-pr-TOKEN"].value
   }
   lifecycle {
     ignore_changes = [description, authorization]
@@ -47,7 +47,7 @@ resource "azuredevops_serviceendpoint_github" "pagopa" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "pagopa"
   auth_personal {
-    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-ro-TOKEN"].value
+    personal_access_token = module.secrets.values["io-azure-devops-github-ro-TOKEN"].value
   }
   lifecycle {
     ignore_changes = [description, authorization]
@@ -61,5 +61,5 @@ resource "azuredevops_serviceendpoint_npm" "pagopa-npm-bot" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "pagopa-npm-bot"
   url                   = "https://registry.npmjs.org"
-  access_token          = data.azurerm_key_vault_secret.key_vault_secret["pagopa-npm-bot-TOKEN"].value
+  access_token          = module.secrets.values["pagopa-npm-bot-TOKEN"].value
 }
