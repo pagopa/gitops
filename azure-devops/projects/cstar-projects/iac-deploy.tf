@@ -17,6 +17,7 @@ variable "iac-builds" {
 locals {
   # global vars
   iac-builds-variables = {
+    tenant_id = var.tenant_id
 
   }
   # global secrets
