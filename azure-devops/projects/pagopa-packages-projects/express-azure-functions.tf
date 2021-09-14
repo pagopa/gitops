@@ -2,7 +2,7 @@ variable "express-azure-functions" {
   default = {
     repository = {
       organization    = "pagopa"
-      name            = "io-functions-express"
+      name            = "azure-functions-express"
       branch_name     = "master"
       pipelines_path  = ".devops"
       yml_prefix_name = null
