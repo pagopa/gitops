@@ -8,7 +8,7 @@ variable "pagopa-payments-tests" {
       yml_prefix_name = null
     }
     pipeline = {
-      enable_api_tests = true
+      enable_code_review = true
     }
   }
 }
@@ -23,18 +23,18 @@ locals {
   pagopa-payments-tests-variables_secret = {
 
   }
-  # api-tests vars
-  pagopa-payments-tests-variables_api_tests = {
+  # code_review vars
+  pagopa-payments-tests-variables_code_review = {
     danger_github_api_token = "skip"
   }
   # api-tests secrets
-  pagopa-payments-tests-variables_secret_api_tests = {
+  pagopa-payments-tests-variables_secret_code_review = {
 
   }
   
-module "pagopa-payments-tests_api_tests" {
+module "pagopa-payments-tests_code_review" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
-  count  = var.pagopa-payments-tests.pipeline.enable_api_tests == true ? 1 : 0
+  count  = var.pagopa-payments-tests.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.pagopa-payments-tests.repository
@@ -42,12 +42,12 @@ module "pagopa-payments-tests_api_tests" {
 
   variables = merge(
     local.pagopa-payments-tests-variables,
-    local.pagopa-payments-tests-variables_api_tests,
+    local.pagopa-payments-tests-variables_code_review,
   )
 
   variables_secret = merge(
     local.pagopa-payments-tests-variables_secret,
-    local.pagopa-payments-tests-variables_secret_api_tests,
+    local.pagopa-payments-tests-variables_secret_code_review,
   )
 
   service_connection_ids_authorization = [
