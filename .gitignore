@@ -32,3 +32,7 @@ override.tf.json
 
 *.DS_Store
 .idea
+
+le_regr.json
+le_private_key.json
+var_secrets.tf

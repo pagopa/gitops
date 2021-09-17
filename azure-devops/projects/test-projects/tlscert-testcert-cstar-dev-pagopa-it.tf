@@ -14,8 +14,9 @@ variable "tlscert-testcert-cstar-dev-pagopa-it" {
       dns_zone_resource_group = "cstar-d-vnet-rg"
       # common variables to all pipelines
       variables = {
-        CERT_EXPIRE_DAYS = "30"
-        KEY_VAULT_NAME   = "cstar-d-kv"
+        CERT_EXPIRE_DAYS         = "30"
+        CERT_NAME_EXPIRE_SECONDS = "2592000" #30 days
+        KEY_VAULT_NAME           = "cstar-d-kv"
       }
       # common secret variables to all pipelines
       variables_secret = {
