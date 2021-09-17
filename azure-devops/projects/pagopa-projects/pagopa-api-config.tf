@@ -2,7 +2,7 @@ variable "pagopa-api-config" {
   default = {
     repository = {
       organization    = "pagopa"
-      name            = "pagopa-mock-ec"
+      name            = "pagopa-api-config"
       branch_name     = "main"
       pipelines_path  = ".devops"
     }
