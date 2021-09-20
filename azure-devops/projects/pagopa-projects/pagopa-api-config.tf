@@ -33,10 +33,10 @@ locals {
   }
   # code_review vars
   pagopa-api-config-variables_code_review = {
-    SONARCLOUD_SERVICE_CONN = var.pagopa-api-config.pipeline.sonarcloud.service_connection
-    SONARCLOUD_ORG          = var.pagopa-api-config.pipeline.sonarcloud.org
-    SONARCLOUD_PROJECT_KEY  = var.pagopa-api-config.pipeline.sonarcloud.project_key
-    SONARCLOUD_PROJECT_NAME = var.pagopa-api-config.pipeline.sonarcloud.project_name
+    sonarcloud_service_conn = var.pagopa-api-config.pipeline.sonarcloud.service_connection
+    sonarcloud_org          = var.pagopa-api-config.pipeline.sonarcloud.org
+    sonarcloud_project_key  = var.pagopa-api-config.pipeline.sonarcloud.project_key
+    sonarcloud_project_name = var.pagopa-api-config.pipeline.sonarcloud.project_name
   }
   # code_review secrets
   pagopa-api-config-variables_secret_code_review = {
