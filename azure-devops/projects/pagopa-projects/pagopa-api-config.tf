@@ -1,12 +1,15 @@
 variable "pagopa-api-config" {
   default = {
     repository = {
-      organization   = "pagopa"
-      name           = "pagopa-api-config"
-      branch_name    = "main"
-      pipelines_path = ".devops"
+      organization    = "pagopa"
+      name            = "pagopa-api-config"
+      branch_name     = "main"
+      pipelines_path  = ".devops"
+      yml_prefix_name = null
     }
-    pipeline   = {
+    pipeline = {
+      enable_code_review = true
+      enable_deploy      = true
       sonarcloud = {
         # TODO azure devops terraform provider does not support SonarCloud service endpoint
         service_connection = "SONARCLOUD-SERVICE-CONN"
@@ -14,268 +17,86 @@ variable "pagopa-api-config" {
         project_key        = "pagopa_pagopa-api-config"
         project_name       = "pagopa-api-config"
       }
-      prod       = {
-        web_app_name = "pagopa-p-app-api-config"
-      }
-      uat        = {
-        web_app_name = "pagopa-u-app-api-config"
-      }
-      dev        = {
-        web_app_name = "pagopa-d-app-api-config"
-      }
     }
   }
 }
 
-# code review
-resource "azuredevops_build_definition" "pagopa-api-config-code-review" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
-
-  project_id = azuredevops_project.project.id
-  name       = "${var.pagopa-api-config.repository.name}.code-review"
-  path       = "\\${var.pagopa-api-config.repository.name}"
-
-  pull_request_trigger {
-    initial_branch = var.pagopa-api-config.repository.branch_name
-    forks {
-      enabled       = false
-      share_secrets = false
-    }
-    override {
-      auto_cancel = false
-      branch_filter {
-        include = [var.pagopa-api-config.repository.branch_name]
-      }
-      path_filter {
-        exclude = []
-        include = []
-      }
-    }
+locals {
+  # global vars
+  pagopa-api-config-variables = {
+    cache_version_id = "v1"
+    default_branch   = var.pagopa-mock-ec.repository.branch_name
   }
+  # global secrets
+  pagopa-api-config-variables_secret = {
 
-  repository {
-    repo_type             = "GitHub"
-    repo_id               = "${var.pagopa-api-config.repository.organization}/${var.pagopa-api-config.repository.name}"
-    branch_name           = var.pagopa-api-config.repository.branch_name
-    yml_path              = "${var.pagopa-api-config.repository.pipelines_path}/code-review-pipelines.yml"
-    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   }
-
-  variable {
-    name           = "SONARCLOUD_SERVICE_CONN"
-    value          = var.pagopa-api-config.pipeline.sonarcloud.service_connection
-    allow_override = false
+  # code_review vars
+  pagopa-api-config-variables_code_review = {
+    SONARCLOUD_SERVICE_CONN = var.pagopa-api-config.pipeline.sonarcloud.service_connection
+    SONARCLOUD_ORG          = var.pagopa-api-config.pipeline.sonarcloud.org
+    SONARCLOUD_PROJECT_KEY  = var.pagopa-api-config.pipeline.sonarcloud.project_key
+    SONARCLOUD_PROJECT_NAME = var.pagopa-api-config.pipeline.sonarcloud.project_name
   }
-
-  variable {
-    name           = "SONARCLOUD_ORG"
-    value          = var.pagopa-api-config.pipeline.sonarcloud.org
-    allow_override = false
+  # code_review secrets
+  pagopa-api-config-variables_secret_code_review = {
+    danger_github_api_token = "skip"
   }
-
-  variable {
-    name           = "SONARCLOUD_PROJECT_KEY"
-    value          = var.pagopa-api-config.pipeline.sonarcloud.project_key
-    allow_override = false
+  # deploy vars
+  pagopa-api-config-variables_deploy = {
+    git_mail          = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    git_username      = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    github_connection = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
   }
+  # deploy secrets
+  pagopa-api-config-variables_secret_deploy = {
 
-  variable {
-    name           = "SONARCLOUD_PROJECT_NAME"
-    value          = var.pagopa-api-config.pipeline.sonarcloud.project_name
-    allow_override = false
   }
 }
 
-# code review serviceendpoint authorization
-resource "azuredevops_resource_authorization" "pagopa-api-config-code-review-github-ro-auth" {
-  depends_on = [
-    azuredevops_serviceendpoint_github.io-azure-devops-github-ro,
-    azuredevops_build_definition.pagopa-api-config-code-review, azuredevops_project.project
+module "pagopa-api-config_code_review" {
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v0.0.3"
+  count  = var.pagopa-api-config.pipeline.enable_code_review == true ? 1 : 0
+
+  project_id                   = azuredevops_project.project.id
+  repository                   = var.pagopa-api-config.repository
+  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+
+  variables = merge(
+    local.pagopa-api-config-variables,
+    local.pagopa-api-config-variables_code_review,
+  )
+
+  variables_secret = merge(
+    local.pagopa-api-config-variables_secret,
+    local.pagopa-api-config-variables_secret_code_review,
+  )
+
+  service_connection_ids_authorization = [
+    azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
+    local.azuredevops_serviceendpoint_sonarcloud_id,
   ]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
-  definition_id = azuredevops_build_definition.pagopa-api-config-code-review.id
-  authorized    = true
-  type          = "endpoint"
 }
 
-resource "azuredevops_resource_authorization" "pagopa-api-config-code-review-github-pr-auth" {
-  depends_on = [
-    azuredevops_serviceendpoint_github.io-azure-devops-github-pr,
-    azuredevops_build_definition.pagopa-api-config-code-review, azuredevops_project.project
+module "pagopa-api-config_deploy" {
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v0.0.3"
+  count  = var.pagopa-api-config.pipeline.enable_deploy == true ? 1 : 0
+
+  project_id                   = azuredevops_project.project.id
+  repository                   = var.pagopa-api-config.repository
+  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
+
+  variables = merge(
+    local.pagopa-api-config-variables,
+    local.pagopa-api-config-variables_deploy,
+  )
+
+  variables_secret = merge(
+    local.pagopa-api-config-variables_secret,
+    local.pagopa-api-config-variables_secret_deploy,
+  )
+
+  service_connection_ids_authorization = [
+    azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
   ]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
-  definition_id = azuredevops_build_definition.pagopa-api-config-code-review.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-# deploy
-resource "azuredevops_build_definition" "pagopa-api-config-deploy" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
-
-  project_id = azuredevops_project.project.id
-  name       = "${var.pagopa-api-config.repository.name}.deploy"
-  path       = "\\${var.pagopa-api-config.repository.name}"
-
-  repository {
-    repo_type             = "GitHub"
-    repo_id               = "${var.pagopa-api-config.repository.organization}/${var.pagopa-api-config.repository.name}"
-    branch_name           = var.pagopa-api-config.repository.branch_name
-    yml_path              = "${var.pagopa-api-config.repository.pipelines_path}/deploy-pipelines.yml"
-    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
-  }
-
-  variable {
-    name           = "GITHUB_CONNECTION"
-    value          = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
-    allow_override = false
-  }
-
-
-  variable {
-    name           = "DEV_AZURE_SUBSCRIPTION"
-    value          = azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.service_endpoint_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "UAT_AZURE_SUBSCRIPTION"
-    value          = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.service_endpoint_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "PROD_AZURE_SUBSCRIPTION"
-    value          = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.service_endpoint_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "DEV_WEB_APP_NAME"
-    value          = var.pagopa-api-config.pipeline.dev.web_app_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "UAT_WEB_APP_NAME"
-    value          = var.pagopa-api-config.pipeline.uat.web_app_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "PROD_WEB_APP_NAME"
-    value          = var.pagopa-api-config.pipeline.prod.web_app_name
-    allow_override = false
-  }
-}
-
-# deploy serviceendpoint authorization
-resource "azuredevops_resource_authorization" "pagopa-api-config-deploy-github-ro-auth" {
-  depends_on = [
-    azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.pagopa-api-config-deploy,
-    azuredevops_project.project
-  ]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
-  definition_id = azuredevops_build_definition.pagopa-api-config-deploy.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-resource "azuredevops_resource_authorization" "pagopa-api-config-deploy-github-rw-auth" {
-  depends_on = [
-    azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.pagopa-api-config-deploy,
-    azuredevops_project.project
-  ]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
-  definition_id = azuredevops_build_definition.pagopa-api-config-deploy.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-
-resource "azuredevops_resource_authorization" "pagopa-api-config-deploy-azurerm-DEV-PAGOPA-auth" {
-  depends_on = [
-    azuredevops_serviceendpoint_azurerm.DEV-PAGOPA, azuredevops_build_definition.pagopa-api-config-deploy,
-    time_sleep.wait
-  ]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.id
-  definition_id = azuredevops_build_definition.pagopa-api-config-deploy.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-resource "azuredevops_resource_authorization" "pagopa-api-config-deploy-azurerm-UAT-PAGOPA-auth" {
-  depends_on = [
-    azuredevops_serviceendpoint_azurerm.UAT-PAGOPA, azuredevops_build_definition.pagopa-api-config-deploy,
-    time_sleep.wait
-  ]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.id
-  definition_id = azuredevops_build_definition.pagopa-api-config-deploy.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-resource "azuredevops_resource_authorization" "pagopa-api-config-deploy-azurerm-PROD-PAGOPA-auth" {
-  depends_on = [
-    azuredevops_serviceendpoint_azurerm.PROD-PAGOPA, azuredevops_build_definition.pagopa-api-config-deploy,
-    time_sleep.wait
-  ]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.id
-  definition_id = azuredevops_build_definition.pagopa-api-config-deploy.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-
-resource "azuredevops_resource_authorization" "pagopa-api-config-deploy-azurecr-dev-auth" {
-  depends_on = [
-    azuredevops_serviceendpoint_azurecr.pagopa-dev-azurecr, azuredevops_build_definition.pagopa-api-config-deploy,
-    time_sleep.wait
-  ]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurecr.pagopa-dev-azurecr.id
-  definition_id = azuredevops_build_definition.pagopa-api-config-deploy.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-resource "azuredevops_resource_authorization" "pagopa-api-config-deploy-azurecr-uat-auth" {
-  depends_on = [
-    azuredevops_serviceendpoint_azurecr.pagopa-uat-azurecr, azuredevops_build_definition.pagopa-api-config-deploy,
-    time_sleep.wait
-  ]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurecr.pagopa-uat-azurecr.id
-  definition_id = azuredevops_build_definition.pagopa-api-config-deploy.id
-  authorized    = true
-  type          = "endpoint"
-}
-
-resource "azuredevops_resource_authorization" "pagopa-api-config-deploy-azurecr-prod-auth" {
-  depends_on = [
-    azuredevops_serviceendpoint_azurecr.pagopa-prod-azurecr, azuredevops_build_definition.pagopa-api-config-deploy,
-    time_sleep.wait
-  ]
-
-  project_id    = azuredevops_project.project.id
-  resource_id   = azuredevops_serviceendpoint_azurecr.pagopa-prod-azurecr.id
-  definition_id = azuredevops_build_definition.pagopa-api-config-deploy.id
-  authorized    = true
-  type          = "endpoint"
 }

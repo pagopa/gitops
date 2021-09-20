@@ -42,7 +42,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-rw" {
 
 # TODO azure devops terraform provider does not support SonarCloud service endpoint
 locals {
-  azuredevops_serviceendpoint_sonarcloud_id = "NA"
+  azuredevops_serviceendpoint_sonarcloud_id = "f922a0a4-fb66-4cf9-bf97-d6898491a5fd"
 }
 
 # DEV service connection
@@ -67,55 +67,4 @@ resource "azuredevops_serviceendpoint_azurerm" "UAT-PAGOPA" {
   azurerm_subscription_name = "UAT-PAGOPA"
   azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
   azurerm_subscription_id   = module.secrets.values["PAGOPAIT-UAT-PAGOPA-SUBSCRIPTION-ID"].value
-}
-
-# PROD service connection
-resource "azuredevops_serviceendpoint_azurerm" "PROD-PAGOPA" {
-  depends_on = [azuredevops_project.project]
-
-  project_id                = azuredevops_project.project.id
-  service_endpoint_name     = "PROD-PAGOPA-SERVICE-CONN"
-  description               = "PROD-PAGOPA Service connection"
-  azurerm_subscription_name = "PROD-PAGOPA"
-  azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-PROD-PAGOPA-SUBSCRIPTION-ID"].value
-}
-
-# azure container registry dev service connection
-resource "azuredevops_serviceendpoint_azurecr" "pagopa-dev-azurecr" {
-  depends_on = [azuredevops_project.project]
-
-  project_id                = azuredevops_project.project.id
-  service_endpoint_name     = "pagopa-dev-azurecr"
-  resource_group            = "pagopa-d-api-rg"
-  azurecr_name              = "pagopadarc"
-  azurecr_subscription_name = "DEV-PAGOPA"
-  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-DEV-PAGOPA-SUBSCRIPTION-ID"].value
-}
-
-# azure container registry dev service connection
-resource "azuredevops_serviceendpoint_azurecr" "pagopa-uat-azurecr" {
-  depends_on = [azuredevops_project.project]
-
-  project_id                = azuredevops_project.project.id
-  service_endpoint_name     = "pagopa-uat-azurecr"
-  resource_group            = "pagopa-u-api-rg"
-  azurecr_name              = "pagopauarc"
-  azurecr_subscription_name = "UAT-PAGOPA"
-  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-UAT-PAGOPA-SUBSCRIPTION-ID"].value
-}
-
-# azure container registry dev service connection
-resource "azuredevops_serviceendpoint_azurecr" "pagopa-prod-azurecr" {
-  depends_on = [azuredevops_project.project]
-
-  project_id                = azuredevops_project.project.id
-  service_endpoint_name     = "pagopa-prod-azurecr"
-  resource_group            = "pagopa-p-api-rg"
-  azurecr_name              = "pagopaparc"
-  azurecr_subscription_name = "PROD-PAGOPA"
-  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-PAGOPA-SUBSCRIPTION-ID"].value
 }
