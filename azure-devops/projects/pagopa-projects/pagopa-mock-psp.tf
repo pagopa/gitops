@@ -10,6 +10,13 @@ variable "pagopa-mock-psp" {
     pipeline = {
       enable_code_review = true
       enable_deploy      = true
+      sonarcloud = {
+        # TODO azure devops terraform provider does not support SonarCloud service endpoint
+        service_connection = "SONARCLOUD-SERVICE-CONN"
+        org                = "pagopa"
+        project_key        = "pagopa_pagopa-mock-psp"
+        project_name       = "pagopa-mock-psp"
+      }
     }
   }
 }
@@ -27,6 +34,10 @@ locals {
   # code_review vars
   pagopa-mock-psp-variables_code_review = {
     danger_github_api_token = "skip"
+    sonarcloud_service_conn = var.pagopa-mock-psp.pipeline.sonarcloud.service_connection
+    sonarcloud_org          = var.pagopa-mock-psp.pipeline.sonarcloud.org
+    sonarcloud_project_key  = var.pagopa-mock-psp.pipeline.sonarcloud.project_key
+    sonarcloud_project_name = var.pagopa-mock-psp.pipeline.sonarcloud.project_name
   }
   # code_review secrets
   pagopa-mock-psp-variables_secret_code_review = {
@@ -37,8 +48,8 @@ locals {
     git_mail                                      = module.secrets.values["io-azure-devops-github-EMAIL"].value
     git_username                                  = module.secrets.values["io-azure-devops-github-USERNAME"].value
     github_connection                             = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
-    healthcheck_endpoint                          = "/actuator/health"    #todo
-    dev_deploy_type                               = "production_slot" #or staging_slot_and_swap
+    healthcheck_endpoint                          = "/actuator/health" #todo
+    dev_deploy_type                               = "production_slot"  #or staging_slot_and_swap
     dev_azure_subscription                        = azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.service_endpoint_name
     dev_web_app_name                              = "pagopa-d-app-mock-psp"
     dev_web_app_resource_group_name               = "pagopa-d-mock-psp-rg"
@@ -77,6 +88,7 @@ module "pagopa-mock-psp_code_review" {
 
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
+    local.azuredevops_serviceendpoint_sonarcloud_id,
   ]
 }
 
