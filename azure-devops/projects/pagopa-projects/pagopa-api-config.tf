@@ -25,7 +25,7 @@ locals {
   # global vars
   pagopa-api-config-variables = {
     cache_version_id = "v1"
-    default_branch   = var.pagopa-mock-ec.repository.branch_name
+    default_branch   = var.pagopa-api-config.repository.branch_name
   }
   # global secrets
   pagopa-api-config-variables_secret = {
