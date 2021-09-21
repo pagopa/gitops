@@ -37,7 +37,7 @@ locals {
   # deploy vars
   fa-ms-transaction-variables_deploy = {
     k8s_image_repository_name            = replace(var.fa-ms-transaction.repository.name, "-", "")
-    deploy_namespace                     = "bpd"
+    deploy_namespace                     = "fa"
     settings_xml_rw_secure_file_name     = "settings-rw.xml"
     settings_xml_ro_secure_file_name     = "settings-ro.xml"
     dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.cstar-azurecr-dev.service_endpoint_name
