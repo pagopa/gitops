@@ -87,7 +87,7 @@ module "fa-ms-customer_code_review" {
 
 module "fa-ms-customer_deploy" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
-  count  = var.bpd-ms-enrollment.pipeline.enable_deploy == true ? 1 : 0
+  count  = var.fa-ms-enrollment.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.fa-ms-customer.repository
