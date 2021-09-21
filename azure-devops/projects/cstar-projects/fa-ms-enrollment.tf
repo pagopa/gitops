@@ -1,8 +1,8 @@
-variable "fa-ms-customer" {
+variable "fa-ms-enrollment" {
   default = {
     repository = {
       organization    = "pagopa"
-      name            = "fa-ms-customer"
+      name            = "fa-ms-enrollment"
       branch_name     = "master"
       pipelines_path  = ".devops"
       yml_prefix_name = null
@@ -16,27 +16,27 @@ variable "fa-ms-customer" {
 
 locals {
   # global vars
-  fa-ms-customer-variables = {
+  fa-ms-enrollment-variables = {
     dockerfile = "DockerfileV1"
   }
   # global secrets
-  fa-ms-customer-variables_secret = {
+  fa-ms-enrollment-variables_secret = {
 
   }
   # code_review vars
-  fa-ms-customer-variables_code_review = {
+  fa-ms-enrollment-variables_code_review = {
     sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
-    sonarcloud_org          = var.fa-ms-customer.repository.organization
-    sonarcloud_project_key  = "${var.fa-ms-customer.repository.organization}_${var.fa-ms-customer.repository.name}"
-    sonarcloud_project_name = var.fa-ms-customer.repository.name
+    sonarcloud_org          = var.fa-ms-enrollment.repository.organization
+    sonarcloud_project_key  = "${var.fa-ms-enrollment.repository.organization}_${var.fa-ms-enrollment.repository.name}"
+    sonarcloud_project_name = var.fa-ms-enrollment.repository.name
   }
   # code_review secrets
-  fa-ms-customer-variables_secret_code_review = {
+  fa-ms-enrollment-variables_secret_code_review = {
 
   }
   # deploy vars
-  fa-ms-customer-variables_deploy = {
-    k8s_image_repository_name            = replace(var.fa-ms-customer.repository.name, "-", "")
+  fa-ms-enrollment-variables_deploy = {
+    k8s_image_repository_name            = replace(var.fa-ms-enrollment.repository.name, "-", "")
     deploy_namespace                     = "fa"
     settings_xml_rw_secure_file_name     = "settings-rw.xml"
     settings_xml_ro_secure_file_name     = "settings-ro.xml"
@@ -54,29 +54,29 @@ locals {
     prod_agent_pool                      = "cstar-prod-linux"
   }
   # deploy secrets
-  fa-ms-customer-variables_secret_deploy = {
+  fa-ms-enrollment-variables_secret_deploy = {
 
   }
 }
 
-module "fa-ms-customer_code_review" {
+module "fa-ms-enrollment_code_review" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
-  count  = var.fa-ms-customer.pipeline.enable_code_review == true ? 1 : 0
+  count  = var.fa-ms-enrollment.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.fa-ms-customer.repository
+  repository                   = var.fa-ms-enrollment.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   pull_request_trigger_use_yaml = true
 
   variables = merge(
-    local.fa-ms-customer-variables,
-    local.fa-ms-customer-variables_code_review,
+    local.fa-ms-enrollment-variables,
+    local.fa-ms-enrollment-variables_code_review,
   )
 
   variables_secret = merge(
-    local.fa-ms-customer-variables_secret,
-    local.fa-ms-customer-variables_secret_code_review,
+    local.fa-ms-enrollment-variables_secret,
+    local.fa-ms-enrollment-variables_secret_code_review,
   )
 
   service_connection_ids_authorization = [
@@ -85,24 +85,24 @@ module "fa-ms-customer_code_review" {
   ]
 }
 
-module "fa-ms-customer_deploy" {
+module "fa-ms-enrollment_deploy" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
   count  = var.fa-ms-enrollment.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.fa-ms-customer.repository
+  repository                   = var.fa-ms-enrollment.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   ci_trigger_use_yaml = true
 
   variables = merge(
-    local.fa-ms-customer-variables,
-    local.fa-ms-customer-variables_deploy,
+    local.fa-ms-enrollment-variables,
+    local.fa-ms-enrollment-variables_deploy,
   )
 
   variables_secret = merge(
-    local.fa-ms-customer-variables_secret,
-    local.fa-ms-customer-variables_secret_deploy,
+    local.fa-ms-enrollment-variables_secret,
+    local.fa-ms-enrollment-variables_secret_deploy,
   )
 
   service_connection_ids_authorization = [
