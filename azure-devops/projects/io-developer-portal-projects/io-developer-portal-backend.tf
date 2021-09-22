@@ -190,6 +190,11 @@ resource "azuredevops_build_definition" "io-developer-portal-backend-deploy" {
     value          = var.io-developer-portal-backend.pipeline.dev.web_app_resource_group_name
     allow_override = false
   }
+
+  variable {
+    name  = "AGENT_POOL"
+    value = local.agent_pool
+  }
 }
 
 # deploy serviceendpoint authorization
