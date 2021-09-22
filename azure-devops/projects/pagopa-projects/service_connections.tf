@@ -68,3 +68,18 @@ resource "azuredevops_serviceendpoint_azurerm" "UAT-PAGOPA" {
   azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
   azurerm_subscription_id   = module.secrets.values["PAGOPAIT-UAT-PAGOPA-SUBSCRIPTION-ID"].value
 }
+
+module "DEV-PAGOPA-TLS-CERT-SERVICE-CONN" {
+  depends_on = [azuredevops_project.project]
+  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=add-acme-tiny"
+
+  project_id        = azuredevops_project.project.id
+  name              = "pagopa-d-tls-cert"
+  tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
+  subscription_id   = module.secrets.values["PAGOPAIT-DEV-PAGOPA-SUBSCRIPTION-ID"].value
+  subscription_name = "DEV-PAGOPA"
+
+  credential_subcription              = local.key_vault_subscription
+  credential_key_vault_name           = local.key_vault_name
+  credential_key_vault_resource_group = local.key_vault_resource_group
+}
