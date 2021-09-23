@@ -3,7 +3,7 @@ locals {
 }
 
 resource "azuredevops_project" "project" {
-  name               = "cstar-iac"
+  name               = "cstar-iac-projects"
   description        = "This is the DevOps project for all CStar IAC pipeline"
   visibility         = "private"
   version_control    = "Git"
