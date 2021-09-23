@@ -39,7 +39,7 @@ locals {
 }
 
 module "tlscert-uat-portal-uat-platform-pagopa-it-cert_az" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=add-acme-tiny"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v1.1.0"
   count  = var.tlscert-uat-portal-uat-platform-pagopa-it.pipeline.enable_tls_cert == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
