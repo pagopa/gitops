@@ -128,6 +128,11 @@ resource "azuredevops_build_definition" "io-backend-deploy" {
     name  = "NPM_CONNECTION"
     value = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
   }
+
+  variable {
+    name  = "AGENT_POOL"
+    value = local.agent_pool
+  }
 }
 
 # Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline

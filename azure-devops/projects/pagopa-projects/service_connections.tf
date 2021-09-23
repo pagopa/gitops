@@ -104,7 +104,7 @@ module "PROD-PAGOPA-TLS-CERT-SERVICE-CONN" {
   source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=add-acme-tiny"
 
   project_id        = azuredevops_project.project.id
-  name              = "pagopa-u-tls-cert"
+  name              = "pagopa-p-tls-cert"
   tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
   subscription_id   = module.secrets.values["PAGOPAIT-PROD-PAGOPA-SUBSCRIPTION-ID"].value
   subscription_name = "PROD-PAGOPA"
