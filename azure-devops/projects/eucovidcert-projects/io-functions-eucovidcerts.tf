@@ -40,7 +40,7 @@ locals {
     production_resource_group_name = "io-p-rg-eucovidcert"
     production_app_name            = "io-p-fn3-eucovidcert"
     production_azure_subscription  = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
-    agent_pool                     = local.agent_pool 
+    agent_pool                     = local.agent_pool
   }
   # deploy secrets
   io-functions-eucovidcerts-variables_secret_deploy = {
