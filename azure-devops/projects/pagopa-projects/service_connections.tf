@@ -69,6 +69,18 @@ resource "azuredevops_serviceendpoint_azurerm" "UAT-PAGOPA" {
   azurerm_subscription_id   = module.secrets.values["PAGOPAIT-UAT-PAGOPA-SUBSCRIPTION-ID"].value
 }
 
+# PROD service connection
+resource "azuredevops_serviceendpoint_azurerm" "PROD-PAGOPA" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "PROD-PAGOPA-SERVICE-CONN"
+  description               = "PROD-PAGOPA Service connection"
+  azurerm_subscription_name = "PROD-PAGOPA"
+  azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-PROD-PAGOPA-SUBSCRIPTION-ID"].value
+}
+
 module "DEV-PAGOPA-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
   source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v1.1.0"
