@@ -49,7 +49,7 @@ module "iac_code_review" {
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.iac.repository
-  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   pull_request_trigger_use_yaml = true
 
@@ -77,7 +77,7 @@ module "iac_deploy" {
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.iac.repository
-  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   ci_trigger_use_yaml = true
 
