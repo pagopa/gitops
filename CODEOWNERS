@@ -4,12 +4,12 @@
 * @pasqualedevita @uolter
 
 # Maintainers by specific project
-azure-devops/projects/io-backend-projects/ @pagopa/io-backend-contributors
-azure-devops/projects/pagopa-packages-projects/ @pagopa/io-backend-contributors
-azure-devops/projects/cgn-onboarding-portal-projects/ @pagopa/carta-nazionale-giovani
-azure-devops/projects/io-app-projects/ @pagopa/io-app
-azure-devops/projects/io-services-metadata-projects/ @pagopa/io-backend-contributors
+azure-devops/projects/io-backend-projects/ @pagopa/io-backend-contributors @pasqualedevita @uolter
+azure-devops/projects/pagopa-packages-projects/ @pagopa/io-backend-contributors @pasqualedevita @uolter
+azure-devops/projects/cgn-onboarding-portal-projects/ @pagopa/carta-nazionale-giovani @pasqualedevita @uolter
+azure-devops/projects/io-app-projects/ @pagopa/io-app @pasqualedevita @uolter
+azure-devops/projects/io-services-metadata-projects/ @pagopa/io-backend-contributors @pasqualedevita @uolter
 
 # TODO: create proper groups for the following projects
-azure-devops/projects/eucovidcert-projects/ @pagopa/io-backend-contributors
-azure-devops/projects/io-developer-portal-projects/ @pagopa/io-backend-contributors 
+azure-devops/projects/eucovidcert-projects/ @pagopa/io-backend-contributors @pasqualedevita @uolter
+azure-devops/projects/io-developer-portal-projects/ @pagopa/io-backend-contributors @pasqualedevita @uolter
