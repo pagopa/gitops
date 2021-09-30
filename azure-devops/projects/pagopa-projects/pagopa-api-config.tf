@@ -98,5 +98,7 @@ module "pagopa-api-config_deploy" {
 
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
+    azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.id,
+    azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.id,
   ]
 }
