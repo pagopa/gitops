@@ -136,6 +136,11 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
     value = var.io-functions-pushnotifications.pipeline.production_resource_group_name
   }
 
+  variable {
+    name  = "AGENT_POOL"
+    value = local.agent_pool
+  }
+
 }
 
 # Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
