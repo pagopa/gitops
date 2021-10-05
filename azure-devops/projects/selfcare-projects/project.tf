@@ -3,8 +3,8 @@ locals {
 }
 
 resource "azuredevops_project" "project" {
-  name               = "pagoPA-projects"
-  description        = "This is the DevOps project for pagoPA service projects"
+  name               = "selfcare-projects"
+  description        = "This is the DevOps project for selfcare service projects"
   visibility         = "public"
   version_control    = "Git"
   work_item_template = "Basic"
