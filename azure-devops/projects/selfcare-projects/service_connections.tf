@@ -81,6 +81,8 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-SELFCARE" {
   azurerm_subscription_id   = module.secrets.values["PAGOPAIT-PROD-SELFCARE-SUBSCRIPTION-ID"].value
 }
 
+/* TODO uncomment after creation of registry and aks
+
 # DEV service connection for azure container registry
 resource "azuredevops_serviceendpoint_azurecr" "selfcare-azurecr-dev" {
   depends_on = [azuredevops_project.project]
@@ -161,3 +163,4 @@ resource "azuredevops_serviceendpoint_kubernetes" "selfcare-aks-prod" {
     ca_cert = module.secrets.values["prod-selfcare-aks-azure-devops-sa-cacrt"].value
   }
 }
+*/
