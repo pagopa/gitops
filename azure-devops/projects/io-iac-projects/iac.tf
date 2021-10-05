@@ -77,7 +77,7 @@ module "iac_deploy" {
   repository                   = var.iac.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
-  ci_trigger_use_yaml = true
+  ci_trigger_use_yaml = false
 
   variables = merge(
     local.iac-variables,
