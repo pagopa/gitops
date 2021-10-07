@@ -33,10 +33,10 @@ locals {
   api-hubpad-pagopa-it-variables = {
     PRODUCTION_AcmeContact        = module.secrets.values["CERT-AZ-MANAGEMENT-MAIL-CONTACT"].value
     PRODUCTION_AZURE_SUBSCRIPTION = azuredevops_serviceendpoint_azurerm.DEV-HUBPA.service_endpoint_name
-    PRODUCTION_KeyVaultResourceId = "/subscriptions/${module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-hubpad-pagopa-it.pipeline.variables.PRODUCTION_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-hubpad-pagopa-it.pipeline.variables.PRODUCTION_KeyVault}"
+    PRODUCTION_KeyVaultResourceId = "/subscriptions/${module.secrets.values["PAGOPAIT-DEV-HUBPA-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-hubpad-pagopa-it.pipeline.variables.PRODUCTION_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-hubpad-pagopa-it.pipeline.variables.PRODUCTION_KeyVault}"
     TEST_AcmeContact              = "NA"
     TEST_AZURE_SUBSCRIPTION       = azuredevops_serviceendpoint_azurerm.DEV-HUBPA.service_endpoint_name
-    TEST_KeyVaultResourceId       = "/subscriptions/${module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-hubpad-pagopa-it.pipeline.variables.TEST_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-hubpad-pagopa-it.pipeline.variables.TEST_KeyVault}"
+    TEST_KeyVaultResourceId       = "/subscriptions/${module.secrets.values["PAGOPAIT-DEV-HUBPA-SUBSCRIPTION-ID"].value}/resourceGroups/${var.api-hubpad-pagopa-it.pipeline.variables.TEST_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.api-hubpad-pagopa-it.pipeline.variables.TEST_KeyVault}"
   }
   api-hubpad-pagopa-it-variables_secret = {
   }
