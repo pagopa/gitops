@@ -42,7 +42,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-rw" {
 
 # TODO azure devops terraform provider does not support SonarCloud service endpoint
 locals {
-  azuredevops_serviceendpoint_sonarcloud_id = "f922a0a4-fb66-4cf9-bf97-d6898491a5fd" # FIXME determinare che id utilizzare
+  azuredevops_serviceendpoint_sonarcloud_id = "4126bdf1-3b2f-4e34-b9e7-4508d8de8ebe"
 }
 
 # DEV service connection
