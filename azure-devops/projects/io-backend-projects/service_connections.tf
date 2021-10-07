@@ -7,7 +7,7 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-IO" {
   description               = "PROD-IO Service connection"
   azurerm_subscription_name = "PROD-IO"
   azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
-  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value
+  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
 }
 
 # Azure service connection DEV-IO

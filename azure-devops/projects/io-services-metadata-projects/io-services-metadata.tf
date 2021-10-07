@@ -167,5 +167,5 @@ resource "azurerm_role_assignment" "io-services-metadata-PROD-IO-iopstcdnassets"
 
   principal_id         = data.azuread_service_principal.service_principals[local.PROD-IO-UID].id
   role_definition_name = "Storage Blob Data Contributor"
-  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-services-metadata.pipeline.production_resource_group}/providers/Microsoft.Storage/storageAccounts/${var.io-services-metadata.pipeline.production_storage_account_name}"
+  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-services-metadata.pipeline.production_resource_group}/providers/Microsoft.Storage/storageAccounts/${var.io-services-metadata.pipeline.production_storage_account_name}"
 }

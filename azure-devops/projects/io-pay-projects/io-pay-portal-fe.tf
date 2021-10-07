@@ -235,5 +235,5 @@ resource "azurerm_role_assignment" "io-pay-portal-fe-deploy-azurerm-PROD-IO-iops
 
   principal_id         = data.azuread_service_principal.service_principals[local.PROD-IO-UID].id
   role_definition_name = "Storage Blob Data Contributor"
-  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-pay-portal-fe.pipeline.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.io-pay-portal-fe.pipeline.storage_account_name}"
+  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-pay-portal-fe.pipeline.resource_group_azure}/providers/Microsoft.Storage/storageAccounts/${var.io-pay-portal-fe.pipeline.storage_account_name}"
 }

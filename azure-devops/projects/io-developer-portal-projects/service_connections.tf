@@ -3,7 +3,7 @@ provider "azuread" {
 }
 
 locals {
-  PROD-IO-UID = "${local.azure_devops_org}-${azuredevops_project.project.name}-${module.secrets.values["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value}"
+  PROD-IO-UID = "${local.azure_devops_org}-${azuredevops_project.project.name}-${module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value}"
   DEV-IO-UID  = "${local.azure_devops_org}-${azuredevops_project.project.name}-${module.secrets.values["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value}"
   service_principal_uids = [
     local.PROD-IO-UID,
@@ -27,7 +27,7 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-IO" {
   description               = "PROD-IO Service connection"
   azurerm_subscription_name = "PROD-IO"
   azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-  azurerm_subscription_id   = module.secrets.values["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value
+  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
 }
 
 # Azure service connection DEV-IO
