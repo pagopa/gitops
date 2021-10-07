@@ -12,7 +12,7 @@ module "secrets" {
     "io-azure-devops-github-EMAIL",
     "io-azure-devops-github-USERNAME",
     "pagopa-npm-bot-TOKEN",
-    "TTDIO-PROD-IO-SUBSCRIPTION-ID",
+    "PAGOPAIT-PROD-IO-SUBSCRIPTION-ID",
     "TTDIO-DEV-IO-SUBSCRIPTION-ID",
     "PAGOPAIT-TENANTID",
   ]
