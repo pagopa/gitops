@@ -35,8 +35,8 @@ resource "azuredevops_serviceendpoint_azurerm" "DEV-HUBPA" {
   description               = "DEV-HUBPA Service connection"
   azurerm_subscription_name = "DEV-HUBPA"
   #TODO: this is going to move to the PagoPA subscription.
-  azurerm_spn_tenantid    = module.secrets.values["TTDIO-SPN-TENANTID"].value
-  azurerm_subscription_id = module.secrets.values["TTDIO-DEV-HUBPA-SUBSCRIPTION-ID"].value
+  azurerm_spn_tenantid    = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id = module.secrets.values["PAGOPAIT-DEV-HUBPA-SUBSCRIPTION-ID"].value
 }
 
 # Azure service connection PROD-HUBPA
