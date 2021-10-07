@@ -7,7 +7,7 @@ module "secrets" {
   secrets = [
     "io-azure-devops-github-ro-TOKEN",
     "io-azure-devops-github-pr-TOKEN",
-    "TTDIO-SPN-TENANTID",
+    "PAGOPAIT-TENANTID",
     "TTDIO-PROD-IO-SUBSCRIPTION-ID",
   ]
 }

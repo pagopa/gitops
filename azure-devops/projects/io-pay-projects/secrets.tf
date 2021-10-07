@@ -12,7 +12,7 @@ variable "secrets" {
     "io-azure-devops-github-USERNAME",
     "TTDIO-PROD-IO-SUBSCRIPTION-ID",
     "TTDIO-DEV-IO-SUBSCRIPTION-ID",
-    "TTDIO-SPN-TENANTID",
+    "PAGOPAIT-TENANTID",
   ]
 }
 
