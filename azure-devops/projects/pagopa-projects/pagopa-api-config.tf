@@ -61,15 +61,6 @@ locals {
   pagopa-api-config-variables_secret_deploy = {
 
   }
-
-  # newman_test vars
-  pagopa-api-config-variables_newman_test = {
-  }
-
-  # newman_test secrets
-  pagopa-api-config-variables_secret_newman_test = {
-    danger_github_api_token = "skip"
-  }
 }
 
 module "pagopa-api-config_code_review" {
@@ -118,30 +109,5 @@ module "pagopa-api-config_deploy" {
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.id,
     azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.id,
-  ]
-}
-
-
-module "pagopa-api-config_newman-test" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v0.0.3"
-  count  = var.pagopa-api-config.pipeline.enable_code_review == true ? 1 : 0
-
-  project_id                   = azuredevops_project.project.id
-  repository                   = var.pagopa-api-config.repository
-  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
-
-  variables = merge(
-  local.pagopa-api-config-variables,
-  local.pagopa-api-config-variables_newman_test,
-  )
-
-  variables_secret = merge(
-  local.pagopa-api-config-variables_secret,
-  local.pagopa-api-config-variables_secret_newman_test,
-  )
-
-  service_connection_ids_authorization = [
-    azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
-    local.azuredevops_serviceendpoint_sonarcloud_id,
   ]
 }
