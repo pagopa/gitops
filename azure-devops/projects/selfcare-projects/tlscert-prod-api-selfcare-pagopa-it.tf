@@ -1,4 +1,3 @@
-/* TODO uncomment when PROD will be ready
 variable "tlscert-prod-api-selfcare-pagopa-it" {
   default = {
     repository = {
@@ -74,4 +73,3 @@ module "tlscert-prod-api-selfcare-pagopa-it-cert_az" {
     module.PROD-SELFCARE-TLS-CERT-SERVICE-CONN.service_endpoint_id,
   ]
 }
-*/
