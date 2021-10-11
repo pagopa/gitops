@@ -5,7 +5,7 @@ variable "pagopa-checkout-io-pay" {
       name            = "io-pay"
       branch_name     = "master"
       pipelines_path  = ".devops"
-      yml_prefix_name = null
+      yml_prefix_name = "pagopa-"
     }
     pipeline = {
       enable_code_review = true
