@@ -100,5 +100,6 @@ module "pagopa-checkout-io-pay-portal_deploy" {
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.id,
     azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.id,
+    azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.id,
   ]
 }
