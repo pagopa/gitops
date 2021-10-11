@@ -42,7 +42,7 @@ locals {
     endpoint_azure                        = "pagopa-p-checkout-cdn-e"
     io_pay_portal_api_host                = "https://api.io.italia.it"
     io_pay_portal_api_request_timeout     = "5000"
-    io_pay_portal_pay_wl_host             = "https://checkout.pagopa.gov.it"
+    io_pay_portal_pay_wl_host             = "https://checkout.pagopa.it"
     io_pay_portal_pay_wl_polling_attempts = "10"
     io_pay_portal_pay_wl_polling_interval = "3000"
     profile_name_cdn_azure                = "pagopa-p-checkout-cdn-p"
