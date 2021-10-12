@@ -19,7 +19,7 @@ resource "azuredevops_serviceendpoint_azurerm" "DEV-IO" {
   description               = "DEV-IO Service connection"
   azurerm_subscription_name = "DEV-IO"
   azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value
+  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value
 }
 
 # Github service connection (read-only)

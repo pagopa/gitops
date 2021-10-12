@@ -9,6 +9,6 @@ module "secrets" {
     "io-azure-devops-github-pr-TOKEN",
     "PAGOPAIT-TENANTID",
     "PAGOPAIT-PROD-IO-SUBSCRIPTION-ID",
-    "TTDIO-DEV-IO-SUBSCRIPTION-ID",
+    "PAGOPAIT-DEV-IO-SUBSCRIPTION-ID",
   ]
 }

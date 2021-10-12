@@ -36,7 +36,7 @@ locals {
     PRODUCTION_KeyVaultResourceId = "/subscriptions/${module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-italia-it.pipeline.variables.PRODUCTION_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.io-italia-it.pipeline.variables.PRODUCTION_KeyVault}"
     TEST_AcmeContact              = "NA"
     TEST_AZURE_SUBSCRIPTION       = azuredevops_serviceendpoint_azurerm.DEV-IO.service_endpoint_name
-    TEST_KeyVaultResourceId       = "/subscriptions/${module.secrets.values["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-italia-it.pipeline.variables.TEST_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.io-italia-it.pipeline.variables.TEST_KeyVault}"
+    TEST_KeyVaultResourceId       = "/subscriptions/${module.secrets.values["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-italia-it.pipeline.variables.TEST_ResourceGroup}/providers/Microsoft.KeyVault/vaults/${var.io-italia-it.pipeline.variables.TEST_KeyVault}"
   }
   io-italia-it-variables_secret = {
   }

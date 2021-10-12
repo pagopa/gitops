@@ -4,7 +4,7 @@ provider "azuread" {
 
 locals {
   PROD-IO-UID = "${local.azure_devops_org}-${azuredevops_project.project.name}-${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value}"
-  DEV-IO-UID  = "${local.azure_devops_org}-${azuredevops_project.project.name}-${data.azurerm_key_vault_secret.key_vault_secret["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value}"
+  DEV-IO-UID  = "${local.azure_devops_org}-${azuredevops_project.project.name}-${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value}"
   service_principal_uids = [
     local.PROD-IO-UID,
     local.DEV-IO-UID,
@@ -39,7 +39,7 @@ resource "azuredevops_serviceendpoint_azurerm" "DEV-IO" {
   description               = "DEV-IO Service connection"
   azurerm_subscription_name = "DEV-IO"
   azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value
+  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value
 }
 
 # Github service connection (read-only)
