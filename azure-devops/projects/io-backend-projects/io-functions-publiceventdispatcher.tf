@@ -2,7 +2,7 @@ variable "io-functions-publiceventdispatcher" {
   default = {
     repository = {
       organization   = "pagopa"
-      name           = "io-functions-publiceventdispatcher"
+      name           = "io-functions-public-event-dispatcher"
       branch_name    = "master"
       pipelines_path = ".devops"
     }
