@@ -9,7 +9,7 @@ variable "io-functions-publiceventdispatcher" {
     pipeline = {
       cache_version_id               = "v3"
       production_resource_group_name = "io-p-rg-pblevtdispatcher"
-      production_app_name            = "io-p-fn3-pblevtdispatcher"
+      production_app_name            = "io-p-fn-pblevtdispatcher"
     }
   }
 }
