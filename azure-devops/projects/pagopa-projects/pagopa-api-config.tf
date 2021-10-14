@@ -56,6 +56,10 @@ locals {
     uat_azure_subscription          = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.service_endpoint_name
     uat_web_app_name                = "pagopa-u-app-api-config"
     uat_web_app_resource_group_name = "pagopa-u-api-config-rg"
+    prod_deploy_type                 = "production_slot" #or staging_slot_and_swap
+    prod_azure_subscription          = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.service_endpoint_name
+    prod_web_app_name                = "pagopa-p-app-api-config"
+    prod_web_app_resource_group_name = "pagopa-p-api-config-rg"
   }
   # deploy secrets
   pagopa-api-config-variables_secret_deploy = {
@@ -109,5 +113,6 @@ module "pagopa-api-config_deploy" {
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.id,
     azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.id,
+    azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.id,
   ]
 }
