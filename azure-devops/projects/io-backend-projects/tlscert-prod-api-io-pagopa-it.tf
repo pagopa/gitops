@@ -31,7 +31,7 @@ locals {
     subscription_name = "PROD-IO"
   }
   tlscert-prod-api-io-pagopa-it-variables = {
-    KEY_VAULT_SERVICE_CONNECTION = module.PROD-PAGOPA-TLS-CERT-SERVICE-CONN.service_endpoint_name
+    KEY_VAULT_SERVICE_CONNECTION = module.PROD-IO-TLS-CERT-SERVICE-CONN.service_endpoint_name
   }
   tlscert-prod-api-io-pagopa-it-variables_secret = {
   }
@@ -69,6 +69,6 @@ module "tlscert-prod-api-io-pagopa-it-cert_az" {
   )
 
   service_connection_ids_authorization = [
-    module.PROD-PAGOPA-TLS-CERT-SERVICE-CONN.service_endpoint_id,
+    module.PROD-IO-TLS-CERT-SERVICE-CONN.service_endpoint_id,
   ]
 }
