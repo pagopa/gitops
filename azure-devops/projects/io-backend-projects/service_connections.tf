@@ -87,3 +87,18 @@ resource "azuredevops_serviceendpoint_npm" "pagopa-npm-bot" {
   url                   = "https://registry.npmjs.org"
   access_token          = data.azurerm_key_vault_secret.key_vault_secret["pagopa-npm-bot-TOKEN"].value
 }
+
+module "PROD-IO-TLS-CERT-SERVICE-CONN" {
+  depends_on = [azuredevops_project.project]
+  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v1.1.0"
+
+  project_id        = azuredevops_project.project.id
+  name              = "io-p-tls-cert"
+  tenant_id         = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
+  subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value
+  subscription_name = "PROD-IO"
+
+  credential_subcription              = local.key_vault_subscription
+  credential_key_vault_name           = local.key_vault_name
+  credential_key_vault_resource_group = local.key_vault_resource_group
+}
