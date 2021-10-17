@@ -28,16 +28,24 @@ delete_se() {
 
     echo "Deleting $2 servie endpoint $3 (${id})"
 
-    # az devops service-endpoint delete \
-    # --id ${id} \
-    # --org $1 \
-    # --project $2    
+    az devops service-endpoint delete \
+    --id ${id} \
+    --org $1 \
+    --project $2    
 }
 
 
-PROJECT=io-pay-projects
 
-for i in "$PROJECT DEV-IO-SERVICE-CONN" "$PROJECT PROD-IO-SERVICE-CONN"
+for i in "io-pay-projects DEV-IO-SERVICE-CONN" \
+"io-pay-projects PROD-IO-SERVICE-CONN" \
+"cert-az-management-projects DEV-IO-SERVICE-CONN" \
+"cert-az-management-projects PROD-IO-SERVICE-CONN" \
+"eucovidcert-projects DEV-IO-SERVICE-CONN" \
+"eucovidcert-projects PROD-IO-SERVICE-CONN" \
+"io-backend-projects DEV-IO-SERVICE-CONN" \
+"io-backend-projects PROD-IO-SERVICE-CONN" \
+"io-developer-portal-projects DEV-IO-SERVICE-CONN" \
+"io-developer-portal-projects PROD-IO-SERVICE-CONN" 
 do
     set -- $i # convert the "tuple" into the param args $1 $2...
     delete_se $ORG $1 $2
