@@ -31,7 +31,6 @@ locals {
     subscription_id   = module.secrets.values["PAGOPAIT-PROD-SELFCARE-SUBSCRIPTION-ID"].value
   }
   tlscert-prod-selfcare-pagopa-it-variables = {
-    KEY_VAULT_CERT_NAME          = "${replace(var.tlscert-prod-selfcare-pagopa-it.pipeline.dns_record_name, ".", "-")}-${replace(var.tlscert-prod-selfcare-pagopa-it.pipeline.dns_zone_name, ".", "-")}"
     KEY_VAULT_SERVICE_CONNECTION = module.PROD-SELFCARE-TLS-CERT-SERVICE-CONN.service_endpoint_name
   }
   tlscert-prod-selfcare-pagopa-it-variables_secret = {
@@ -39,7 +38,7 @@ locals {
 }
 
 module "tlscert-prod-selfcare-pagopa-it-cert_az" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v1.1.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.0"
   count  = var.tlscert-prod-selfcare-pagopa-it.pipeline.enable_tls_cert == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
