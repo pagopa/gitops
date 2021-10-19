@@ -33,7 +33,7 @@ locals {
   # deploy vars
   hub-spid-login-ms-variables_deploy = {
     k8s_image_repository_name            = replace(var.hub-spid-login-ms.repository.name, "-", "")
-    deploy_namespace                     = "bpd"
+    deploy_namespace                     = "selc"
     dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
     dev_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
     dev_container_registry_name          = "selcdacr.azurecr.io"
@@ -79,12 +79,14 @@ module "hub-spid-login-ms_deploy" {
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurerm.DEV-SELFCARE.id,
-/*    azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.id,
-    azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.id,*/
+//    azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.id, TODO uncomment when aks UAT will be available
+//    azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.id, TODO uncomment when aks PROD will be available
     azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.id,
     azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.id,
-/*    azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.id,
-    azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.id,
+/* TODO uncomment when aks UAT will be available
+    azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.id,
+    azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.id,*/
+/* TODO uncomment when aks PROD will be available
     azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.id,
     azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.id,*/
   ]
