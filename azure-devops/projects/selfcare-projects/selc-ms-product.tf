@@ -37,7 +37,7 @@ locals {
   # deploy vars
   selc-ms-product-variables_deploy = {
     k8s_image_repository_name            = replace(var.selc-ms-product.repository.name, "-", "")
-    deploy_namespace                     = "bpd"
+    deploy_namespace                     = "selc"
     settings_xml_rw_secure_file_name     = "settings-rw.xml"
     settings_xml_ro_secure_file_name     = "settings-ro.xml"
     dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
@@ -109,12 +109,14 @@ module "selc-ms-product_deploy" {
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurerm.DEV-SELFCARE.id,
 //    azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.id, TODO uncomment when aks UAT will be available
-//    azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.id, TODO uncomment when aks UAT will be available
+//    azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.id, TODO uncomment when aks PROD will be available
     azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.id,
     azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.id,
-//    azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.id, TODO uncomment when aks UAT will be available
-//    azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.id, TODO uncomment when aks UAT will be available
-//    azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.id, TODO uncomment when aks UAT will be available
-//    azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.id, TODO uncomment when aks PROD will be available
+/* TODO uncomment when aks UAT will be available
+    azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.id,
+    azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.id,*/
+/* TODO uncomment when aks PROD will be available
+    azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.id,
+    azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.id,*/
   ]
 }
