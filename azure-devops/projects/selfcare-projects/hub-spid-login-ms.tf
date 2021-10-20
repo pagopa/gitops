@@ -1,14 +1,14 @@
 variable "hub-spid-login-ms" {
   default = {
     repository = {
-      organization    = "antonioT90" #TODO fixme after PR to merge k8s devops
+      organization    = "pagopa"
       name            = "hub-spid-login-ms"
       branch_name     = "master"
       pipelines_path  = ".devops/kubernetes"
       yml_prefix_name = null
     }
     pipeline = {
-      enable_deploy      = true
+      enable_deploy = true
     }
   }
 }
@@ -32,22 +32,22 @@ locals {
   }
   # deploy vars
   hub-spid-login-ms-variables_deploy = {
-    k8s_image_repository_name            = replace(var.hub-spid-login-ms.repository.name, "-", "")
-    deploy_namespace                     = "selc"
-    dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
-    dev_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
-    dev_container_registry_name          = "selcdacr.azurecr.io"
-    dev_agent_pool                       = "selc-dev-linux"
-    dev_replicas                         = 1
-/*    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name
+    k8s_image_repository_name           = replace(var.hub-spid-login-ms.repository.name, "-", "")
+    deploy_namespace                    = "selc"
+    dev_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
+    dev_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
+    dev_container_registry_name         = "selcdacr.azurecr.io"
+    dev_agent_pool                      = "selfcare-dev-linux"
+    dev_replicas                        = 1
+    /*    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name
     uat_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.service_endpoint_name
     uat_container_registry_name          = "selcuacr.azurecr.io"
-    uat_agent_pool                       = "selc-uat-linux"
+    uat_agent_pool                       = "selfcare-uat-linux"
     uat_replicas                         = 1
     prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.service_endpoint_name
     prod_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.service_endpoint_name
     prod_container_registry_name         = "selcpacr.azurecr.io"
-    prod_agent_pool                      = "selc-prod-linux"
+    prod_agent_pool                      = "selfcare-prod-linux"
     prod_replicas                        = 2*/
   }
   # deploy secrets
@@ -67,26 +67,26 @@ module "hub-spid-login-ms_deploy" {
   ci_trigger_use_yaml = true
 
   variables = merge(
-  local.hub-spid-login-ms-variables,
-  local.hub-spid-login-ms-variables_deploy,
+    local.hub-spid-login-ms-variables,
+    local.hub-spid-login-ms-variables_deploy,
   )
 
   variables_secret = merge(
-  local.hub-spid-login-ms-variables_secret,
-  local.hub-spid-login-ms-variables_secret_deploy,
+    local.hub-spid-login-ms-variables_secret,
+    local.hub-spid-login-ms-variables_secret_deploy,
   )
 
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurerm.DEV-SELFCARE.id,
-//    azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.id, TODO uncomment when aks UAT will be available
-//    azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.id, TODO uncomment when aks PROD will be available
+    //    azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.id, TODO uncomment when aks UAT will be available
+    //    azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.id, TODO uncomment when aks PROD will be available
     azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.id,
     azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.id,
-/* TODO uncomment when aks UAT will be available
+    /* TODO uncomment when aks UAT will be available
     azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.id,
     azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.id,*/
-/* TODO uncomment when aks PROD will be available
+    /* TODO uncomment when aks PROD will be available
     azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.id,
     azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.id,*/
   ]
