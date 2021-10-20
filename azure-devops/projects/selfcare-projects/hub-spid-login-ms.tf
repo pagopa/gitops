@@ -1,7 +1,7 @@
 variable "hub-spid-login-ms" {
   default = {
     repository = {
-      organization    = "antonioT90" #TODO fixme after PR to merge k8s devops
+      organization    = "pagopa"
       name            = "hub-spid-login-ms"
       branch_name     = "master"
       pipelines_path  = ".devops/kubernetes"
