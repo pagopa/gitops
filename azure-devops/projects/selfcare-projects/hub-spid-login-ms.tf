@@ -37,17 +37,17 @@ locals {
     dev_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
     dev_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
     dev_container_registry_name         = "selcdacr.azurecr.io"
-    dev_agent_pool                      = "selc-dev-linux"
+    dev_agent_pool                      = "selfcare-dev-linux"
     dev_replicas                        = 1
     /*    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name
     uat_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.service_endpoint_name
     uat_container_registry_name          = "selcuacr.azurecr.io"
-    uat_agent_pool                       = "selc-uat-linux"
+    uat_agent_pool                       = "selfcare-uat-linux"
     uat_replicas                         = 1
     prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.service_endpoint_name
     prod_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.service_endpoint_name
     prod_container_registry_name         = "selcpacr.azurecr.io"
-    prod_agent_pool                      = "selc-prod-linux"
+    prod_agent_pool                      = "selfcare-prod-linux"
     prod_replicas                        = 2*/
   }
   # deploy secrets
