@@ -43,15 +43,15 @@ locals {
     dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
     dev_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
     dev_container_registry_name          = "selcdacr.azurecr.io"
-    dev_agent_pool                       = "selc-dev-linux"
+    dev_agent_pool                       = "selfcare-dev-linux"
 //    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name TODO uncomment when aks UAT will be available
 //    uat_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.service_endpoint_name TODO uncomment when aks UAT will be available
     uat_container_registry_name          = "selcuacr.azurecr.io"
-    uat_agent_pool                       = "selc-uat-linux"
+    uat_agent_pool                       = "selfcare-uat-linux"
 //    prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.service_endpoint_name TODO uncomment when aks UAT will be available
 //    prod_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.service_endpoint_name TODO uncomment when aks UAT will be available
     prod_container_registry_name         = "selcpacr.azurecr.io"
-    prod_agent_pool                      = "selc-prod-linux"
+    prod_agent_pool                      = "selfcare-prod-linux"
   }
   # deploy secrets
   selc-dashboard-backend-variables_secret_deploy = {
