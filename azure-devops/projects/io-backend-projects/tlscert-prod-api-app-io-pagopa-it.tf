@@ -27,7 +27,7 @@ variable "tlscert-prod-api-app-io-pagopa-it" {
 locals {
   tlscert-prod-api-app-io-pagopa-it = {
     tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
-    subscription_id   = module.secrets.values["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value
+    subscription_id   = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
     subscription_name = "PROD-IO"
   }
   tlscert-prod-api-app-io-pagopa-it-variables = {
