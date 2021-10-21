@@ -6,8 +6,8 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-IO" {
   service_endpoint_name     = "PROD-IO-SERVICE-CONN"
   description               = "PROD-IO Service connection"
   azurerm_subscription_name = "PROD-IO"
-  azurerm_spn_tenantid      = module.secrets.values["TTDIO-SPN-TENANTID"].value
-  azurerm_subscription_id   = module.secrets.values["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value
+  azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value
 }
 
 # Azure service connection DEV-IO
@@ -18,8 +18,8 @@ resource "azuredevops_serviceendpoint_azurerm" "DEV-IO" {
   service_endpoint_name     = "DEV-IO-SERVICE-CONN"
   description               = "DEV-IO Service connection"
   azurerm_subscription_name = "DEV-IO"
-  azurerm_spn_tenantid      = module.secrets.values["TTDIO-SPN-TENANTID"].value
-  azurerm_subscription_id   = module.secrets.values["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value
+  azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value
 }
 
 # Github service connection (read-only)
@@ -92,10 +92,12 @@ module "PROD-IO-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
   source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v1.1.0"
 
-  project_id        = azuredevops_project.project.id
-  name              = "prod-io-tls-cert"
-  tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
-  subscription_id   = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
+  project_id = azuredevops_project.project.id
+
+  name            = "prod-io-tls-cert"
+  tenant_id       = module.secrets.values["PAGOPAIT-TENANTID"].value
+  subscription_id = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
+
   subscription_name = "PROD-IO"
 
   credential_subcription              = local.key_vault_subscription
