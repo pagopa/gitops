@@ -11,7 +11,7 @@ variable "io-pay" {
       blob_container_name             = "$web"
       endpoint_azure                  = "io-p-cdnendpoint-iopay"
       io_pay_functions_host           = "https://api.io.italia.it"
-      io_pay_payment_manager_host     = "https://wisp2.pagopa.gov.it"
+      io_pay_payment_manager_host     = "https://acardste.vaservices.eu"
       my_index                        = "index.html?p=433"
       production_storage_account_name = "iopstcdniopay"
       profile_name_cdn_azure          = "io-p-cdn-common"
