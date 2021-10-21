@@ -26,8 +26,8 @@ variable "tlscert-prod-api-io-pagopa-it" {
 
 locals {
   tlscert-prod-api-io-pagopa-it = {
-    tenant_id         = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-    subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value
+    tenant_id         = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
+    subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
     subscription_name = "PROD-IO"
   }
   tlscert-prod-api-io-pagopa-it-variables = {
