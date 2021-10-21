@@ -94,7 +94,7 @@ module "PROD-IO-TLS-CERT-SERVICE-CONN" {
 
   project_id = azuredevops_project.project.id
 
-  name            = "prod-io-tls-cert"
+  name            = "io-p-tls-cert"
   tenant_id       = module.secrets.values["PAGOPAIT-TENANTID"].value
   subscription_id = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
 
