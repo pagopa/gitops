@@ -6,9 +6,9 @@ variable "secrets" {
   default = [
     "io-azure-devops-github-ro-TOKEN",
     "io-azure-devops-github-pr-TOKEN",
-    "TTDIO-PROD-IO-SUBSCRIPTION-ID",
-    "TTDIO-DEV-IO-SUBSCRIPTION-ID",
-    "TTDIO-SPN-TENANTID",
+    "PAGOPAIT-PROD-IO-SUBSCRIPTION-ID",
+    "PAGOPAIT-DEV-IO-SUBSCRIPTION-ID",
+    "PAGOPAIT-TENANTID",
   ]
 }
 
