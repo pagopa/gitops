@@ -40,26 +40,26 @@ locals {
     cache_version_id       = "v3"
     blob_container_name    = "$web"
 
-    dev_endpoint_azure              = "selc-d-checkout-cdn-endpoint"
-    dev_profile_name_cdn_azure      = "selc-d-checkout-cdn-profile"
-    dev_resource_group_azure        = "selc-d-checkout-fe-rg"
-    dev_storage_account_name        = "selcdcheckoutsa"
+    dev_cdn_endpoint              = "selc-d-checkout-cdn-endpoint"
+    dev_cdn_profile      = "selc-d-checkout-cdn-profile"
+    dev_resource_group        = "selc-d-checkout-fe-rg"
+    dev_storage_account        = "selcdcheckoutsa"
     dev_react_app_url_fe_onboarding = "https://dev.selfcare.pagopa.it/onboarding"
     dev_react_app_url_fe_dashboard  = "https://dev.selfcare.pagopa.it/dashboard"
     dev_react_app_url_api_login     = "https://api.dev.selfcare.pagopa.it/spid/v1"
 
-    uat_endpoint_azure         = "selc-u-checkout-cdn-endpoint"
-    uat_profile_name_cdn_azure = "selc-u-checkout-cdn-profile"
-    uat_resource_group_azure   = "selc-u-checkout-fe-rg"
-    uat_storage_account_name   = "selcucheckoutsa"
+    uat_cdn_endpoint         = "selc-u-checkout-cdn-endpoint"
+    uat_cdn_profile = "selc-u-checkout-cdn-profile"
+    uat_resource_group   = "selc-u-checkout-fe-rg"
+    uat_storage_account   = "selcucheckoutsa"
     uat_react_app_url_fe_onboarding = "https://uat.selfcare.pagopa.it/onboarding"
     uat_react_app_url_fe_dashboard  = "https://uat.selfcare.pagopa.it/dashboard"
     uat_react_app_url_api_login     = "https://api.uat.selfcare.pagopa.it/spid/v1"
 
-    prod_endpoint_azure              = "selc-p-checkout-cdn-endpoint"
-    prod_profile_name_cdn_azure      = "selc-p-checkout-cdn-profile"
-    prod_resource_group_azure        = "selc-p-checkout-fe-rg"
-    prod_storage_account_name        = "selcpcheckoutsa"
+    prod_cdn_endpoint              = "selc-p-checkout-cdn-endpoint"
+    prod_cdn_profile      = "selc-p-checkout-cdn-profile"
+    prod_resource_group        = "selc-p-checkout-fe-rg"
+    prod_storage_account        = "selcpcheckoutsa"
     prod_react_app_url_fe_onboarding = "https://selfcare.pagopa.it/onboarding"
     prod_react_app_url_fe_dashboard  = "https://selfcare.pagopa.it/dashboard"
     prod_react_app_url_api_login     = "https://api.selfcare.pagopa.it/spid/v1"
@@ -116,8 +116,8 @@ module "selc-fe-login_deploy" {
 
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
-    azuredevops_serviceendpoint_azurerm.DEV-SELFCARE.id,
-    azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.id,
-    azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.id,
+    azuredevops_servicecdn_endpointrm.DEV-SELFCARE.id,
+    azuredevops_servicecdn_endpointrm.UAT-SELFCARE.id,
+    azuredevops_servicecdn_endpointrm.PROD-SELFCARE.id,
   ]
 }
