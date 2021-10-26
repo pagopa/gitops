@@ -1,5 +1,6 @@
 locals {
   azure_devops_org = "pagopaspa"
+  agent_pool               = "io-prod-linux"
 }
 
 resource "azuredevops_project" "project" {
