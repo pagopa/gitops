@@ -44,22 +44,22 @@ locals {
   }
   # deploy vars
   pagopa-nodo4-nodo-dei-pagamenti-variables_deploy = {
-    git_mail                        = module.secrets.values["io-azure-devops-github-EMAIL"].value
-    git_username                    = module.secrets.values["io-azure-devops-github-USERNAME"].value
-    github_connection               = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
-    healthcheck_endpoint            = "/api/v1/info"
-    dev_deploy_type                 = "production_slot" #or staging_slot_and_swap
-    dev_azure_subscription          = azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.service_endpoint_name
-    dev_web_app_name                = "pagopa-d-app-api-config"
-    dev_web_app_resource_group_name = "pagopa-d-api-config-rg"
-    uat_deploy_type                 = "production_slot" #or staging_slot_and_swap
-    uat_azure_subscription          = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.service_endpoint_name
-    uat_web_app_name                = "pagopa-u-app-api-config"
-    uat_web_app_resource_group_name = "pagopa-u-api-config-rg"
-    prod_deploy_type                 = "production_slot" #or staging_slot_and_swap
-    prod_azure_subscription          = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.service_endpoint_name
-    prod_web_app_name                = "pagopa-p-app-api-config"
-    prod_web_app_resource_group_name = "pagopa-p-api-config-rg"
+    # git_mail                        = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    # git_username                    = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    # github_connection               = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    # healthcheck_endpoint            = "/api/v1/info"
+    # dev_deploy_type                 = "production_slot" #or staging_slot_and_swap
+    # dev_azure_subscription          = azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.service_endpoint_name
+    # dev_web_app_name                = "pagopa-d-app-api-config"
+    # dev_web_app_resource_group_name = "pagopa-d-api-config-rg"
+    # uat_deploy_type                 = "production_slot" #or staging_slot_and_swap
+    # uat_azure_subscription          = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.service_endpoint_name
+    # uat_web_app_name                = "pagopa-u-app-api-config"
+    # uat_web_app_resource_group_name = "pagopa-u-api-config-rg"
+    # prod_deploy_type                 = "production_slot" #or staging_slot_and_swap
+    # prod_azure_subscription          = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.service_endpoint_name
+    # prod_web_app_name                = "pagopa-p-app-api-config"
+    # prod_web_app_resource_group_name = "pagopa-p-api-config-rg"
   }
   # deploy secrets
   pagopa-nodo4-nodo-dei-pagamenti-variables_secret_deploy = {
@@ -73,7 +73,7 @@ module "pagopa-nodo4-nodo-dei-pagamenti_code_review" {
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.pagopa-nodo4-nodo-dei-pagamenti.repository
-  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
 
   variables = merge(
     local.pagopa-nodo4-nodo-dei-pagamenti-variables,
@@ -111,8 +111,8 @@ module "pagopa-nodo4-nodo-dei-pagamenti_deploy" {
 
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
-    azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.id,
-    azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.id,
-    azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.id,
+    # azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.id,
+    # azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.id,
+    # azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.id,
   ]
 }
