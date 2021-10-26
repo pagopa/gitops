@@ -119,8 +119,8 @@ module "selc-fe-login_deploy" {
 
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
-    azuredevops_servicecdn_endpointrm.DEV-SELFCARE.id,
-    azuredevops_servicecdn_endpointrm.UAT-SELFCARE.id,
-    azuredevops_servicecdn_endpointrm.PROD-SELFCARE.id,
+    azuredevops_serviceendpoint_azurerm.DEV-SELFCARE.id,
+    azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.id,
+    azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.id,
   ]
 }
