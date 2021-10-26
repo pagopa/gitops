@@ -1,5 +1,5 @@
 locals {
-  azure_devops_org = "pagopa-io"
+  azure_devops_org = "pagopaspa"
 }
 
 resource "azuredevops_project" "project" {
