@@ -6,8 +6,8 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-IO" {
   service_endpoint_name     = "PROD-IO-SERVICE-CONN"
   description               = "PROD-IO Service connection"
   azurerm_subscription_name = "PROD-IO"
-  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value
+  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
 }
 
 # Azure service connection DEV-IO
@@ -18,8 +18,8 @@ resource "azuredevops_serviceendpoint_azurerm" "DEV-IO" {
   service_endpoint_name     = "DEV-IO-SERVICE-CONN"
   description               = "DEV-IO Service connection"
   azurerm_subscription_name = "DEV-IO"
-  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-DEV-IO-SUBSCRIPTION-ID"].value
+  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value
 }
 
 # Github service connection (read-only)
@@ -94,8 +94,8 @@ module "PROD-IO-TLS-CERT-SERVICE-CONN" {
 
   project_id        = azuredevops_project.project.id
   name              = "io-p-tls-cert"
-  tenant_id         = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-SPN-TENANTID"].value
-  subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["TTDIO-PROD-IO-SUBSCRIPTION-ID"].value
+  tenant_id         = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
+  subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
   subscription_name = "PROD-IO"
 
   credential_subcription              = local.key_vault_subscription
