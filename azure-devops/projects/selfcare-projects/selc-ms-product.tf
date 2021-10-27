@@ -3,7 +3,7 @@ variable "selc-ms-product" {
     repository = {
       organization    = "pagopa"
       name            = "selfcare-ms-product"
-      branch_name     = "master"
+      branch_name     = "main"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }
@@ -17,6 +17,10 @@ variable "selc-ms-product" {
 locals {
   # global vars
   selc-ms-product-variables = {
+    settings_xml_rw_secure_file_name = "settings-rw.xml"
+    settings_xml_ro_secure_file_name = "settings-ro.xml"
+    maven_remote_repo_server_id      = "selc"
+    maven_remote_repo                = "https://pkgs.dev.azure.com/pagopaspa/selfcare-projects/_packaging/selfcare/maven/v1"
     dockerfile = "Dockerfile"
   }
   # global secrets
@@ -38,8 +42,6 @@ locals {
   selc-ms-product-variables_deploy = {
     k8s_image_repository_name           = replace(var.selc-ms-product.repository.name, "-", "")
     deploy_namespace                    = "selc"
-    settings_xml_rw_secure_file_name    = "settings-rw.xml"
-    settings_xml_ro_secure_file_name    = "settings-ro.xml"
     dev_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
     dev_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
     dev_container_registry_name         = "selcdacr.azurecr.io"
