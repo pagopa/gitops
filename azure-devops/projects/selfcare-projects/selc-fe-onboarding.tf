@@ -17,7 +17,7 @@ variable "selc-fe-onboarding" {
 locals {
   # global vars
   selc-fe-onboarding-variables = {
-    default_branch   = var.selc-fe-onboarding.repository.branch_name
+    default_branch = var.selc-fe-onboarding.repository.branch_name
   }
   # global secrets
   selc-fe-onboarding-variables_secret = {

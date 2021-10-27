@@ -15,6 +15,8 @@ module "secrets" {
     "PAGOPAIT-DEV-SELFCARE-SUBSCRIPTION-ID",
     "PAGOPAIT-UAT-SELFCARE-SUBSCRIPTION-ID",
     "PAGOPAIT-PROD-SELFCARE-SUBSCRIPTION-ID",
+    "SELC-DOCKER-REGISTRY-PAGOPA-USER",
+    "SELC-DOCKER-REGISTRY-PAGOPA-TOKEN-RO",
     "dev-selfcare-aks-apiserver-url",
     "dev-selfcare-aks-azure-devops-sa-token",
     "dev-selfcare-aks-azure-devops-sa-cacrt",

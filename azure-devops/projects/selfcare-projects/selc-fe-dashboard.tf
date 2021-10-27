@@ -17,7 +17,7 @@ variable "selc-fe-dashboard" {
 locals {
   # global vars
   selc-fe-dashboard-variables = {
-    default_branch   = var.selc-fe-dashboard.repository.branch_name
+    default_branch = var.selc-fe-dashboard.repository.branch_name
   }
   # global secrets
   selc-fe-dashboard-variables_secret = {

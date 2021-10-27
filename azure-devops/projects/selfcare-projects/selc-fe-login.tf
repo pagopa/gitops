@@ -17,7 +17,7 @@ variable "selc-fe-login" {
 locals {
   # global vars
   selc-fe-login-variables = {
-    default_branch   = var.selc-fe-login.repository.branch_name
+    default_branch = var.selc-fe-login.repository.branch_name
   }
   # global secrets
   selc-fe-login-variables_secret = {
