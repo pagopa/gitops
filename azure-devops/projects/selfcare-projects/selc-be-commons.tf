@@ -17,7 +17,10 @@ variable "selc-be-commons" {
 locals {
   # global vars
   selc-be-commons-variables = {
-
+    settings_xml_rw_secure_file_name = "settings-rw.xml"
+    settings_xml_ro_secure_file_name = "settings-ro.xml"
+    maven_remote_repo_server_id      = "selc"
+    maven_remote_repo                = "https://pkgs.dev.azure.com/pagopaspa/selfcare-projects/_packaging/selfcare/maven/v1"
   }
   # global secrets
   selc-be-commons-variables_secret = {
@@ -36,8 +39,7 @@ locals {
   }
   # deploy vars
   selc-be-commons-variables_deploy = {
-    settings_xml_rw_secure_file_name = "settings-rw.xml"
-    maven_alternate_deploy_repo      = "selc::https://pkgs.dev.azure.com/pagopaspa/selfcare-projects/_packaging/selfcare/maven/v1"
+
   }
   # deploy secrets
   selc-be-commons-variables_secret_deploy = {

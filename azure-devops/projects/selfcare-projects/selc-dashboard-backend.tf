@@ -17,6 +17,10 @@ variable "selc-dashboard-backend" {
 locals {
   # global vars
   selc-dashboard-backend-variables = {
+    settings_xml_rw_secure_file_name = "settings-rw.xml"
+    settings_xml_ro_secure_file_name = "settings-ro.xml"
+    maven_remote_repo_server_id      = "selc"
+    maven_remote_repo                = "https://pkgs.dev.azure.com/pagopaspa/selfcare-projects/_packaging/selfcare/maven/v1"
     dockerfile = "Dockerfile"
   }
   # global secrets
@@ -38,8 +42,6 @@ locals {
   selc-dashboard-backend-variables_deploy = {
     k8s_image_repository_name           = replace(var.selc-dashboard-backend.repository.name, "-", "")
     deploy_namespace                    = "selc"
-    settings_xml_rw_secure_file_name    = "settings-rw.xml"
-    settings_xml_ro_secure_file_name    = "settings-ro.xml"
     dev_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
     dev_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
     dev_container_registry_name         = "selcdacr.azurecr.io"

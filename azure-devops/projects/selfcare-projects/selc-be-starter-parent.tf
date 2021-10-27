@@ -17,7 +17,10 @@ variable "selc-be-starter-parent" {
 locals {
   # global vars
   selc-be-starter-parent-variables = {
-
+    settings_xml_rw_secure_file_name = "settings-rw.xml"
+    settings_xml_ro_secure_file_name = "settings-ro.xml"
+    maven_remote_repo_server_id      = "selc"
+    maven_remote_repo                = "https://pkgs.dev.azure.com/pagopaspa/selfcare-projects/_packaging/selfcare/maven/v1"
   }
   # global secrets
   selc-be-starter-parent-variables_secret = {
@@ -29,6 +32,7 @@ locals {
     sonarcloud_org          = var.selc-be-starter-parent.repository.organization
     sonarcloud_project_key  = "${var.selc-be-starter-parent.repository.organization}_${var.selc-be-starter-parent.repository.name}"
     sonarcloud_project_name = var.selc-be-starter-parent.repository.name
+
   }
   # code_review secrets
   selc-be-starter-parent-variables_secret_code_review = {
@@ -36,8 +40,7 @@ locals {
   }
   # deploy vars
   selc-be-starter-parent-variables_deploy = {
-    settings_xml_rw_secure_file_name = "settings-rw.xml"
-    maven_alternate_deploy_repo      = "selc::https://pkgs.dev.azure.com/pagopaspa/selfcare-projects/_packaging/selfcare/maven/v1"
+
   }
   # deploy secrets
   selc-be-starter-parent-variables_secret_deploy = {
