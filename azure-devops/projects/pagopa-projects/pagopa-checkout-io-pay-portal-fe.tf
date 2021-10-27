@@ -48,6 +48,8 @@ locals {
     profile_name_cdn_azure                = "pagopa-p-checkout-cdn-p"
     resource_group_azure                  = "pagopa-p-checkout-fe-rg"
     storage_account_name                  = "pagopapcheckoutsa"
+    checkout_captcha_id_uat               = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+    checkout_captcha_id_prod              = "6LdfjOYcAAAAAEZ5g92BITUCLVPzNycU3Uv1UW5g"
   }
   # deploy secrets
   pagopa-checkout-io-pay-portal-fe-variables_secret_deploy = {
