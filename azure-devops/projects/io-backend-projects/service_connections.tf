@@ -6,8 +6,10 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-IO" {
   service_endpoint_name     = "PROD-IO-SERVICE-CONN"
   description               = "PROD-IO Service connection"
   azurerm_subscription_name = "PROD-IO"
-  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
-  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
+
+  azurerm_spn_tenantid    = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
+
 }
 
 # Azure service connection DEV-IO
@@ -18,8 +20,9 @@ resource "azuredevops_serviceendpoint_azurerm" "DEV-IO" {
   service_endpoint_name     = "DEV-IO-SERVICE-CONN"
   description               = "DEV-IO Service connection"
   azurerm_subscription_name = "DEV-IO"
-  azurerm_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
-  azurerm_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value
+  azurerm_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurerm_subscription_id   = module.secrets.values["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value
+
 }
 
 # Github service connection (read-only)
@@ -29,7 +32,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-ro" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "io-azure-devops-github-ro"
   auth_personal {
-    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-ro-TOKEN"].value
+    personal_access_token = module.secrets.values["io-azure-devops-github-ro-TOKEN"].value
   }
   lifecycle {
     ignore_changes = [description, authorization]
@@ -43,7 +46,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-rw" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "io-azure-devops-github-rw"
   auth_personal {
-    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-rw-TOKEN"].value
+    personal_access_token = module.secrets.values["io-azure-devops-github-rw-TOKEN"].value
   }
   lifecycle {
     ignore_changes = [description, authorization]
@@ -57,7 +60,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "io-azure-devops-github-pr"
   auth_personal {
-    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-pr-TOKEN"].value
+    personal_access_token = module.secrets.values["io-azure-devops-github-pr-TOKEN"].value
   }
   lifecycle {
     ignore_changes = [description, authorization]
@@ -71,7 +74,7 @@ resource "azuredevops_serviceendpoint_github" "pagopa" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "pagopa"
   auth_personal {
-    personal_access_token = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-ro-TOKEN"].value
+    personal_access_token = module.secrets.values["io-azure-devops-github-ro-TOKEN"].value
   }
   lifecycle {
     ignore_changes = [description, authorization]
@@ -85,17 +88,19 @@ resource "azuredevops_serviceendpoint_npm" "pagopa-npm-bot" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "pagopa-npm-bot"
   url                   = "https://registry.npmjs.org"
-  access_token          = data.azurerm_key_vault_secret.key_vault_secret["pagopa-npm-bot-TOKEN"].value
+  access_token          = module.secrets.values["pagopa-npm-bot-TOKEN"].value
 }
 
 module "PROD-IO-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
   source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v1.1.0"
+  project_id = azuredevops_project.project.id
 
-  project_id        = azuredevops_project.project.id
-  name              = "io-p-tls-cert"
-  tenant_id         = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
-  subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
+  name            = "io-p-tls-cert"
+  tenant_id       = module.secrets.values["PAGOPAIT-TENANTID"].value
+  subscription_id = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
+
+
   subscription_name = "PROD-IO"
 
   credential_subcription              = local.key_vault_subscription

@@ -4,7 +4,7 @@ terraform {
     resource_group_name  = "io-infra-rg"
     storage_account_name = "ioinfrastterraform"
     container_name       = "azuredevopsstate"
-    key                  = "io-backend-projects.terraform.tfstate"
+    key                  = "io-tls-cert-projects.terraform.tfstate"
   }
   required_providers {
     azuredevops = {
@@ -13,9 +13,6 @@ terraform {
     }
     azurerm = {
       version = "~> 2.52.0"
-    }
-    time = {
-      version = "~> 0.6.0"
     }
   }
 }

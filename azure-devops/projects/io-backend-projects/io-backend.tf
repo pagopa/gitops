@@ -52,7 +52,7 @@ resource "azuredevops_build_definition" "io-backend-code-review" {
 
   variable {
     name         = "DANGER_GITHUB_API_TOKEN"
-    secret_value = data.azurerm_key_vault_secret.key_vault_secret["DANGER-GITHUB-API-TOKEN"].value
+    secret_value = module.secrets.values["DANGER-GITHUB-API-TOKEN"].value
     is_secret    = true
   }
 }
@@ -101,12 +101,12 @@ resource "azuredevops_build_definition" "io-backend-deploy" {
 
   variable {
     name  = "GIT_EMAIL"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+    value = module.secrets.values["io-azure-devops-github-EMAIL"].value
   }
 
   variable {
     name  = "GIT_USERNAME"
-    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+    value = module.secrets.values["io-azure-devops-github-USERNAME"].value
   }
 
   variable {

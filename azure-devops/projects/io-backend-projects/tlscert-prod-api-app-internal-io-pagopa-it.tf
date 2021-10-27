@@ -26,8 +26,9 @@ variable "tlscert-prod-api-app-internal-io-pagopa-it" {
 
 locals {
   tlscert-prod-api-app-internal-io-pagopa-it = {
-    tenant_id         = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
-    subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
+    tenant_id       = module.secrets.values["PAGOPAIT-TENANTID"].value
+    subscription_id = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
+
     subscription_name = "PROD-IO"
   }
   tlscert-prod-api-app-internal-io-pagopa-it-variables = {
@@ -38,7 +39,7 @@ locals {
 }
 
 module "tlscert-prod-api-app-internal-io-pagopa-it-cert_az" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.1"
   count  = var.tlscert-prod-api-app-internal-io-pagopa-it.pipeline.enable_tls_cert == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
