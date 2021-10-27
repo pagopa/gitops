@@ -21,7 +21,7 @@ locals {
     settings_xml_ro_secure_file_name = "settings-ro.xml"
     maven_remote_repo_server_id      = "selc"
     maven_remote_repo                = "https://pkgs.dev.azure.com/pagopaspa/selfcare-projects/_packaging/selfcare/maven/v1"
-    dockerfile = "Dockerfile"
+    dockerfile                       = "Dockerfile"
   }
   # global secrets
   selc-dashboard-backend-variables_secret = {

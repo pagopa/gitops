@@ -4,29 +4,29 @@ locals {
   key_vault_subscription   = "PROD-IO"
 
   selc-fe-common-variables_deploy = {
-    blob_container_name    = "$web"
+    blob_container_name = "$web"
 
-    git_mail               = module.secrets.values["io-azure-devops-github-EMAIL"].value
-    git_username           = module.secrets.values["io-azure-devops-github-USERNAME"].value
-    github_connection      = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    git_mail          = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    git_username      = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    github_connection = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
 
-    dev_azure_subscription          = azuredevops_serviceendpoint_azurerm.DEV-SELFCARE.service_endpoint_name
-    dev_cdn_endpoint                = "selc-d-checkout-cdn-endpoint"
-    dev_cdn_profile                 = "selc-d-checkout-cdn-profile"
-    dev_resource_group              = "selc-d-checkout-fe-rg"
-    dev_storage_account             = "selcdcheckoutsa"
+    dev_azure_subscription = azuredevops_serviceendpoint_azurerm.DEV-SELFCARE.service_endpoint_name
+    dev_cdn_endpoint       = "selc-d-checkout-cdn-endpoint"
+    dev_cdn_profile        = "selc-d-checkout-cdn-profile"
+    dev_resource_group     = "selc-d-checkout-fe-rg"
+    dev_storage_account    = "selcdcheckoutsa"
 
-    uat_azure_subscription          = azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.service_endpoint_name
-    uat_cdn_endpoint                = "selc-u-checkout-cdn-endpoint"
-    uat_cdn_profile                 = "selc-u-checkout-cdn-profile"
-    uat_resource_group              = "selc-u-checkout-fe-rg"
-    uat_storage_account             = "selcucheckoutsa"
+    uat_azure_subscription = azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.service_endpoint_name
+    uat_cdn_endpoint       = "selc-u-checkout-cdn-endpoint"
+    uat_cdn_profile        = "selc-u-checkout-cdn-profile"
+    uat_resource_group     = "selc-u-checkout-fe-rg"
+    uat_storage_account    = "selcucheckoutsa"
 
-    prod_azure_subscription          = azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.service_endpoint_name
-    prod_cdn_endpoint                = "selc-p-checkout-cdn-endpoint"
-    prod_cdn_profile                 = "selc-p-checkout-cdn-profile"
-    prod_resource_group              = "selc-p-checkout-fe-rg"
-    prod_storage_account             = "selcpcheckoutsa"
+    prod_azure_subscription = azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.service_endpoint_name
+    prod_cdn_endpoint       = "selc-p-checkout-cdn-endpoint"
+    prod_cdn_profile        = "selc-p-checkout-cdn-profile"
+    prod_resource_group     = "selc-p-checkout-fe-rg"
+    prod_storage_account    = "selcpcheckoutsa"
 
     dev_react_app_url_fe_login                 = "https://dev.selfcare.pagopa.it/auth"
     dev_react_app_url_fe_onboarding            = "https://dev.selfcare.pagopa.it/onboarding"
