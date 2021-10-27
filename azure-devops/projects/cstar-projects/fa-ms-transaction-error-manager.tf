@@ -27,7 +27,7 @@ locals {
   fa-ms-transaction-error-manager-variables_code_review = {
     sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
     sonarcloud_org          = var.fa-ms-transaction-error-manager.repository.organization
-    sonarcloud_project_key  = "${var.ffa-ms-transaction-error-manager.repository.organization}_${var.fa-ms-transaction-error-manager.repository.name}"
+    sonarcloud_project_key  = "${var.fa-ms-transaction-error-manager.repository.organization}_${var.fa-ms-transaction-error-manager.repository.name}"
     sonarcloud_project_name = var.fa-ms-transaction-error-manager.repository.name
   }
   # code_review secrets
