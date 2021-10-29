@@ -49,6 +49,8 @@ module "selc-fe-dashboard_code_review" {
   repository                   = var.selc-fe-dashboard.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
+  pull_request_trigger_use_yaml = true
+
   variables = merge(
     local.selc-fe-dashboard-variables,
     local.selc-fe-dashboard-variables_code_review,

@@ -49,6 +49,8 @@ module "selc-fe-login_code_review" {
   repository                   = var.selc-fe-login.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
+  pull_request_trigger_use_yaml = true
+
   variables = merge(
     local.selc-fe-login-variables,
     local.selc-fe-login-variables_code_review,
