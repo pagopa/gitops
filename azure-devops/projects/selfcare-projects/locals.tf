@@ -55,4 +55,40 @@ locals {
     prod_react_app_url_api_party_registry_proxy = "https://api.selfcare.pagopa.it/party-registry-proxy/v1"
     prod_react_app_url_api_dashboard            = "https://api.selfcare.pagopa.it/dashboard/v1"
   }
+
+  selc-be-uservice-common-variables_deploy = {
+    manager_platform_roles  = "Manager"
+    delegate_platform_roles = "Delegate"
+    operator_platform_roles = "Operator"
+
+    dev_replicas                     = 1
+    dev_storage_container            = "selc-d-contracts-blob"
+    dev_storage_endpoint             = "https://selcdblobstorage.blob.core.windows.net"
+    dev_party_process_url            = "http://uservice-party-process:8088/uservice-party-process/0.1"
+    dev_party_management_url         = "http://uservice-party-management:8088/uservice-party-management/0.1"
+    dev_party_proxy_url              = "http://uservice-party-registry-proxy:8088/uservice-party-registry-proxy/0.1"
+    dev_attribute_registry_url       = "http://uservice-attribute-registry-management:8088/uservice-attribute-registry-management/0.1"
+    dev_authorization_process_url    = "http://uservice-authorization-process:8088/uservice-authorization-process/0.1"
+    dev_user_registry_management_url = "http://uservice-registry-management:8088/uservice-registry-management/0.1"
+
+    uat_replicas                     = 1
+    uat_storage_container            = "selc-u-contracts-blob"
+    uat_storage_endpoint             = "https://selcublobstorage.blob.core.windows.net"
+    uat_party_process_url            = "http://uservice-party-process:8088/uservice-party-process/0.1"
+    uat_party_management_url         = "http://uservice-party-management:8088/uservice-party-management/0.1"
+    uat_party_proxy_url              = "http://uservice-party-registry-proxy:8088/uservice-party-registry-proxy/0.1"
+    uat_attribute_registry_url       = "http://uservice-attribute-registry-management:8088/uservice-attribute-registry-management/0.1"
+    uat_authorization_process_url    = "http://uservice-authorization-process:8088/uservice-authorization-process/0.1"
+    uat_user_registry_management_url = "http://uservice-registry-management:8088/uservice-registry-management/0.1"
+
+    prod_replicas                     = 1
+    prod_storage_container            = "selc-p-contracts-blob"
+    prod_storage_endpoint             = "https://selcpblobstorage.blob.core.windows.net"
+    prod_party_process_url            = "http://uservice-party-process:8088/uservice-party-process/0.1"
+    prod_party_management_url         = "http://uservice-party-management:8088/uservice-party-management/0.1"
+    prod_party_proxy_url              = "http://uservice-party-registry-proxy:8088/uservice-party-registry-proxy/0.1"
+    prod_attribute_registry_url       = "http://uservice-attribute-registry-management:8088/uservice-attribute-registry-management/0.1"
+    prod_authorization_process_url    = "http://uservice-authorization-process:8088/uservice-authorization-process/0.1"
+    prod_user_registry_management_url = "http://uservice-registry-management:8088/uservice-registry-management/0.1"
+  }
 }
