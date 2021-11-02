@@ -97,6 +97,7 @@ module "selc-uservice-party-process_deploy" {
   variables = merge(
     local.selc-uservice-party-process-variables,
     local.selc-uservice-party-process-variables_deploy,
+    local.selc-be-uservice-common-variables_deploy
   )
 
   variables_secret = merge(
