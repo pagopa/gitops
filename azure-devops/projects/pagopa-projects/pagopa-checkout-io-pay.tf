@@ -40,8 +40,6 @@ locals {
     cache_version_id            = "v3"
     blob_container_name         = "$web"
     endpoint_azure              = "pagopa-p-checkout-cdn-e"
-    io_pay_functions_host       = "https://api.io.italia.it"
-    io_pay_payment_manager_host = "https://wisp2.pagopa.gov.it"
     my_index                    = "index.html?p=433"
     storage_account_name        = "pagopapcheckoutsa"
     profile_name_cdn_azure      = "pagopa-p-checkout-cdn-p"
