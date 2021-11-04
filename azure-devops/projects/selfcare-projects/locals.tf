@@ -57,9 +57,9 @@ locals {
   }
 
   selc-be-uservice-common-variables_deploy = {
-    manager_platform_roles  = "Manager"
-    delegate_platform_roles = "Delegate"
-    operator_platform_roles = "Operator"
+    manager_platform_roles  = "Manager"//TODO admin
+    delegate_platform_roles = "Delegate"//TODO admin
+    operator_platform_roles = "Operator"//TODO security,api
 
     dev_replicas                     = 1
     dev_storage_container            = "selc-d-contracts-blob"
@@ -68,8 +68,8 @@ locals {
     dev_party_management_url         = "http://uservice-party-management:8088/uservice-party-management/0.1"
     dev_party_proxy_url              = "http://uservice-party-registry-proxy:8088/uservice-party-registry-proxy/0.1"
     dev_attribute_registry_url       = "http://uservice-attribute-registry-management:8088/uservice-attribute-registry-management/0.1"
-    dev_authorization_process_url    = "http://uservice-authorization-process:8088/uservice-authorization-process/0.1"
-    dev_user_registry_management_url = "http://uservice-registry-management:8088/uservice-registry-management/0.1"
+    dev_authorization_process_url    = "http://uservice-authorization-process:8088/uservice-authorization-process/0.1" // TODO this will be removed and replaced with hub spid login
+    dev_user_registry_management_url = "http://uservice-registry-management:8088/uservice-registry-management/0.1" // TODO this will point to userRegistry
 
     uat_replicas                     = 1
     uat_storage_container            = "selc-u-contracts-blob"
@@ -78,8 +78,8 @@ locals {
     uat_party_management_url         = "http://uservice-party-management:8088/uservice-party-management/0.1"
     uat_party_proxy_url              = "http://uservice-party-registry-proxy:8088/uservice-party-registry-proxy/0.1"
     uat_attribute_registry_url       = "http://uservice-attribute-registry-management:8088/uservice-attribute-registry-management/0.1"
-    uat_authorization_process_url    = "http://uservice-authorization-process:8088/uservice-authorization-process/0.1"
-    uat_user_registry_management_url = "http://uservice-registry-management:8088/uservice-registry-management/0.1"
+    uat_authorization_process_url    = "http://uservice-authorization-process:8088/uservice-authorization-process/0.1" // TODO this will be removed and replaced with hub spid login
+    uat_user_registry_management_url = "http://uservice-registry-management:8088/uservice-registry-management/0.1" // TODO this will point to userRegistry
 
     prod_replicas                     = 1
     prod_storage_container            = "selc-p-contracts-blob"
@@ -88,7 +88,7 @@ locals {
     prod_party_management_url         = "http://uservice-party-management:8088/uservice-party-management/0.1"
     prod_party_proxy_url              = "http://uservice-party-registry-proxy:8088/uservice-party-registry-proxy/0.1"
     prod_attribute_registry_url       = "http://uservice-attribute-registry-management:8088/uservice-attribute-registry-management/0.1"
-    prod_authorization_process_url    = "http://uservice-authorization-process:8088/uservice-authorization-process/0.1"
-    prod_user_registry_management_url = "http://uservice-registry-management:8088/uservice-registry-management/0.1"
+    prod_authorization_process_url    = "http://uservice-authorization-process:8088/uservice-authorization-process/0.1" // TODO this will be removed and replaced with hub spid login
+    prod_user_registry_management_url = "http://uservice-registry-management:8088/uservice-registry-management/0.1" // TODO this will point to userRegistry
   }
 }
