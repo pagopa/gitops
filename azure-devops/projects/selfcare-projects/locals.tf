@@ -63,7 +63,7 @@ locals {
 
     dev_replicas                     = 1
     dev_storage_container            = "selc-d-contracts-blob"
-    dev_storage_endpoint             = "https://selcdblobstorage.blob.core.windows.net"
+    dev_storage_endpoint             = "core.windows.net"
     dev_party_process_url            = "http://uservice-party-process:8088/uservice-party-process/0.1"
     dev_party_management_url         = "http://uservice-party-management:8088/uservice-party-management/0.1"
     dev_party_proxy_url              = "http://uservice-party-registry-proxy:8088/uservice-party-registry-proxy/0.1"
@@ -73,7 +73,7 @@ locals {
 
     uat_replicas                     = 1
     uat_storage_container            = "selc-u-contracts-blob"
-    uat_storage_endpoint             = "https://selcublobstorage.blob.core.windows.net"
+    uat_storage_endpoint             = "core.windows.net"
     uat_party_process_url            = "http://uservice-party-process:8088/uservice-party-process/0.1"
     uat_party_management_url         = "http://uservice-party-management:8088/uservice-party-management/0.1"
     uat_party_proxy_url              = "http://uservice-party-registry-proxy:8088/uservice-party-registry-proxy/0.1"
@@ -83,7 +83,7 @@ locals {
 
     prod_replicas                     = 1
     prod_storage_container            = "selc-p-contracts-blob"
-    prod_storage_endpoint             = "https://selcpblobstorage.blob.core.windows.net"
+    prod_storage_endpoint             = "core.windows.net"
     prod_party_process_url            = "http://uservice-party-process:8088/uservice-party-process/0.1"
     prod_party_management_url         = "http://uservice-party-management:8088/uservice-party-management/0.1"
     prod_party_proxy_url              = "http://uservice-party-registry-proxy:8088/uservice-party-registry-proxy/0.1"
