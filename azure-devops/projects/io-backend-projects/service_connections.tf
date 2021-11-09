@@ -108,11 +108,13 @@ module "PROD-IO-TLS-CERT-SERVICE-CONN" {
 }
 
 data "azurerm_key_vault" "kv_common" {
+  provider            = azurerm.prod-io
   name                = format("%s-p-kv-common", local.prefix)
   resource_group_name = format("%s-p-rg-common", local.prefix)
 }
 
 resource "azurerm_key_vault_access_policy" "PROD-IO-TLS-CERT-SERVICE-CONN_kv_common" {
+  provider     = azurerm.prod-io
   key_vault_id = data.azurerm_key_vault.kv_common.id
   tenant_id    = module.secrets.values["PAGOPAIT-TENANTID"].value
   object_id    = module.PROD-IO-TLS-CERT-SERVICE-CONN.service_principal_object_id
@@ -121,11 +123,13 @@ resource "azurerm_key_vault_access_policy" "PROD-IO-TLS-CERT-SERVICE-CONN_kv_com
 }
 
 data "azurerm_key_vault" "kv" {
+  provider            = azurerm.prod-io
   name                = format("%s-p-kv", local.prefix)
   resource_group_name = format("%s-p-sec-rg", local.prefix)
 }
 
 resource "azurerm_key_vault_access_policy" "PROD-IO-TLS-CERT-SERVICE-CONN_kv" {
+  provider     = azurerm.prod-io
   key_vault_id = data.azurerm_key_vault.kv.id
   tenant_id    = module.secrets.values["PAGOPAIT-TENANTID"].value
   object_id    = module.PROD-IO-TLS-CERT-SERVICE-CONN.service_principal_object_id
