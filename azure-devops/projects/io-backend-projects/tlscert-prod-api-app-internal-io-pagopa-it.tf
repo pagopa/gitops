@@ -11,7 +11,7 @@ variable "tlscert-prod-api-app-internal-io-pagopa-it" {
       path                    = "TLS-Certificates\\PROD"
       dns_record_name         = "api-app.internal"
       dns_zone_name           = "io.pagopa.it"
-      dns_zone_resource_group = "io-p-vnet-rg"
+      dns_zone_resource_group = "io-p-rg-external"
       # common variables to all pipelines
       variables = {
         CERT_NAME_EXPIRE_SECONDS = "2592000" #30 days
@@ -26,9 +26,8 @@ variable "tlscert-prod-api-app-internal-io-pagopa-it" {
 
 locals {
   tlscert-prod-api-app-internal-io-pagopa-it = {
-    tenant_id       = module.secrets.values["PAGOPAIT-TENANTID"].value
-    subscription_id = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
-
+    tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
+    subscription_id   = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
     subscription_name = "PROD-IO"
   }
   tlscert-prod-api-app-internal-io-pagopa-it-variables = {
@@ -39,12 +38,13 @@ locals {
 }
 
 module "tlscert-prod-api-app-internal-io-pagopa-it-cert_az" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.1"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.2"
   count  = var.tlscert-prod-api-app-internal-io-pagopa-it.pipeline.enable_tls_cert == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.tlscert-prod-api-app-internal-io-pagopa-it.repository
   name                         = "${var.tlscert-prod-api-app-internal-io-pagopa-it.pipeline.dns_record_name}.${var.tlscert-prod-api-app-internal-io-pagopa-it.pipeline.dns_zone_name}"
+  renew_token                  = local.tlscert_renew_token
   path                         = var.tlscert-prod-api-app-internal-io-pagopa-it.pipeline.path
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
 

@@ -93,17 +93,42 @@ resource "azuredevops_serviceendpoint_npm" "pagopa-npm-bot" {
 
 module "PROD-IO-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
-  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v1.1.0"
+  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.0.2"
   project_id = azuredevops_project.project.id
 
-  name            = "io-p-tls-cert"
-  tenant_id       = module.secrets.values["PAGOPAIT-TENANTID"].value
-  subscription_id = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
-
-
+  name              = "io-p-tls-cert"
+  renew_token       = local.tlscert_renew_token
+  tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
+  subscription_id   = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
   subscription_name = "PROD-IO"
 
   credential_subcription              = local.key_vault_subscription
   credential_key_vault_name           = local.key_vault_name
   credential_key_vault_resource_group = local.key_vault_resource_group
+}
+
+data "azurerm_key_vault" "kv_common" {
+  name                = format("%s-p-kv-common", local.prefix)
+  resource_group_name = format("%s-p-rg-common", local.prefix)
+}
+
+resource "azurerm_key_vault_access_policy" "PROD-IO-TLS-CERT-SERVICE-CONN_kv_common" {
+  key_vault_id = data.azurerm_key_vault.kv_common.id
+  tenant_id    = module.secrets.values["PAGOPAIT-TENANTID"].value
+  object_id    = module.PROD-IO-TLS-CERT-SERVICE-CONN.service_principal_object_id
+
+  certificate_permissions = ["Get", "Import"]
+}
+
+data "azurerm_key_vault" "kv" {
+  name                = format("%s-p-kv", local.prefix)
+  resource_group_name = format("%s-p-sec-rg", local.prefix)
+}
+
+resource "azurerm_key_vault_access_policy" "PROD-IO-TLS-CERT-SERVICE-CONN_kv" {
+  key_vault_id = data.azurerm_key_vault.kv.id
+  tenant_id    = module.secrets.values["PAGOPAIT-TENANTID"].value
+  object_id    = module.PROD-IO-TLS-CERT-SERVICE-CONN.service_principal_object_id
+
+  certificate_permissions = ["Get", "Import"]
 }

@@ -11,7 +11,7 @@ variable "tlscert-prod-api-internal-io-italia-it" {
       path                    = "TLS-Certificates\\PROD"
       dns_record_name         = "api-internal"
       dns_zone_name           = "io.italia.it"
-      dns_zone_resource_group = "io-infra-rg"
+      dns_zone_resource_group = "io-p-rg-external"
       # common variables to all pipelines
       variables = {
         CERT_NAME_EXPIRE_SECONDS = "2592000" #30 days
@@ -27,11 +27,10 @@ variable "tlscert-prod-api-internal-io-italia-it" {
 locals {
   tlscert-prod-api-internal-io-italia-it = {
     tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
-    subscription_name = "PROD-IO"
     subscription_id   = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
+    subscription_name = "PROD-IO"
   }
   tlscert-prod-api-internal-io-italia-it-variables = {
-    KEY_VAULT_CERT_NAME          = "${replace(var.tlscert-prod-api-internal-io-italia-it.pipeline.dns_record_name, ".", "-")}-${replace(var.tlscert-prod-api-internal-io-italia-it.pipeline.dns_zone_name, ".", "-")}"
     KEY_VAULT_SERVICE_CONNECTION = module.PROD-IO-TLS-CERT-SERVICE-CONN.service_endpoint_name
   }
   tlscert-prod-api-internal-io-italia-it-variables_secret = {
@@ -39,12 +38,13 @@ locals {
 }
 
 module "tlscert-prod-api-internal-io-italia-it-cert_az" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.1"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.2"
   count  = var.tlscert-prod-api-internal-io-italia-it.pipeline.enable_tls_cert == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.tlscert-prod-api-internal-io-italia-it.repository
   name                         = "${var.tlscert-prod-api-internal-io-italia-it.pipeline.dns_record_name}.${var.tlscert-prod-api-internal-io-italia-it.pipeline.dns_zone_name}"
+  renew_token                  = local.tlscert_renew_token
   path                         = var.tlscert-prod-api-internal-io-italia-it.pipeline.path
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
 
