@@ -11,11 +11,11 @@ variable "tlscert-uat-api-config-uat-platform-pagopa-it" {
       path                    = "TLS-Certificates\\UAT"
       dns_record_name         = ""
       dns_zone_name           = "apiconfig.uat.platform.pagopa.it"
-      dns_zone_resource_group = "pagopa-d-vnet-rg"
+      dns_zone_resource_group = "pagopa-u-vnet-rg"
       # common variables to all pipelines
       variables = {
         CERT_NAME_EXPIRE_SECONDS = "2592000" #30 days
-        KEY_VAULT_NAME           = "pagopa-d-kv"
+        KEY_VAULT_NAME           = "pagopa-u-kv"
       }
       # common secret variables to all pipelines
       variables_secret = {
