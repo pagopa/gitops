@@ -47,15 +47,45 @@ locals {
     git_mail                        = module.secrets.values["io-azure-devops-github-EMAIL"].value
     git_username                    = module.secrets.values["io-azure-devops-github-USERNAME"].value
     github_connection               = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
-    healthcheck_endpoint            = "/"
-    dev_deploy_type                 = "production_slot" #or staging_slot_and_swap
-    dev_azure_subscription          = azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.service_endpoint_name
-    dev_web_app_name                = "pagopa-d-app-api-config-fe"
-    dev_web_app_resource_group_name = "pagopa-d-api-config-fe-rg"
-    uat_deploy_type                 = "production_slot" #or staging_slot_and_swap
-    uat_azure_subscription          = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.service_endpoint_name
-    uat_web_app_name                = "pagopa-u-app-api-config-fe"
-    uat_web_app_resource_group_name = "pagopa-u-api-config-fe-rg"
+    cache_version_id                = "v3"
+//    healthcheck_endpoint            = "/"
+//    dev_deploy_type                 = "production_slot" #or staging_slot_and_swap
+//    dev_azure_subscription          = azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.service_endpoint_name
+//    dev_web_app_name                = "pagopa-d-app-api-config-fe"
+//    dev_web_app_resource_group_name = "pagopa-d-api-config-fe-rg"
+//    uat_deploy_type                 = "production_slot" #or staging_slot_and_swap
+//    uat_azure_subscription          = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.service_endpoint_name
+//    uat_web_app_name                = "pagopa-u-app-api-config-fe"
+//    uat_web_app_resource_group_name = "pagopa-u-api-config-fe-rg"
+
+    blob_container_name                   = "$web"
+    apim_basepath_apiconfig               = "/apiconfig/api"
+
+//    dev = {
+      apiconfig_api_host                  = "https://api.dev.platform.pagopa.it"
+      endpoint_azure                      = "pagopa-d-api-config-fe-cdn-endpoint"
+      profile_name_cdn_azure              = "pagopa-d-api-config-fe-cdn-profile"
+      storage_account_name                = "pagopadapiconfigsa"
+      resource_group_azure                = "pagopa-d-api-config-fe-rg"
+      azure_subscription_storage_account  = "DEV-PAGOPA-SERVICE-CONN"
+//    }
+//    uat = {
+//      apiconfig_api_host                  = "https://api.uat.platform.pagopa.it"
+//      endpoint_azure                      = "pagopa-u-api-config-fe-cdn-endpoint"
+//      profile_name_cdn_azure              = "pagopa-u-api-config-fe-cdn-profile"
+//      storage_account_name                = "pagopauapiconfigsa"
+//      resource_group_azure                = "pagopa-u-api-config-fe-rg"
+//      azure_subscription_storage_account  = "UAT-PAGOPA-SERVICE-CONN"
+//    }
+//    prod = {
+//      apiconfig_api_host                  = "https://api.platform.pagopa.it"
+//      endpoint_azure                      = "pagopa-p-api-config-fe-cdn-endpoint"
+//      profile_name_cdn_azure              = "pagopa-p-api-config-fe-cdn-profile"
+//      storage_account_name                = "pagopapapiconfigsa"
+//      resource_group_azure                = "pagopa-p-api-config-fe-rg"
+//      azure_subscription_storage_account  = "PROD-PAGOPA-SERVICE-CONN"
+//    }
+
   }
   # deploy secrets
   pagopa-api-config-fe-variables_secret_deploy = {
