@@ -47,5 +47,5 @@ resource "azuredevops_serviceendpoint_npm" "pagopa-npm-bot" {
   project_id            = azuredevops_project.project.id
   service_endpoint_name = "pagopa-npm-bot"
   url                   = "https://registry.npmjs.org"
-  access_token          = module.secrets.values["pagopa-npm-bot-TOKEN-test"].value
+  access_token          = module.secrets.values["pagopa-npm-bot-TOKEN"].value
 }
