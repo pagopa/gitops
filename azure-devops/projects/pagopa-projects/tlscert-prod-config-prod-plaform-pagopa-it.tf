@@ -9,8 +9,8 @@ variable "tlscert-prod-config-prod-platform-pagopa-it" {
     pipeline = {
       enable_tls_cert         = true
       path                    = "TLS-Certificates\\PROD"
-      dns_record_name         = ""
-      dns_zone_name           = "config.platform.pagopa.it"
+      dns_record_name         = "config"
+      dns_zone_name           = "platform.pagopa.it"
       dns_zone_resource_group = "pagopa-p-vnet-rg"
       # common variables to all pipelines
       variables = {
