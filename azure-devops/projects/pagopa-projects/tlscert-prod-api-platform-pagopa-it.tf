@@ -31,7 +31,6 @@ locals {
     subscription_id   = module.secrets.values["PAGOPAIT-PROD-PAGOPA-SUBSCRIPTION-ID"].value
   }
   tlscert-prod-api-platform-pagopa-it-variables = {
-    KEY_VAULT_CERT_NAME          = "${replace(var.tlscert-prod-api-platform-pagopa-it.pipeline.dns_record_name, ".", "-")}-${replace(var.tlscert-prod-api-platform-pagopa-it.pipeline.dns_zone_name, ".", "-")}"
     KEY_VAULT_SERVICE_CONNECTION = module.PROD-PAGOPA-TLS-CERT-SERVICE-CONN.service_endpoint_name
   }
   tlscert-prod-api-platform-pagopa-it-variables_secret = {
@@ -39,12 +38,13 @@ locals {
 }
 
 module "tlscert-prod-api-platform-pagopa-it-cert_az" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v1.1.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.2"
   count  = var.tlscert-prod-api-platform-pagopa-it.pipeline.enable_tls_cert == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.tlscert-prod-api-platform-pagopa-it.repository
   name                         = "${var.tlscert-prod-api-platform-pagopa-it.pipeline.dns_record_name}.${var.tlscert-prod-api-platform-pagopa-it.pipeline.dns_zone_name}"
+  renew_token                  = local.tlscert_renew_token
   path                         = var.tlscert-prod-api-platform-pagopa-it.pipeline.path
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
 

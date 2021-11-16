@@ -38,12 +38,13 @@ locals {
 }
 
 module "tlscert-uat-config-uat-platform-pagopa-it-cert_az" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.1"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.2"
   count  = var.tlscert-uat-config-uat-platform-pagopa-it.pipeline.enable_tls_cert == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.tlscert-uat-config-uat-platform-pagopa-it.repository
   name                         = "${var.tlscert-uat-config-uat-platform-pagopa-it.pipeline.dns_record_name}.${var.tlscert-uat-config-uat-platform-pagopa-it.pipeline.dns_zone_name}"
+  renew_token                  = local.tlscert_renew_token
   path                         = var.tlscert-uat-config-uat-platform-pagopa-it.pipeline.path
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
 
@@ -59,13 +60,13 @@ module "tlscert-uat-config-uat-platform-pagopa-it-cert_az" {
   credential_key_vault_resource_group = local.key_vault_resource_group
 
   variables = merge(
-  var.tlscert-uat-config-uat-platform-pagopa-it.pipeline.variables,
-  local.tlscert-uat-config-uat-platform-pagopa-it-variables,
+    var.tlscert-uat-config-uat-platform-pagopa-it.pipeline.variables,
+    local.tlscert-uat-config-uat-platform-pagopa-it-variables,
   )
 
   variables_secret = merge(
-  var.tlscert-uat-config-uat-platform-pagopa-it.pipeline.variables_secret,
-  local.tlscert-uat-config-uat-platform-pagopa-it-variables_secret,
+    var.tlscert-uat-config-uat-platform-pagopa-it.pipeline.variables_secret,
+    local.tlscert-uat-config-uat-platform-pagopa-it-variables_secret,
   )
 
   service_connection_ids_authorization = [
