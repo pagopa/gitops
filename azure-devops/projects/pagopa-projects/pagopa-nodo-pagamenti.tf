@@ -44,9 +44,9 @@ locals {
   }
   # deploy vars
   pagopa-nodo4-nodo-dei-pagamenti-variables_deploy = {
-     git_mail                        = module.secrets.values["io-azure-devops-github-EMAIL"].value
-     git_username                    = module.secrets.values["io-azure-devops-github-USERNAME"].value
-     github_connection               = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    git_mail          = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    git_username      = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    github_connection = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
     # healthcheck_endpoint            = "/api/v1/info"
     # dev_deploy_type                 = "production_slot" #or staging_slot_and_swap
     # dev_azure_subscription          = azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.service_endpoint_name
