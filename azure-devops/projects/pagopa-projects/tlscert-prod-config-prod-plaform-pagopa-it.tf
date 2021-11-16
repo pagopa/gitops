@@ -1,4 +1,4 @@
-variable "tlscert-prod-management-platform-pagopa-it" {
+variable "tlscert-prod-config-prod-platform-pagopa-it" {
   default = {
     repository = {
       organization   = "pagopa"
@@ -9,7 +9,7 @@ variable "tlscert-prod-management-platform-pagopa-it" {
     pipeline = {
       enable_tls_cert         = true
       path                    = "TLS-Certificates\\PROD"
-      dns_record_name         = "management"
+      dns_record_name         = "config"
       dns_zone_name           = "platform.pagopa.it"
       dns_zone_resource_group = "pagopa-p-vnet-rg"
       # common variables to all pipelines
@@ -25,48 +25,48 @@ variable "tlscert-prod-management-platform-pagopa-it" {
 }
 
 locals {
-  tlscert-prod-management-platform-pagopa-it = {
+  tlscert-prod-config-prod-platform-pagopa-it = {
     tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
     subscription_name = "PROD-PAGOPA"
     subscription_id   = module.secrets.values["PAGOPAIT-PROD-PAGOPA-SUBSCRIPTION-ID"].value
   }
-  tlscert-prod-management-platform-pagopa-it-variables = {
+  tlscert-prod-config-prod-platform-pagopa-it-variables = {
     KEY_VAULT_SERVICE_CONNECTION = module.PROD-PAGOPA-TLS-CERT-SERVICE-CONN.service_endpoint_name
   }
-  tlscert-prod-management-platform-pagopa-it-variables_secret = {
+  tlscert-prod-config-prod-platform-pagopa-it-variables_secret = {
   }
 }
 
-module "tlscert-prod-management-platform-pagopa-it-cert_az" {
+module "tlscert-prod-config-prod-platform-pagopa-it-cert_az" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.2"
-  count  = var.tlscert-prod-management-platform-pagopa-it.pipeline.enable_tls_cert == true ? 1 : 0
+  count  = var.tlscert-prod-config-prod-platform-pagopa-it.pipeline.enable_tls_cert == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.tlscert-prod-management-platform-pagopa-it.repository
-  name                         = "${var.tlscert-prod-management-platform-pagopa-it.pipeline.dns_record_name}.${var.tlscert-prod-management-platform-pagopa-it.pipeline.dns_zone_name}"
+  repository                   = var.tlscert-prod-config-prod-platform-pagopa-it.repository
+  name                         = "${var.tlscert-prod-config-prod-platform-pagopa-it.pipeline.dns_record_name}.${var.tlscert-prod-config-prod-platform-pagopa-it.pipeline.dns_zone_name}"
   renew_token                  = local.tlscert_renew_token
-  path                         = var.tlscert-prod-management-platform-pagopa-it.pipeline.path
+  path                         = var.tlscert-prod-config-prod-platform-pagopa-it.pipeline.path
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
 
-  dns_record_name         = var.tlscert-prod-management-platform-pagopa-it.pipeline.dns_record_name
-  dns_zone_name           = var.tlscert-prod-management-platform-pagopa-it.pipeline.dns_zone_name
-  dns_zone_resource_group = var.tlscert-prod-management-platform-pagopa-it.pipeline.dns_zone_resource_group
-  tenant_id               = local.tlscert-prod-management-platform-pagopa-it.tenant_id
-  subscription_name       = local.tlscert-prod-management-platform-pagopa-it.subscription_name
-  subscription_id         = local.tlscert-prod-management-platform-pagopa-it.subscription_id
+  dns_record_name         = var.tlscert-prod-config-prod-platform-pagopa-it.pipeline.dns_record_name
+  dns_zone_name           = var.tlscert-prod-config-prod-platform-pagopa-it.pipeline.dns_zone_name
+  dns_zone_resource_group = var.tlscert-prod-config-prod-platform-pagopa-it.pipeline.dns_zone_resource_group
+  tenant_id               = local.tlscert-prod-config-prod-platform-pagopa-it.tenant_id
+  subscription_name       = local.tlscert-prod-config-prod-platform-pagopa-it.subscription_name
+  subscription_id         = local.tlscert-prod-config-prod-platform-pagopa-it.subscription_id
 
   credential_subcription              = local.key_vault_subscription
   credential_key_vault_name           = local.key_vault_name
   credential_key_vault_resource_group = local.key_vault_resource_group
 
   variables = merge(
-    var.tlscert-prod-management-platform-pagopa-it.pipeline.variables,
-    local.tlscert-prod-management-platform-pagopa-it-variables,
+    var.tlscert-prod-config-prod-platform-pagopa-it.pipeline.variables,
+    local.tlscert-prod-config-prod-platform-pagopa-it-variables,
   )
 
   variables_secret = merge(
-    var.tlscert-prod-management-platform-pagopa-it.pipeline.variables_secret,
-    local.tlscert-prod-management-platform-pagopa-it-variables_secret,
+    var.tlscert-prod-config-prod-platform-pagopa-it.pipeline.variables_secret,
+    local.tlscert-prod-config-prod-platform-pagopa-it-variables_secret,
   )
 
   service_connection_ids_authorization = [
