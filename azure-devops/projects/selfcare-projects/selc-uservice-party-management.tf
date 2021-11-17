@@ -19,6 +19,7 @@ locals {
   selc-uservice-party-management-variables = {
     docker_base_image_name = "ghcr.io/pagopa/pdnd-interop-uservice-party-management"
     dockerfile             = "Dockerfile"
+    postgres_schema        = "party" //TODO to ask if schema separated for each party application
   }
   # global secrets
   selc-uservice-party-management-variables_secret = {
