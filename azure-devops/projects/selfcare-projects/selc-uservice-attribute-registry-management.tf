@@ -1,8 +1,8 @@
-variable "selc-uservice-party-process" {
+variable "selc-uservice-party-attribute-registry-management" {
   default = {
     repository = {
       organization    = "pagopa"
-      name            = "selfcare-uservice-party-process"
+      name            = "selfcare-uservice-party-attribute-registry-management"
       branch_name     = "main"
       pipelines_path  = ".devops"
       yml_prefix_name = null
@@ -16,25 +16,26 @@ variable "selc-uservice-party-process" {
 
 locals {
   # global vars
-  selc-uservice-party-process-variables = {
-    docker_base_image_name = "ghcr.io/pagopa/pdnd-interop-uservice-party-process"
+  selc-uservice-party-attribute-registry-management-variables = {
+    docker_base_image_name = "ghcr.io/pagopa/pdnd-interop-uservice-party-attribute-registry-management"
     dockerfile             = "Dockerfile"
+    postgres_schema        = "attribute_registry"
   }
   # global secrets
-  selc-uservice-party-process-variables_secret = {
+  selc-uservice-party-attribute-registry-management-variables_secret = {
 
   }
   # code_review vars
-  selc-uservice-party-process-variables_code_review = {
+  selc-uservice-party-attribute-registry-management-variables_code_review = {
 
   }
   # code_review secrets
-  selc-uservice-party-process-variables_secret_code_review = {
+  selc-uservice-party-attribute-registry-management-variables_secret_code_review = {
 
   }
   # deploy vars
-  selc-uservice-party-process-variables_deploy = {
-    k8s_image_repository_name              = replace(replace(var.selc-uservice-party-process.repository.name, "-", ""), "selfcare", "")
+  selc-uservice-party-attribute-registry-management-variables_deploy = {
+    k8s_image_repository_name              = replace(replace(var.selc-uservice-party-attribute-registry-management.repository.name, "-", ""), "selfcare", "")
     deploy_namespace                       = "selc"
     common_container_registry_name         = "ghcr.io"
     common_container_registry_service_conn = azuredevops_serviceendpoint_dockerregistry.github_docker_registry_ro.service_endpoint_name
@@ -52,28 +53,30 @@ locals {
     prod_agent_pool              = "selfcare-prod-linux"
   }
   # deploy secrets
-  selc-uservice-party-process-variables_secret_deploy = {
+  selc-uservice-party-attribute-registry-management-variables_secret_deploy = {
+    # docker_registry_pagopa_user     = module.secrets.values["SELC-DOCKER-REGISTRY-PAGOPA-USER"].value
+    # docker_registry_pagopa_token_ro = module.secrets.values["SELC-DOCKER-REGISTRY-PAGOPA-TOKEN-RO"].value
   }
 }
 
-module "selc-uservice-party-process_code_review" {
+module "selc-uservice-party-attribute-registry-management_code_review" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
-  count  = var.selc-uservice-party-process.pipeline.enable_code_review == true ? 1 : 0
+  count  = var.selc-uservice-party-attribute-registry-management.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.selc-uservice-party-process.repository
+  repository                   = var.selc-uservice-party-attribute-registry-management.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   pull_request_trigger_use_yaml = true
 
   variables = merge(
-    local.selc-uservice-party-process-variables,
-    local.selc-uservice-party-process-variables_code_review,
+    local.selc-uservice-party-attribute-registry-management-variables,
+    local.selc-uservice-party-attribute-registry-management-variables_code_review,
   )
 
   variables_secret = merge(
-    local.selc-uservice-party-process-variables_secret,
-    local.selc-uservice-party-process-variables_secret_code_review,
+    local.selc-uservice-party-attribute-registry-management-variables_secret,
+    local.selc-uservice-party-attribute-registry-management-variables_secret_code_review,
   )
 
   service_connection_ids_authorization = [
@@ -82,25 +85,25 @@ module "selc-uservice-party-process_code_review" {
   ]
 }
 
-module "selc-uservice-party-process_deploy" {
+module "selc-uservice-party-attribute-registry-management_deploy" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
-  count  = var.selc-uservice-party-process.pipeline.enable_deploy == true ? 1 : 0
+  count  = var.selc-uservice-party-attribute-registry-management.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.selc-uservice-party-process.repository
+  repository                   = var.selc-uservice-party-attribute-registry-management.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   ci_trigger_use_yaml = true
 
   variables = merge(
-    local.selc-uservice-party-process-variables,
-    local.selc-uservice-party-process-variables_deploy,
+    local.selc-uservice-party-attribute-registry-management-variables,
+    local.selc-uservice-party-attribute-registry-management-variables_deploy,
     local.selc-be-uservice-common-variables_deploy
   )
 
   variables_secret = merge(
-    local.selc-uservice-party-process-variables_secret,
-    local.selc-uservice-party-process-variables_secret_deploy,
+    local.selc-uservice-party-attribute-registry-management-variables_secret,
+    local.selc-uservice-party-attribute-registry-management-variables_secret_deploy,
   )
 
   service_connection_ids_authorization = [
