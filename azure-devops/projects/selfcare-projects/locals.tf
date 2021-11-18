@@ -60,9 +60,9 @@ locals {
   }
 
   selc-be-uservice-common-variables_deploy = {
-    manager_platform_roles  = "ADMIN"//TODO
-    delegate_platform_roles = "ADMIN"//TODO
-    operator_platform_roles = "ADMIN_REF,TECH_REF"//TODO
+    manager_product_roles  = "ADMIN"//TODO
+    delegate_product_roles = "ADMIN"//TODO
+    operator_product_roles = "ADMIN_REF,TECH_REF"//TODO
 
     dev_replicas               = 1
     dev_storage_container      = "selc-d-contracts-blob"
