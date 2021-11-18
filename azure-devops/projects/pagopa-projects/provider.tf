@@ -20,3 +20,22 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+provider "azurerm" {
+  features {}
+  alias           = "prod-pagopa"
+  subscription_id = module.secrets.values["PAGOPAIT-PROD-PAGOPA-SUBSCRIPTION-ID"].value
+}
+
+provider "azurerm" {
+  features {}
+  alias           = "uat-pagopa"
+  subscription_id = module.secrets.values["PAGOPAIT-UAT-PAGOPA-SUBSCRIPTION-ID"].value
+}
+
+
+provider "azurerm" {
+  features {}
+  alias           = "dev-pagopa"
+  subscription_id = module.secrets.values["PAGOPAIT-DEV-PAGOPA-SUBSCRIPTION-ID"].value
+}

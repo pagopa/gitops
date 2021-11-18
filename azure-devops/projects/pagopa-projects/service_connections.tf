@@ -83,9 +83,10 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-PAGOPA" {
 
 module "DEV-PAGOPA-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
-  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v1.1.0"
+  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.0.2"
 
   project_id        = azuredevops_project.project.id
+  renew_token       = local.tlscert_renew_token
   name              = "pagopa-d-tls-cert"
   tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
   subscription_id   = module.secrets.values["PAGOPAIT-DEV-PAGOPA-SUBSCRIPTION-ID"].value
@@ -96,11 +97,27 @@ module "DEV-PAGOPA-TLS-CERT-SERVICE-CONN" {
   credential_key_vault_resource_group = local.key_vault_resource_group
 }
 
+data "azurerm_key_vault" "kv_dev" {
+  provider            = azurerm.dev-pagopa
+  name                = format("%s-d-kv", local.prefix)
+  resource_group_name = format("%s-d-sec-rg", local.prefix)
+}
+
+resource "azurerm_key_vault_access_policy" "DEV-PAGOPA-TLS-CERT-SERVICE-CONN_kv_dev" {
+  provider     = azurerm.dev-pagopa
+  key_vault_id = data.azurerm_key_vault.kv_dev.id
+  tenant_id    = module.secrets.values["PAGOPAIT-TENANTID"].value
+  object_id    = module.DEV-PAGOPA-TLS-CERT-SERVICE-CONN.service_principal_object_id
+
+  certificate_permissions = ["Get", "Import"]
+}
+
 module "UAT-PAGOPA-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
-  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v1.1.0"
+  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.0.2"
 
   project_id        = azuredevops_project.project.id
+  renew_token       = local.tlscert_renew_token
   name              = "pagopa-u-tls-cert"
   tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
   subscription_id   = module.secrets.values["PAGOPAIT-UAT-PAGOPA-SUBSCRIPTION-ID"].value
@@ -111,11 +128,27 @@ module "UAT-PAGOPA-TLS-CERT-SERVICE-CONN" {
   credential_key_vault_resource_group = local.key_vault_resource_group
 }
 
+data "azurerm_key_vault" "kv_uat" {
+  provider            = azurerm.uat-pagopa
+  name                = format("%s-u-kv", local.prefix)
+  resource_group_name = format("%s-u-sec-rg", local.prefix)
+}
+
+resource "azurerm_key_vault_access_policy" "UAT-PAGOPA-TLS-CERT-SERVICE-CONN_kv_uat" {
+  provider     = azurerm.uat-pagopa
+  key_vault_id = data.azurerm_key_vault.kv_uat.id
+  tenant_id    = module.secrets.values["PAGOPAIT-TENANTID"].value
+  object_id    = module.UAT-PAGOPA-TLS-CERT-SERVICE-CONN.service_principal_object_id
+
+  certificate_permissions = ["Get", "Import"]
+}
+
 module "PROD-PAGOPA-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
-  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v1.1.0"
+  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.0.2"
 
   project_id        = azuredevops_project.project.id
+  renew_token       = local.tlscert_renew_token
   name              = "pagopa-p-tls-cert"
   tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
   subscription_id   = module.secrets.values["PAGOPAIT-PROD-PAGOPA-SUBSCRIPTION-ID"].value
@@ -124,4 +157,19 @@ module "PROD-PAGOPA-TLS-CERT-SERVICE-CONN" {
   credential_subcription              = local.key_vault_subscription
   credential_key_vault_name           = local.key_vault_name
   credential_key_vault_resource_group = local.key_vault_resource_group
+}
+
+data "azurerm_key_vault" "kv_prod" {
+  provider            = azurerm.prod-pagopa
+  name                = format("%s-p-kv", local.prefix)
+  resource_group_name = format("%s-p-sec-rg", local.prefix)
+}
+
+resource "azurerm_key_vault_access_policy" "PROD-PAGOPA-TLS-CERT-SERVICE-CONN_kv_prod" {
+  provider     = azurerm.prod-pagopa
+  key_vault_id = data.azurerm_key_vault.kv_prod.id
+  tenant_id    = module.secrets.values["PAGOPAIT-TENANTID"].value
+  object_id    = module.PROD-PAGOPA-TLS-CERT-SERVICE-CONN.service_principal_object_id
+
+  certificate_permissions = ["Get", "Import"]
 }

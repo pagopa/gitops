@@ -12,6 +12,5 @@ module "secrets" {
     "io-azure-devops-github-EMAIL",
     "io-azure-devops-github-USERNAME",
     "pagopa-npm-bot-TOKEN",
-    "pagopa-npm-bot-TOKEN-test",
   ]
 }
