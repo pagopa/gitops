@@ -36,12 +36,20 @@ locals {
   }
   # deploy vars
   rtd-ms-transaction-filter-variables_deploy = {
-
+    k8s_image_repository_name            = replace(var.rtd-ms-transaction-filter.repository.name, "-", "")
+    deploy_namespace                     = "fa"
+    settings_xml_rw_secure_file_name     = "settings-rw.xml"
+    settings_xml_ro_secure_file_name     = "settings-ro.xml"
+    dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.cstar-azurecr-dev.service_endpoint_name
+    dev_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.cstar-aks-dev.service_endpoint_name
+    dev_container_registry_name          = "cstardacr.azurecr.io"
+    dev_agent_pool                       = "cstar-dev-linux"
   }
   # deploy secrets
   rtd-ms-transaction-filter-variables_secret_deploy = {
 
   }
+
 }
 
 module "rtd-ms-transaction-filter_code_review" {
@@ -92,5 +100,8 @@ module "rtd-ms-transaction-filter_deploy" {
 
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
+    azuredevops_serviceendpoint_azurerm.DEV-CSTAR.id,
+    azuredevops_serviceendpoint_azurecr.cstar-azurecr-dev.id,
+    azuredevops_serviceendpoint_kubernetes.cstar-aks-dev.id
   ]
 }
