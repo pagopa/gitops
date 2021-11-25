@@ -19,6 +19,9 @@ locals {
   selc-uservice-party-process-variables = {
     docker_base_image_name = "ghcr.io/pagopa/pdnd-interop-uservice-party-process"
     dockerfile             = "Dockerfile"
+    dev_replicas           = 1
+    uat_replicas           = 1
+    prod_replicas          = 1
   }
   # global secrets
   selc-uservice-party-process-variables_secret = {
@@ -53,8 +56,6 @@ locals {
   }
   # deploy secrets
   selc-uservice-party-process-variables_secret_deploy = {
-    # docker_registry_pagopa_user     = module.secrets.values["SELC-DOCKER-REGISTRY-PAGOPA-USER"].value
-    # docker_registry_pagopa_token_ro = module.secrets.values["SELC-DOCKER-REGISTRY-PAGOPA-TOKEN-RO"].value
   }
 }
 
@@ -96,8 +97,7 @@ module "selc-uservice-party-process_deploy" {
 
   variables = merge(
     local.selc-uservice-party-process-variables,
-    local.selc-uservice-party-process-variables_deploy,
-    local.selc-be-uservice-common-variables_deploy
+    local.selc-uservice-party-process-variables_deploy
   )
 
   variables_secret = merge(
