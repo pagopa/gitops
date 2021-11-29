@@ -33,7 +33,12 @@ locals {
   }
   # deploy vars
   selc-fe-login-variables_deploy = {
-
+    dev_react_app_url_file_informativa_privacy  = "https://dev.selfcare.pagopa.it/assets/InformativaPrivacy.pdf"
+    dev_react_app_url_file_termini_e_condizioni = "https://dev.selfcare.pagopa.it/assets/tc.pdf"
+    uat_react_app_url_file_informativa_privacy  = "https://uat.selfcare.pagopa.it/assets/InformativaPrivacy.pdf"
+    uat_react_app_url_file_termini_e_condizioni = "https://uat.selfcare.pagopa.it/assets/tc.pdf"
+    prod_react_app_url_file_informativa_privacy  = "https://selfcare.pagopa.it/assets/InformativaPrivacy.pdf"
+    prod_react_app_url_file_termini_e_condizioni = "https://selfcare.pagopa.it/assets/tc.pdf"
   }
   # deploy secrets
   selc-fe-login-variables_secret_deploy = {
