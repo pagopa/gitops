@@ -132,12 +132,11 @@ resource "azuredevops_build_definition" "cgn-onboarding-portal-backend-deploy" {
     allow_override = false
   }
 
-  # TODO
-  # variable {
-  #   name  = "PROD_CONTAINER_REGISTRY"
-  #   value = azuredevops_serviceendpoint_azurecr.cgnonboardingportal-prod-azurecr.service_endpoint_name
-  #   allow_override = false
-  # }
+  variable {
+    name           = "PROD_CONTAINER_REGISTRY"
+    value          = azuredevops_serviceendpoint_azurecr.cgnonboardingportal-prod-azurecr.service_endpoint_name
+    allow_override = false
+  }
 
   variable {
     name           = "PROD_WEB_APP_NAME"
@@ -215,13 +214,12 @@ resource "azuredevops_resource_authorization" "cgn-onboarding-portal-backend-dep
   type          = "endpoint"
 }
 
-# TODO
-# resource "azuredevops_resource_authorization" "cgn-onboarding-portal-backend-deploy-azurecr-prod-auth" {
-#   depends_on = [azuredevops_serviceendpoint_azurecr.cgnonboardingportal-prod-azurecr, azuredevops_build_definition.cgn-onboarding-portal-backend-deploy, time_sleep.wait]
+resource "azuredevops_resource_authorization" "cgn-onboarding-portal-backend-deploy-azurecr-prod-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurecr.cgnonboardingportal-prod-azurecr, azuredevops_build_definition.cgn-onboarding-portal-backend-deploy, time_sleep.wait]
 
-#   project_id    = azuredevops_project.project.id
-#   resource_id   = azuredevops_serviceendpoint_azurecr.cgnonboardingportal-prod-azurecr.id
-#   definition_id = azuredevops_build_definition.cgn-onboarding-portal-backend-deploy.id
-#   authorized    = true
-#   type          = "endpoint"
-# }
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_azurecr.cgnonboardingportal-prod-azurecr.id
+  definition_id = azuredevops_build_definition.cgn-onboarding-portal-backend-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
