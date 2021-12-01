@@ -72,15 +72,15 @@ locals {
 
     dev_sia_docker_registry = docker-registry-default.ocp-tst-npaspc.sia.eu
     dev_sia_docker_registry_usr = serviceaccount
-    dev_sia_docker_registry_pwd = module.secrets.values["DEV-SIA-DOCKER-REGISTRY-PWD"].value
+    dev_sia_docker_registry_pwd = module.secrets.values["DEV-PAGOPA-SIA-DOCKER-REGISTRY-PWD"].value
 
     uat_sia_docker_registry = docker-registry-default.ocp-tst-npaspc.sia.eu
     uat_sia_docker_registry_usr = serviceaccount
-    uat_sia_docker_registry_pwd = module.secrets.values["UAT-SIA-DOCKER-REGISTRY-PWD"].value
+    uat_sia_docker_registry_pwd = module.secrets.values["UAT-PAGOPA-SIA-DOCKER-REGISTRY-PWD"].value
 
     prod_sia_docker_registry = docker-registry-default.ocp-tst-npaspc.sia.eu
     prod_sia_docker_registry_usr = serviceaccount
-    prod_sia_docker_registry_pwd = module.secrets.values["PROD-SIA-DOCKER-REGISTRY-PWD"].value
+    prod_sia_docker_registry_pwd = module.secrets.values["PROD-PAGOPA-SIA-DOCKER-REGISTRY-PWD"].value
 
   }
 }
