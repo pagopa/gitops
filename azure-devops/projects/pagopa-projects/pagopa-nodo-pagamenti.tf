@@ -114,8 +114,8 @@ module "pagopa-nodo4-nodo-dei-pagamenti_deploy" {
     azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev.id,
     azuredevops_serviceendpoint_dockerregistry.sia-registry-dev.id,
     azuredevops_serviceendpoint_azurecr.pagopa-azurecr-uat.id,
-    azuredevops_serviceendpoint_dockerregistry.sia-registry-uat,
+    azuredevops_serviceendpoint_dockerregistry.sia-registry-uat.id,
     azuredevops_serviceendpoint_azurecr.pagopa-azurecr-prod.id,
-    azuredevops_serviceendpoint_dockerregistry.sia-registry-prod,
+    azuredevops_serviceendpoint_dockerregistry.sia-registry-prod.id,
   ]
 }
