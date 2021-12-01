@@ -173,3 +173,57 @@ resource "azurerm_key_vault_access_policy" "PROD-PAGOPA-TLS-CERT-SERVICE-CONN_kv
 
   certificate_permissions = ["Get", "Import"]
 }
+
+# DEV service connection for azure container registry 
+resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-dev" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "pagopa-azurecr-dev"
+  resource_group            = "pagopa-d-aks-rg"
+  azurecr_name              = "pagopadacr"
+  azurecr_subscription_name = "DEV-PAGOPA"
+  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-DEV-PAGOPA-SUBSCRIPTION-ID"].value
+}
+
+# UAT service connection for azure container registry 
+resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-uat" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "pagopa-azurecr-uat"
+  resource_group            = "pagopa-u-aks-rg"
+  azurecr_name              = "pagopauacr"
+  azurecr_subscription_name = "UAT-PAGOPA"
+  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-UAT-PAGOPA-SUBSCRIPTION-ID"].value
+}
+
+# PROD service connection for azure container registry 
+resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-prod" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "pagopa-azurecr-prod"
+  resource_group            = "pagopa-p-aks-rg"
+  azurecr_name              = "pagopapacr"
+  azurecr_subscription_name = "PROD-PAGOPA"
+  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-PAGOPA-SUBSCRIPTION-ID"].value
+}
+
+# SIA service connection (read-write)
+# FIXME - chiedere a SIA che tipo di registry hanno
+# resource "azuredevops_serviceendpoint_github" "sia-devops-registry-rw" {
+#   depends_on = [azuredevops_project.project]
+
+#   project_id            = azuredevops_project.project.id
+#   service_endpoint_name = "sia-devops-registry-rw"
+#   auth_personal {
+#     personal_access_token = module.secrets.values["io-azure-devops-github-rw-TOKEN"].value
+#   }
+#   lifecycle {
+#     ignore_changes = [description, authorization]
+#   }
+# }
