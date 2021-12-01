@@ -60,9 +60,27 @@ locals {
     # prod_azure_subscription          = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.service_endpoint_name
     # prod_web_app_name                = "pagopa-p-app-api-config"
     # prod_web_app_resource_group_name = "pagopa-p-api-config-rg"
+    dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev.service_endpoint_name
+    dev_container_registry_name          = "pagopadacr.azurecr.io"
+    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-uat.service_endpoint_name
+    uat_container_registry_name          = "pagopauacr.azurecr.io"
+    prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-prod.service_endpoint_name
+    prod_container_registry_name         = "pagopapacr.azurecr.io"
   }
   # deploy secrets
   pagopa-nodo4-nodo-dei-pagamenti-variables_secret_deploy = {
+
+    dev_sia_docker_registry = docker-registry-default.ocp-tst-npaspc.sia.eu
+    dev_sia_docker_registry_usr = serviceaccount
+    dev_sia_docker_registry_pwd = module.secrets.values["DEV-SIA-DOCKER-REGISTRY-PWD"].value
+
+    uat_sia_docker_registry = docker-registry-default.ocp-tst-npaspc.sia.eu
+    uat_sia_docker_registry_usr = serviceaccount
+    uat_sia_docker_registry_pwd = module.secrets.values["UAT-SIA-DOCKER-REGISTRY-PWD"].value
+
+    prod_sia_docker_registry = docker-registry-default.ocp-tst-npaspc.sia.eu
+    prod_sia_docker_registry_usr = serviceaccount
+    prod_sia_docker_registry_pwd = module.secrets.values["PROD-SIA-DOCKER-REGISTRY-PWD"].value
 
   }
 }
