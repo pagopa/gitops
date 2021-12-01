@@ -187,31 +187,31 @@ resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-dev" {
   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-DEV-PAGOPA-SUBSCRIPTION-ID"].value
 }
 
-# # UAT service connection for azure container registry 
-# resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-uat" {
-#   depends_on = [azuredevops_project.project]
+# UAT service connection for azure container registry 
+resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-uat" {
+  depends_on = [azuredevops_project.project]
 
-#   project_id                = azuredevops_project.project.id
-#   service_endpoint_name     = "pagopa-azurecr-uat"
-#   resource_group            = "pagopa-u-aks-rg"
-#   azurecr_name              = "pagopauacr"
-#   azurecr_subscription_name = "UAT-PAGOPA"
-#   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-#   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-UAT-PAGOPA-SUBSCRIPTION-ID"].value
-# }
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "pagopa-azurecr-uat"
+  resource_group            = "pagopa-u-aks-rg"
+  azurecr_name              = "pagopauacr"
+  azurecr_subscription_name = "UAT-PAGOPA"
+  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-UAT-PAGOPA-SUBSCRIPTION-ID"].value
+}
 
-# # PROD service connection for azure container registry 
-# resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-prod" {
-#   depends_on = [azuredevops_project.project]
+# PROD service connection for azure container registry 
+resource "azuredevops_serviceendpoint_azurecr" "pagopa-azurecr-prod" {
+  depends_on = [azuredevops_project.project]
 
-#   project_id                = azuredevops_project.project.id
-#   service_endpoint_name     = "pagopa-azurecr-prod"
-#   resource_group            = "pagopa-p-aks-rg"
-#   azurecr_name              = "pagopapacr"
-#   azurecr_subscription_name = "PROD-PAGOPA"
-#   azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
-#   azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-PAGOPA-SUBSCRIPTION-ID"].value
-# }
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "pagopa-azurecr-prod"
+  resource_group            = "pagopa-p-aks-rg"
+  azurecr_name              = "pagopapacr"
+  azurecr_subscription_name = "PROD-PAGOPA"
+  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-PAGOPA-SUBSCRIPTION-ID"].value
+}
 
 # SIA service connection (read-write)
 # other docker registry service connection

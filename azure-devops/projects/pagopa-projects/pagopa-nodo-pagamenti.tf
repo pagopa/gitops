@@ -44,18 +44,18 @@ locals {
   }
   # deploy vars
   pagopa-nodo4-nodo-dei-pagamenti-variables_deploy = {
-    git_mail                            = module.secrets.values["io-azure-devops-github-EMAIL"].value
-    git_username                        = module.secrets.values["io-azure-devops-github-USERNAME"].value
-    github_connection                   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
-    dev_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev.service_endpoint_name
-    dev_container_registry_name         = "pagopadacr.azurecr.io"
-    dev_sia_registry_service_conn       = azuredevops_serviceendpoint_dockerregistry.sia-registry-dev.service_endpoint_name
-    # uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-uat.service_endpoint_name
-    # uat_container_registry_name          = "pagopauacr.azurecr.io"
-    # uat_sia_registry_service_conn   = azuredevops_serviceendpoint_dockerregistry.sia-registry-uat.service_endpoint_name
-    # prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-prod.service_endpoint_name
-    # prod_container_registry_name         = "pagopapacr.azurecr.io"
-    # prod_sia_registry_service_conn  = azuredevops_serviceendpoint_dockerregistry.sia-registry-prod.service_endpoint_name
+    git_mail                             = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    git_username                         = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    github_connection                    = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev.service_endpoint_name
+    dev_container_registry_name          = "pagopadacr.azurecr.io"
+    dev_sia_registry_service_conn        = azuredevops_serviceendpoint_dockerregistry.sia-registry-dev.service_endpoint_name
+    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-uat.service_endpoint_name
+    uat_container_registry_name          = "pagopauacr.azurecr.io"
+    uat_sia_registry_service_conn        = azuredevops_serviceendpoint_dockerregistry.sia-registry-uat.service_endpoint_name
+    prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-prod.service_endpoint_name
+    prod_container_registry_name         = "pagopapacr.azurecr.io"
+    prod_sia_registry_service_conn       = azuredevops_serviceendpoint_dockerregistry.sia-registry-prod.service_endpoint_name
   }
   # deploy secrets
   pagopa-nodo4-nodo-dei-pagamenti-variables_secret_deploy = {
@@ -113,9 +113,9 @@ module "pagopa-nodo4-nodo-dei-pagamenti_deploy" {
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev.id,
     azuredevops_serviceendpoint_dockerregistry.sia-registry-dev.id,
-    # azuredevops_serviceendpoint_azurecr.pagopa-azurecr-uat.id,
-    # azuredevops_serviceendpoint_dockerregistry.sia-registry-uat,
-    # azuredevops_serviceendpoint_azurecr.pagopa-azurecr-prod.id,
-    # azuredevops_serviceendpoint_dockerregistry.sia-registry-prod,
+    azuredevops_serviceendpoint_azurecr.pagopa-azurecr-uat.id,
+    azuredevops_serviceendpoint_dockerregistry.sia-registry-uat,
+    azuredevops_serviceendpoint_azurecr.pagopa-azurecr-prod.id,
+    azuredevops_serviceendpoint_dockerregistry.sia-registry-prod,
   ]
 }
