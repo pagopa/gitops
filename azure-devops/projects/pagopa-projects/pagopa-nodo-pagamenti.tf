@@ -49,13 +49,19 @@ locals {
     github_connection                    = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
     dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev.service_endpoint_name
     dev_container_registry_name          = "pagopadacr.azurecr.io"
-    dev_sia_registry_service_conn        = azuredevops_serviceendpoint_dockerregistry.sia-registry-dev.service_endpoint_name
     uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-uat.service_endpoint_name
     uat_container_registry_name          = "pagopauacr.azurecr.io"
-    uat_sia_registry_service_conn        = azuredevops_serviceendpoint_dockerregistry.sia-registry-uat.service_endpoint_name
     prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-prod.service_endpoint_name
     prod_container_registry_name         = "pagopapacr.azurecr.io"
-    prod_sia_registry_service_conn       = azuredevops_serviceendpoint_dockerregistry.sia-registry-prod.service_endpoint_name
+
+    dev_sia_registry_service_conn   = azuredevops_serviceendpoint_dockerregistry.sia-registry-dev.service_endpoint_name
+    uat_sia_registry_service_conn   = azuredevops_serviceendpoint_dockerregistry.sia-registry-uat.service_endpoint_name
+    prod_sia_registry_service_conn  = azuredevops_serviceendpoint_dockerregistry.sia-registry-prod.service_endpoint_name
+
+    sia_docker_registry        = "docker-registry-default.ocp-tst-npaspc.sia.eu"
+    sia_docker_username        = "serviceaccount"
+    sia_docker_password        = module.secrets.values["DEV-PAGOPA-SIA-DOCKER-REGISTRY-PWD"].value
+
   }
   # deploy secrets
   pagopa-nodo4-nodo-dei-pagamenti-variables_secret_deploy = {
