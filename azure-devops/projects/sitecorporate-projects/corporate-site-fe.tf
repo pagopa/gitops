@@ -58,12 +58,14 @@ locals {
 }
 
 module "corporate-site-fe-deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v0.0.3"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
   count  = var.corporate-site-fe.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.corporate-site-fe.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+
+  ci_trigger_use_yaml = true
 
   variables = merge(
     local.corporate-site-fe-variables,
