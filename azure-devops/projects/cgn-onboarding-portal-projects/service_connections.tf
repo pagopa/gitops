@@ -98,15 +98,15 @@ resource "azuredevops_serviceendpoint_azurecr" "cgnonboardingportal-uat-azurecr"
   azurecr_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value
 }
 
-# # azure container registry service connection
-# resource "azuredevops_serviceendpoint_azurecr" "cgnonboardingportal-prod-azurecr" {
-#   depends_on = [azuredevops_project.project]
+# azure container registry service connection
+resource "azuredevops_serviceendpoint_azurecr" "cgnonboardingportal-prod-azurecr" {
+  depends_on = [azuredevops_project.project]
 
-#   project_id                = azuredevops_project.project.id
-#   service_endpoint_name     = "cgnonboardingportal-prod-azurecr"
-#   resource_group            = "cgnonboardingportal-p-api-rg"
-#   azurecr_name              = "cgnonboardingportalparc"
-#   azurecr_subscription_name = "PROD-Esercenti"
-#   azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
-#   azurecr_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value
-# }
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "cgnonboardingportal-prod-azurecr"
+  resource_group            = "cgnonboardingportal-p-api-rg"
+  azurecr_name              = "cgnonboardingportalparc"
+  azurecr_subscription_name = "PROD-Esercenti"
+  azurecr_spn_tenantid      = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
+  azurecr_subscription_id   = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value
+}

@@ -37,6 +37,7 @@ locals {
     dev_react_app_url_api_party_management     = "https://api.dev.selfcare.pagopa.it/party-management/v1"
     dev_react_app_url_api_party_registry_proxy = "https://api.dev.selfcare.pagopa.it/party-registry-proxy/v1"
     dev_react_app_url_api_dashboard            = "https://api.dev.selfcare.pagopa.it/dashboard/v1"
+    dev_react_app_url_api_onboarding           = "https://api.dev.selfcare.pagopa.it/onboarding/v1"
 
     uat_react_app_url_fe_login                 = "https://uat.selfcare.pagopa.it/auth"
     uat_react_app_url_fe_onboarding            = "https://uat.selfcare.pagopa.it/onboarding"
@@ -47,6 +48,7 @@ locals {
     uat_react_app_url_api_party_management     = "https://api.uat.selfcare.pagopa.it/party-management/v1"
     uat_react_app_url_api_party_registry_proxy = "https://api.uat.selfcare.pagopa.it/party-registry-proxy/v1"
     uat_react_app_url_api_dashboard            = "https://api.uat.selfcare.pagopa.it/dashboard/v1"
+    uat_react_app_url_api_onboarding           = "https://api.uat.selfcare.pagopa.it/onboarding/v1"
 
     prod_react_app_url_fe_login                 = "https://selfcare.pagopa.it/auth"
     prod_react_app_url_fe_onboarding            = "https://selfcare.pagopa.it/onboarding"
@@ -57,5 +59,6 @@ locals {
     prod_react_app_url_api_party_management     = "https://api.selfcare.pagopa.it/party-management/v1"
     prod_react_app_url_api_party_registry_proxy = "https://api.selfcare.pagopa.it/party-registry-proxy/v1"
     prod_react_app_url_api_dashboard            = "https://api.selfcare.pagopa.it/dashboard/v1"
+    prod_react_app_url_api_onboarding           = "https://api.selfcare.pagopa.it/onboarding/v1"
   }
 }
