@@ -39,7 +39,7 @@ locals {
     dev_container_registry_name         = "selcdacr.azurecr.io"
     dev_agent_pool                      = "selfcare-dev-linux"
     dev_replicas                        = 1
-    /*    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name
+    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name
     uat_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.service_endpoint_name
     uat_container_registry_name          = "selcuacr.azurecr.io"
     uat_agent_pool                       = "selfcare-uat-linux"
@@ -48,7 +48,7 @@ locals {
     prod_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.service_endpoint_name
     prod_container_registry_name         = "selcpacr.azurecr.io"
     prod_agent_pool                      = "selfcare-prod-linux"
-    prod_replicas                        = 2*/
+    prod_replicas                        = 2
   }
   # deploy secrets
   hub-spid-login-ms-variables_secret_deploy = {
@@ -79,15 +79,13 @@ module "hub-spid-login-ms_deploy" {
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurerm.DEV-SELFCARE.id,
-    //    azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.id, TODO uncomment when aks UAT will be available
-    //    azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.id, TODO uncomment when aks PROD will be available
     azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.id,
     azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.id,
-    /* TODO uncomment when aks UAT will be available
+    azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.id,
     azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.id,
-    azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.id,*/
-    /* TODO uncomment when aks PROD will be available
+    azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.id,
+    azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.id,
     azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.id,
-    azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.id,*/
+    azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.id,
   ]
 }

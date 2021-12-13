@@ -45,19 +45,18 @@ locals {
     dev_kubernetes_service_conn            = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
     dev_container_registry_name            = "selcdacr.azurecr.io"
     dev_agent_pool                         = "selfcare-dev-linux"
-    //    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name TODO uncomment when aks UAT will be available
-    //    uat_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.service_endpoint_name TODO uncomment when aks UAT will be available
+    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name
+    uat_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.service_endpoint_name
     uat_container_registry_name = "selcuacr.azurecr.io"
     uat_agent_pool              = "selfcare-uat-linux"
-    //    prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.service_endpoint_name TODO uncomment when aks UAT will be available
-    //    prod_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.service_endpoint_name TODO uncomment when aks UAT will be available
+    prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.service_endpoint_name
+    prod_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.service_endpoint_name
     prod_container_registry_name = "selcpacr.azurecr.io"
     prod_agent_pool              = "selfcare-prod-linux"
   }
   # deploy secrets
   selc-uservice-attribute-registry-management-variables_secret_deploy = {
-    # docker_registry_pagopa_user     = module.secrets.values["SELC-DOCKER-REGISTRY-PAGOPA-USER"].value
-    # docker_registry_pagopa_token_ro = module.secrets.values["SELC-DOCKER-REGISTRY-PAGOPA-TOKEN-RO"].value
+
   }
 }
 
@@ -112,5 +111,9 @@ module "selc-uservice-attribute-registry-management_deploy" {
     azuredevops_serviceendpoint_dockerregistry.github_docker_registry_ro.id,
     azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.id,
     azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.id,
+    azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.id,
+    azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.id,
+    azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.id,
+    azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.id,
   ]
 }
