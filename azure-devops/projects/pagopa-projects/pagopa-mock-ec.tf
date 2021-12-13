@@ -58,7 +58,7 @@ locals {
 }
 
 module "pagopa-mock-ec_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=add-trigger-to-build-definition-tls-cert"
   count  = var.pagopa-mock-ec.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
@@ -81,7 +81,7 @@ module "pagopa-mock-ec_code_review" {
 }
 
 module "pagopa-mock-ec_deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=add-trigger-to-build-definition-tls-cert"
   count  = var.pagopa-mock-ec.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
