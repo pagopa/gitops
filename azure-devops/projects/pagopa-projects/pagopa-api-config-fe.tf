@@ -60,6 +60,7 @@ locals {
     dev_azure_subscription_storage_account = "DEV-PAGOPA-SERVICE-CONN"
     dev_apiconfig_redirect_uri             = "https://config.dev.platform.pagopa.it/",
     dev_apiconfig_client_id                = module.secrets.values["DEV-APICONFIG-CLIENT-ID"].value
+    dev_apiconfig_scopes                   = "api://pagopa-d-apiconfig-be/access-apiconfig-be"
 
     uat_apiconfig_api_host                 = "https://api.uat.platform.pagopa.it"
     uat_endpoint_azure                     = "pagopa-u-api-config-fe-cdn-endpoint"
@@ -69,6 +70,7 @@ locals {
     uat_azure_subscription_storage_account = "UAT-PAGOPA-SERVICE-CONN"
     uat_apiconfig_redirect_uri             = "https://config.uat.platform.pagopa.it/",
     uat_apiconfig_client_id                = module.secrets.values["UAT-APICONFIG-CLIENT-ID"].value
+    uat_apiconfig_scopes                   = "api://pagopa-u-apiconfig-be/access-apiconfig-be"
 
     prod_apiconfig_api_host                 = "https://api.platform.pagopa.it"
     prod_endpoint_azure                     = "pagopa-p-api-config-fe-cdn-endpoint"
@@ -78,6 +80,7 @@ locals {
     prod_azure_subscription_storage_account = "PROD-PAGOPA-SERVICE-CONN"
     prod_apiconfig_redirect_uri             = "https://config.platform.pagopa.it/",
     prod_apiconfig_client_id                = module.secrets.values["PROD-APICONFIG-CLIENT-ID"].value
+    prod_apiconfig_scopes                   = "api://pagopa-p-apiconfig-be/access-apiconfig-be"
 
   }
   # deploy secrets
