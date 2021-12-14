@@ -50,6 +50,7 @@ locals {
 
     blob_container_name     = "$web"
     apim_basepath_apiconfig = "/apiconfig/api"
+    apiconfig_tenant        = format("https://login.microsoftonline.com/%s", module.secrets.values["PAGOPAIT-TENANTID"].value),
 
     dev_apiconfig_api_host                 = "https://api.dev.platform.pagopa.it"
     dev_endpoint_azure                     = "pagopa-d-api-config-fe-cdn-endpoint"
@@ -57,6 +58,8 @@ locals {
     dev_storage_account_name               = "pagopadapiconfigfesa"
     dev_resource_group_azure               = "pagopa-d-api-config-fe-rg"
     dev_azure_subscription_storage_account = "DEV-PAGOPA-SERVICE-CONN"
+    dev_apiconfig_redirect_uri             = "https://config.dev.platform.pagopa.it/",
+    dev_apiconfig_client_id                = module.secrets.values["DEV-APICONFIG-CLIENT-ID"].value
 
     uat_apiconfig_api_host                 = "https://api.uat.platform.pagopa.it"
     uat_endpoint_azure                     = "pagopa-u-api-config-fe-cdn-endpoint"
@@ -64,6 +67,8 @@ locals {
     uat_storage_account_name               = "pagopauapiconfigfesa"
     uat_resource_group_azure               = "pagopa-u-api-config-fe-rg"
     uat_azure_subscription_storage_account = "UAT-PAGOPA-SERVICE-CONN"
+    uat_apiconfig_redirect_uri             = "https://config.uat.platform.pagopa.it/",
+    uat_apiconfig_client_id                = module.secrets.values["UAT-APICONFIG-CLIENT-ID"].value
 
     prod_apiconfig_api_host                 = "https://api.platform.pagopa.it"
     prod_endpoint_azure                     = "pagopa-p-api-config-fe-cdn-endpoint"
@@ -71,6 +76,8 @@ locals {
     prod_storage_account_name               = "pagopapapiconfigfesa"
     prod_resource_group_azure               = "pagopa-p-api-config-fe-rg"
     prod_azure_subscription_storage_account = "PROD-PAGOPA-SERVICE-CONN"
+    prod_apiconfig_redirect_uri             = "https://config.platform.pagopa.it/",
+    prod_apiconfig_client_id                = module.secrets.values["PROD-APICONFIG-CLIENT-ID"].value
 
   }
   # deploy secrets
