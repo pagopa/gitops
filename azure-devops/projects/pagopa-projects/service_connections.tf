@@ -83,7 +83,7 @@ resource "azuredevops_serviceendpoint_azurerm" "PROD-PAGOPA" {
 
 module "DEV-PAGOPA-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
-  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=add-trigger-to-build-definition-tls-cert"
+  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.0.4"
 
   project_id        = azuredevops_project.project.id
   renew_token       = local.tlscert_renew_token
@@ -114,7 +114,7 @@ resource "azurerm_key_vault_access_policy" "DEV-PAGOPA-TLS-CERT-SERVICE-CONN_kv_
 
 module "UAT-PAGOPA-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
-  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=add-trigger-to-build-definition-tls-cert"
+  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.0.4"
 
   project_id        = azuredevops_project.project.id
   renew_token       = local.tlscert_renew_token
@@ -145,7 +145,7 @@ resource "azurerm_key_vault_access_policy" "UAT-PAGOPA-TLS-CERT-SERVICE-CONN_kv_
 
 module "PROD-PAGOPA-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
-  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=add-trigger-to-build-definition-tls-cert"
+  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.0.4"
 
   project_id        = azuredevops_project.project.id
   renew_token       = local.tlscert_renew_token
