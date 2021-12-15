@@ -31,7 +31,7 @@ locals {
     dev_react_app_url_fe_login                 = "https://dev.selfcare.pagopa.it/auth"
     dev_react_app_url_fe_onboarding            = "https://dev.selfcare.pagopa.it/onboarding"
     dev_react_app_url_fe_dashboard             = "https://dev.selfcare.pagopa.it/dashboard"
-    dev_react_app_url_fe_landing               = "https://landing" // TODO
+    dev_react_app_url_fe_landing               = "https://dev.selfcare.pagopa.it/auth/logout" // TODO when the landing will exists, replace this with the correct URL
     dev_react_app_url_api_login                = "https://api.dev.selfcare.pagopa.it/spid/v1"
     dev_react_app_url_api_party_process        = "https://api.dev.selfcare.pagopa.it/party-process/v1"
     dev_react_app_url_api_party_management     = "https://api.dev.selfcare.pagopa.it/party-management/v1"
@@ -42,7 +42,7 @@ locals {
     uat_react_app_url_fe_login                 = "https://uat.selfcare.pagopa.it/auth"
     uat_react_app_url_fe_onboarding            = "https://uat.selfcare.pagopa.it/onboarding"
     uat_react_app_url_fe_dashboard             = "https://uat.selfcare.pagopa.it/dashboard"
-    uat_react_app_url_fe_landing               = "https://landing" // TODO
+    uat_react_app_url_fe_landing               = "https://uat.selfcare.pagopa.it/auth/logout" // TODO when the landing will exists, replace this with the correct URL
     uat_react_app_url_api_login                = "https://api.uat.selfcare.pagopa.it/spid/v1"
     uat_react_app_url_api_party_process        = "https://api.uat.selfcare.pagopa.it/party-process/v1"
     uat_react_app_url_api_party_management     = "https://api.uat.selfcare.pagopa.it/party-management/v1"
@@ -53,7 +53,7 @@ locals {
     prod_react_app_url_fe_login                 = "https://selfcare.pagopa.it/auth"
     prod_react_app_url_fe_onboarding            = "https://selfcare.pagopa.it/onboarding"
     prod_react_app_url_fe_dashboard             = "https://selfcare.pagopa.it/dashboard"
-    prod_react_app_url_fe_landing               = "https://landing" // TODO
+    prod_react_app_url_fe_landing               = "https://selfcare.pagopa.it/auth/logout" // TODO when the landing will exists, replace this with the correct URL
     prod_react_app_url_api_login                = "https://api.selfcare.pagopa.it/spid/v1"
     prod_react_app_url_api_party_process        = "https://api.selfcare.pagopa.it/party-process/v1"
     prod_react_app_url_api_party_management     = "https://api.selfcare.pagopa.it/party-management/v1"
