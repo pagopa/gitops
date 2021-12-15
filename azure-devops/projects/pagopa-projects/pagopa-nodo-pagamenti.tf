@@ -41,6 +41,9 @@ locals {
   # code_review secrets
   pagopa-nodo4-nodo-dei-pagamenti-variables_secret_code_review = {
     danger_github_api_token = "skip"
+    git_mail                             = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    git_username                         = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    github_connection                    = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
   }
   # deploy vars
   pagopa-nodo4-nodo-dei-pagamenti-variables_deploy = {
