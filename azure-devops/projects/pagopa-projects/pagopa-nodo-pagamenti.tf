@@ -77,6 +77,7 @@ module "pagopa-nodo4-nodo-dei-pagamenti_code_review" {
   repository                   = var.pagopa-nodo4-nodo-dei-pagamenti.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
 
+  ci_trigger_use_yaml           = true
   pull_request_trigger_use_yaml = true
 
   variables = merge(
@@ -103,7 +104,8 @@ module "pagopa-nodo4-nodo-dei-pagamenti_deploy" {
   repository                   = var.pagopa-nodo4-nodo-dei-pagamenti.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
 
-  ci_trigger_use_yaml = true
+  ci_trigger_use_yaml           = true
+  pull_request_trigger_use_yaml = true
 
   variables = merge(
     local.pagopa-nodo4-nodo-dei-pagamenti-variables,
