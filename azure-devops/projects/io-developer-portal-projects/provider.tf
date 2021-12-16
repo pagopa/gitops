@@ -9,17 +9,29 @@ terraform {
   required_providers {
     azuredevops = {
       source  = "microsoft/azuredevops"
-      version = "= 0.1.4"
+      version = "= 0.1.8"
     }
     azurerm = {
       version = "~> 2.52.0"
     }
     time = {
-      version = "~> 0.6.0"
+      version = "~> 0.7.0"
     }
   }
 }
 
 provider "azurerm" {
   features {}
+}
+
+provider "azurerm" {
+  features {}
+  alias           = "prod-io"
+  subscription_id = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
+}
+
+provider "azurerm" {
+  features {}
+  alias           = "dev-io"
+  subscription_id = module.secrets.values["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value
 }
