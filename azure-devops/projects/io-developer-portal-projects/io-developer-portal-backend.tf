@@ -12,6 +12,10 @@ variable "io-developer-portal-backend" {
         web_app_name                = "io-p-app-developerportalbackend"
         web_app_resource_group_name = "io-p-rg-internal"
       }
+      selfcare_prod = {
+        web_app_name                = "io-p-app-selfcarebackend"
+        web_app_resource_group_name = "io-p-rg-selfcare"
+      }
     }
   }
 }
@@ -152,6 +156,18 @@ resource "azuredevops_build_definition" "io-developer-portal-backend-deploy" {
   variable {
     name           = "PROD_WEB_APP_RESOURCE_GROUP_NAME"
     value          = var.io-developer-portal-backend.pipeline.prod.web_app_resource_group_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "SELFCARE_PROD_WEB_APP_NAME"
+    value          = var.io-developer-portal-backend.pipeline.selfcare_prod.web_app_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "SELFCARE_PROD_WEB_APP_RESOURCE_GROUP_NAME"
+    value          = var.io-developer-portal-backend.pipeline.selfcare_prod.web_app_resource_group_name
     allow_override = false
   }
 
