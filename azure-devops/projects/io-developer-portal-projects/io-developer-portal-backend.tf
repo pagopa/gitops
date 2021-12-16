@@ -8,11 +8,6 @@ variable "io-developer-portal-backend" {
     }
     pipeline = {
       cache_version_id = "v1"
-      dev = {
-        deploy_type                 = "production_slot" #or staging_slot_and_swap
-        web_app_name                = ""
-        web_app_resource_group_name = ""
-      }
       prod = {
         deploy_type                 = "production_slot" #or staging_slot_and_swap
         web_app_name                = "io-p-app-developerportalbackend"
@@ -150,20 +145,8 @@ resource "azuredevops_build_definition" "io-developer-portal-backend-deploy" {
   }
 
   variable {
-    name           = "DEV_AZURE_SUBSCRIPTION"
-    value          = ""
-    allow_override = false
-  }
-
-  variable {
     name           = "PROD_DEPLOY_TYPE"
     value          = var.io-developer-portal-backend.pipeline.prod.deploy_type
-    allow_override = false
-  }
-
-  variable {
-    name           = "DEV_DEPLOY_TYPE"
-    value          = var.io-developer-portal-backend.pipeline.dev.deploy_type
     allow_override = false
   }
 
@@ -174,20 +157,8 @@ resource "azuredevops_build_definition" "io-developer-portal-backend-deploy" {
   }
 
   variable {
-    name           = "DEV_WEB_APP_NAME"
-    value          = var.io-developer-portal-backend.pipeline.dev.web_app_name
-    allow_override = false
-  }
-
-  variable {
     name           = "PROD_WEB_APP_RESOURCE_GROUP_NAME"
     value          = var.io-developer-portal-backend.pipeline.prod.web_app_resource_group_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "DEV_RESOURCE_GROUP_NAME"
-    value          = var.io-developer-portal-backend.pipeline.dev.web_app_resource_group_name
     allow_override = false
   }
 
