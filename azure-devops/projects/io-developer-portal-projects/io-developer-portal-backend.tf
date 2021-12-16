@@ -13,8 +13,8 @@ variable "io-developer-portal-backend" {
         web_app_resource_group_name = "io-p-rg-internal"
       }
       selfcare_prod = {
-        web_app_name                = "io-p-app-selfcarebackend"
-        web_app_resource_group_name = "io-p-rg-selfcare"
+        web_app_name                = "io-p-app-selfcare-be"
+        web_app_resource_group_name = "io-p-selfcare-rg-be"
       }
     }
   }
