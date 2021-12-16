@@ -9,7 +9,6 @@ variable "io-developer-portal-backend" {
     pipeline = {
       cache_version_id = "v1"
       prod = {
-        deploy_type                 = "production_slot" #or staging_slot_and_swap
         web_app_name                = "io-p-app-developerportalbackend"
         web_app_resource_group_name = "io-p-rg-internal"
       }
@@ -141,12 +140,6 @@ resource "azuredevops_build_definition" "io-developer-portal-backend-deploy" {
   variable {
     name           = "PROD_AZURE_SUBSCRIPTION"
     value          = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "PROD_DEPLOY_TYPE"
-    value          = var.io-developer-portal-backend.pipeline.prod.deploy_type
     allow_override = false
   }
 
