@@ -1,8 +1,3 @@
-locals {
-  azure_devops_org = "pagopaspa"
-  agent_pool               = "io-prod-linux"
-}
-
 resource "azuredevops_project" "project" {
   name               = "io-developer-portal-projects"
   description        = "This is the DevOps project for all IO developer portal projects"
