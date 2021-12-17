@@ -15,12 +15,6 @@ variable "io-developer-portal-frontend" {
       io_developer_portal_logo_path     = "https://iopstcdnassets.blob.core.windows.net"
       io_developer_portal_port          = "80"
       io_developer_portal_public_path   = "/"
-      dev = {
-        storage_account_name = ""
-        profile_cdn_name     = ""
-        endpoint_name        = ""
-        resource_group_name  = ""
-      }
       prod = {
         storage_account_name = "iopstcdndeveloperportal"
         profile_cdn_name     = "io-p-cdn-common"
@@ -207,20 +201,8 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-deploy" {
   }
 
   variable {
-    name           = "DEV_STORAGE_ACCOUNT_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.dev.storage_account_name
-    allow_override = false
-  }
-
-  variable {
     name           = "PROD_ENDPOINT_NAME"
     value          = var.io-developer-portal-frontend.pipeline.prod.endpoint_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "DEV_ENDPOINT_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.dev.endpoint_name
     allow_override = false
   }
 
@@ -230,9 +212,10 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-deploy" {
     allow_override = false
   }
 
+
   variable {
-    name           = "DEV_PROFILE_CDN_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.dev.profile_cdn_name
+    name           = "PROD_RESOURCE_GROUP_NAME"
+    value          = var.io-developer-portal-frontend.pipeline.prod.resource_group_name
     allow_override = false
   }
 
@@ -242,23 +225,6 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-deploy" {
     allow_override = false
   }
 
-  variable {
-    name           = "DEV_RESOURCE_GROUP_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.dev.resource_group_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "PROD_RESOURCE_GROUP_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.prod.resource_group_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "DEV_RESOURCE_GROUP_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.dev.resource_group_name
-    allow_override = false
-  }
 }
 
 # deploy serviceendpoint authorization
@@ -291,14 +257,6 @@ resource "azuredevops_resource_authorization" "io-developer-portal-frontend-depl
   authorized    = true
   type          = "endpoint"
 }
-
-# resource "azurerm_role_assignment" "io-developer-portal-frontend-deploy-azurerm-DEV-IO-iopstcdniopayportal" {
-#   depends_on = [data.azuread_service_principal.service_principals]
-
-#   principal_id         = data.azuread_service_principal.service_principals[local.DEV-IO-UID].id
-#   role_definition_name = "Storage Blob Data Contributor"
-#   scope                = "/subscriptions/${module.secrets.values["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-developer-portal-frontend.pipeline.dev.resource_group_name}/providers/Microsoft.Storage/storageAccounts/${var.io-developer-portal-frontend.pipeline.dev.storage_account_name}"
-# }
 
 resource "azurerm_role_assignment" "io-developer-portal-frontend-deploy-azurerm-PROD-IO-iopstcdniopayportal" {
   depends_on = [data.azuread_service_principal.service_principals]
