@@ -54,13 +54,13 @@ locals {
     prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-prod.service_endpoint_name
     prod_container_registry_name         = "pagopapacr.azurecr.io"
 
-    dev_sia_registry_service_conn   = azuredevops_serviceendpoint_dockerregistry.sia-registry-dev.service_endpoint_name
-    uat_sia_registry_service_conn   = azuredevops_serviceendpoint_dockerregistry.sia-registry-uat.service_endpoint_name
-    prod_sia_registry_service_conn  = azuredevops_serviceendpoint_dockerregistry.sia-registry-prod.service_endpoint_name
+    dev_sia_registry_service_conn  = azuredevops_serviceendpoint_dockerregistry.sia-registry-dev.service_endpoint_name
+    uat_sia_registry_service_conn  = azuredevops_serviceendpoint_dockerregistry.sia-registry-uat.service_endpoint_name
+    prod_sia_registry_service_conn = azuredevops_serviceendpoint_dockerregistry.sia-registry-prod.service_endpoint_name
 
-    sia_docker_registry        = "docker-registry-default.ocp-tst-npaspc.sia.eu"
-    sia_docker_username        = "serviceaccount"
-    sia_docker_password        = module.secrets.values["DEV-PAGOPA-SIA-DOCKER-REGISTRY-PWD"].value
+    sia_docker_registry = "docker-registry-default.ocp-tst-npaspc.sia.eu"
+    sia_docker_username = "serviceaccount"
+    sia_docker_password = module.secrets.values["DEV-PAGOPA-SIA-DOCKER-REGISTRY-PWD"].value
 
   }
   # deploy secrets
@@ -70,7 +70,7 @@ locals {
 }
 
 module "pagopa-nodo4-nodo-dei-pagamenti_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v2.0.4"
   count  = var.pagopa-nodo4-nodo-dei-pagamenti.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
@@ -96,7 +96,7 @@ module "pagopa-nodo4-nodo-dei-pagamenti_code_review" {
 }
 
 module "pagopa-nodo4-nodo-dei-pagamenti_deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v2.0.4"
   count  = var.pagopa-nodo4-nodo-dei-pagamenti.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
