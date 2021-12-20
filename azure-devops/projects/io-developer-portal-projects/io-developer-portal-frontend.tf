@@ -7,25 +7,28 @@ variable "io-developer-portal-frontend" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      cache_version_id                  = "v1"
-      blob_container_name               = "$web"
-      io_developer_portal_apim_base_url = "https://api.io.italia.it/api/v1"
-      io_developer_portal_backend       = "https://developerportal-backend.io.italia.it"
-      io_developer_portal_base_url      = "/"
-      io_developer_portal_logo_path     = "https://iopstcdnassets.blob.core.windows.net"
-      io_developer_portal_port          = "80"
-      io_developer_portal_public_path   = "/"
-      dev = {
-        storage_account_name = ""
-        profile_cdn_name     = ""
-        endpoint_name        = ""
-        resource_group_name  = ""
-      }
+      cache_version_id    = "v1"
+      blob_container_name = "$web"
+      apim_base_url       = "https://api.io.italia.it/api/v1"
+      base_url            = "/"
+      logo_path           = "https://iopstcdnassets.blob.core.windows.net"
+      port                = "80"
+      public_path         = "/"
+
       prod = {
         storage_account_name = "iopstcdndeveloperportal"
         profile_cdn_name     = "io-p-cdn-common"
         endpoint_name        = "io-p-cdnendpoint-developerportal"
         resource_group_name  = "io-p-rg-common"
+        backend_url          = "https://developerportal-backend.io.italia.it"
+      }
+
+      selfcare_prod = {
+        storage_account_name = "iopselfcaresa"
+        profile_cdn_name     = "io-p-selfcare-cdn-profile"
+        endpoint_name        = "io-p-selfcare-cdn-endpoint"
+        resource_group_name  = "io-p-selfcare-fe-rg"
+        backend_url          = "https://api.io.selfcare.pagopa.it"
       }
     }
   }
@@ -153,38 +156,32 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-deploy" {
   }
 
   variable {
-    name           = "IO_DEVELOPER_PORTAL_APIM_BASE_URL"
-    value          = var.io-developer-portal-frontend.pipeline.io_developer_portal_apim_base_url
+    name           = "APIM_BASE_URL"
+    value          = var.io-developer-portal-frontend.pipeline.apim_base_url
     allow_override = false
   }
 
   variable {
-    name           = "IO_DEVELOPER_PORTAL_BACKEND"
-    value          = var.io-developer-portal-frontend.pipeline.io_developer_portal_backend
+    name           = "BASE_URL"
+    value          = var.io-developer-portal-frontend.pipeline.base_url
     allow_override = false
   }
 
   variable {
-    name           = "IO_DEVELOPER_PORTAL_BASE_URL"
-    value          = var.io-developer-portal-frontend.pipeline.io_developer_portal_base_url
+    name           = "LOGO_PATH"
+    value          = var.io-developer-portal-frontend.pipeline.logo_path
     allow_override = false
   }
 
   variable {
-    name           = "IO_DEVELOPER_PORTAL_LOGO_PATH"
-    value          = var.io-developer-portal-frontend.pipeline.io_developer_portal_logo_path
+    name           = "PORT"
+    value          = var.io-developer-portal-frontend.pipeline.port
     allow_override = false
   }
 
   variable {
-    name           = "IO_DEVELOPER_PORTAL_PORT"
-    value          = var.io-developer-portal-frontend.pipeline.io_developer_portal_port
-    allow_override = false
-  }
-
-  variable {
-    name           = "IO_DEVELOPER_PORTAL_PUBLIC_PATH"
-    value          = var.io-developer-portal-frontend.pipeline.io_developer_portal_public_path
+    name           = "PUBLIC_PATH"
+    value          = var.io-developer-portal-frontend.pipeline.public_path
     allow_override = false
   }
 
@@ -207,20 +204,8 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-deploy" {
   }
 
   variable {
-    name           = "DEV_STORAGE_ACCOUNT_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.dev.storage_account_name
-    allow_override = false
-  }
-
-  variable {
     name           = "PROD_ENDPOINT_NAME"
     value          = var.io-developer-portal-frontend.pipeline.prod.endpoint_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "DEV_ENDPOINT_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.dev.endpoint_name
     allow_override = false
   }
 
@@ -230,9 +215,10 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-deploy" {
     allow_override = false
   }
 
+
   variable {
-    name           = "DEV_PROFILE_CDN_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.dev.profile_cdn_name
+    name           = "PROD_RESOURCE_GROUP_NAME"
+    value          = var.io-developer-portal-frontend.pipeline.prod.resource_group_name
     allow_override = false
   }
 
@@ -243,22 +229,49 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-deploy" {
   }
 
   variable {
-    name           = "DEV_RESOURCE_GROUP_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.dev.resource_group_name
+    name           = "PROD_BACKEND_URL"
+    value          = var.io-developer-portal-frontend.pipeline.prod.backend_url
+    allow_override = false
+  }
+
+
+  variable {
+    name           = "SELFCARE_PROD_STORAGE_ACCOUNT_NAME"
+    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.storage_account_name
     allow_override = false
   }
 
   variable {
-    name           = "PROD_RESOURCE_GROUP_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.prod.resource_group_name
+    name           = "SELFCARE_PROD_ENDPOINT_NAME"
+    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.endpoint_name
     allow_override = false
   }
 
   variable {
-    name           = "DEV_RESOURCE_GROUP_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.dev.resource_group_name
+    name           = "SELFCARE_PROD_PROFILE_CDN_NAME"
+    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.profile_cdn_name
     allow_override = false
   }
+
+
+  variable {
+    name           = "SELFCARE_PROD_RESOURCE_GROUP_NAME"
+    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.resource_group_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "SELFCARE_PROD_RESOURCE_GROUP_NAME"
+    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.resource_group_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "SELFCARE_PROD_BACKEND_URL"
+    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.backend_url
+    allow_override = false
+  }
+
 }
 
 # deploy serviceendpoint authorization
@@ -291,14 +304,6 @@ resource "azuredevops_resource_authorization" "io-developer-portal-frontend-depl
   authorized    = true
   type          = "endpoint"
 }
-
-# resource "azurerm_role_assignment" "io-developer-portal-frontend-deploy-azurerm-DEV-IO-iopstcdniopayportal" {
-#   depends_on = [data.azuread_service_principal.service_principals]
-
-#   principal_id         = data.azuread_service_principal.service_principals[local.DEV-IO-UID].id
-#   role_definition_name = "Storage Blob Data Contributor"
-#   scope                = "/subscriptions/${module.secrets.values["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-developer-portal-frontend.pipeline.dev.resource_group_name}/providers/Microsoft.Storage/storageAccounts/${var.io-developer-portal-frontend.pipeline.dev.storage_account_name}"
-# }
 
 resource "azurerm_role_assignment" "io-developer-portal-frontend-deploy-azurerm-PROD-IO-iopstcdniopayportal" {
   depends_on = [data.azuread_service_principal.service_principals]
