@@ -25,8 +25,8 @@ variable "io-developer-portal-frontend" {
 
       selfcare_prod = {
         storage_account_name = "iopselfcaresa"
-        profile_cdn_name     = "io-p-cdn-common"
-        endpoint_name        = "io-p-cdnendpoint-developerportal"
+        profile_cdn_name     = "io-p-selfcare-cdn-profile"
+        endpoint_name        = "io-p-selfcare-cdn-endpoint"
         resource_group_name  = "io-p-selfcare-fe-rg"
         backend_url          = "https://api.io.selfcare.pagopa.it"
       }
