@@ -14,12 +14,21 @@ variable "io-developer-portal-frontend" {
       logo_path           = "https://iopstcdnassets.blob.core.windows.net"
       port                = "80"
       public_path         = "/"
+
       prod = {
         storage_account_name = "iopstcdndeveloperportal"
         profile_cdn_name     = "io-p-cdn-common"
         endpoint_name        = "io-p-cdnendpoint-developerportal"
         resource_group_name  = "io-p-rg-common"
         backend_url          = "https://developerportal-backend.io.italia.it"
+      }
+
+      selfcare_prod = {
+        storage_account_name = "iopselfcaresa"
+        profile_cdn_name     = "io-p-cdn-common"
+        endpoint_name        = "io-p-cdnendpoint-developerportal"
+        resource_group_name  = "io-p-selfcare-fe-rg"
+        backend_url          = "https://api.io.selfcare.pagopa.it"
       }
     }
   }
@@ -259,7 +268,7 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-deploy" {
 
   variable {
     name           = "SELFCARE_PROD_BACKEND_URL"
-    value          = var.io-developer-portal-frontend.pipeline.prod.backend_url
+    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.backend_url
     allow_override = false
   }
 
