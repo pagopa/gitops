@@ -32,3 +32,5 @@ override.tf.json
 
 *.DS_Store
 .idea
+.metals
+settings.json

@@ -53,9 +53,9 @@ locals {
     apiconfig_tenant        = format("https://login.microsoftonline.com/%s", module.secrets.values["PAGOPAIT-TENANTID"].value),
     apiconfig_scopes        = "api://pagopa-apiconfig-be/access-apiconfig-be"
 
-    dev_apiconfig_client_id   = module.secrets.values["DEV-APICONFIG-CLIENT-ID"].value
-    uat_apiconfig_client_id   = module.secrets.values["UAT-APICONFIG-CLIENT-ID"].value
-    prod_apiconfig_client_id  = module.secrets.values["PROD-APICONFIG-CLIENT-ID"].value
+    dev_apiconfig_client_id  = module.secrets.values["DEV-APICONFIG-CLIENT-ID"].value
+    uat_apiconfig_client_id  = module.secrets.values["UAT-APICONFIG-CLIENT-ID"].value
+    prod_apiconfig_client_id = module.secrets.values["PROD-APICONFIG-CLIENT-ID"].value
 
     dev_apiconfig_api_host                 = "https://api.dev.platform.pagopa.it"
     dev_endpoint_azure                     = "pagopa-d-api-config-fe-cdn-endpoint"
