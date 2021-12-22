@@ -64,13 +64,13 @@ locals {
     tenant_id                         = module.secrets.values["PAGOPAIT-TENANTID"].value
     dev_apiconfig_client_fe_id        = module.secrets.values["DEV-APICONFIG-CLIENT-ID"].value
     dev_apiconfig_client_fe_secret    = module.secrets.values["DEV-APICONFIG-CLIENT-SECRECT"].value
-    dev_apiconfig_client_be_resource  = module.secrets.values["DEV-APICONFIG-CLIENT-RESOURCE"].value
+    dev_apiconfig_client_be_resource  = module.secrets.values["DEV-APICONFIG-BE-CLIENT-ID"].value
     uat_apiconfig_client_fe_id        = module.secrets.values["UAT-APICONFIG-CLIENT-ID"].value
     uat_apiconfig_client_fe_secret    = module.secrets.values["UAT-APICONFIG-CLIENT-SECRECT"].value
-    uat_apiconfig_client_be_resource  = module.secrets.values["UAT-APICONFIG-CLIENT-RESOURCE"].value
+    uat_apiconfig_client_be_resource  = module.secrets.values["UAT-APICONFIG-BE-CLIENT-ID"].value
     prod_apiconfig_client_fe_id       = module.secrets.values["PROD-APICONFIG-CLIENT-ID"].value
     prod_apiconfig_client_fe_secret   = module.secrets.values["PROD-APICONFIG-CLIENT-SECRECT"].value
-    prod_apiconfig_client_be_resource = module.secrets.values["PROD-APICONFIG-CLIENT-RESOURCE"].value
+    prod_apiconfig_client_be_resource = module.secrets.values["PROD-APICONFIG-BE-CLIENT-ID"].value
 
   }
   # deploy secrets
