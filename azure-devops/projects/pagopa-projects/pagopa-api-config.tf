@@ -61,7 +61,7 @@ locals {
     prod_web_app_name                = "pagopa-p-app-api-config"
     prod_web_app_resource_group_name = "pagopa-p-api-config-rg"
 
-    tenant_id                         = data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-TENANTID"].value
+    tenant_id                         = module.secrets.values["PAGOPAIT-TENANTID"].value
     dev_apiconfig_client_fe_id        = module.secrets.values["DEV-APICONFIG-CLIENT-ID"].value
     dev_apiconfig_client_fe_secret    = module.secrets.values["DEV-APICONFIG-CLIENT-SECRECT"].value
     dev_apiconfig_client_be_resource  = module.secrets.values["DEV-APICONFIG-CLIENT-RESOURCE"].value
