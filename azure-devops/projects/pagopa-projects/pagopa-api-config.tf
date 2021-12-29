@@ -72,6 +72,17 @@ locals {
     prod_apiconfig_client_fe_secret   = module.secrets.values["PROD-APICONFIG-CLIENT-SECRECT"].value
     prod_apiconfig_client_be_resource = module.secrets.values["PROD-APICONFIG-BE-CLIENT-ID"].value
 
+    # acr section
+    image_repository                  = "api-apiconfig-backend"
+
+    dev_container_registry            = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev.service_endpoint_name
+    uat_container_registry            = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-uat.service_endpoint_name
+    prod_container_registry           = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-prod.service_endpoint_name
+
+    dev_container_namespace           = "pagopadacr.azurecr.io"
+    uat_container_namespace           = "pagopauacr.azurecr.io"
+    prod_container_namespace          = "pagopapacr.azurecr.io"
+
   }
   # deploy secrets
   pagopa-api-config-variables_secret_deploy = {
