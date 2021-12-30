@@ -47,6 +47,7 @@ module "tlscert-uat-api-uat-selfcare-pagopa-it-cert_az" {
   name                         = "${var.tlscert-uat-api-uat-selfcare-pagopa-it.pipeline.dns_record_name}.${var.tlscert-uat-api-uat-selfcare-pagopa-it.pipeline.dns_zone_name}"
   path                         = var.tlscert-uat-api-uat-selfcare-pagopa-it.pipeline.path
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  renew_token                  = local.tlscert_renew_token
 
   dns_record_name         = var.tlscert-uat-api-uat-selfcare-pagopa-it.pipeline.dns_record_name
   dns_zone_name           = var.tlscert-uat-api-uat-selfcare-pagopa-it.pipeline.dns_zone_name

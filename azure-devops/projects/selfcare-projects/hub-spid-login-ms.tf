@@ -32,13 +32,13 @@ locals {
   }
   # deploy vars
   hub-spid-login-ms-variables_deploy = {
-    k8s_image_repository_name           = replace(var.hub-spid-login-ms.repository.name, "-", "")
-    deploy_namespace                    = "selc"
-    dev_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
-    dev_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
-    dev_container_registry_name         = "selcdacr.azurecr.io"
-    dev_agent_pool                      = "selfcare-dev-linux"
-    dev_replicas                        = 1
+    k8s_image_repository_name            = replace(var.hub-spid-login-ms.repository.name, "-", "")
+    deploy_namespace                     = "selc"
+    dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
+    dev_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
+    dev_container_registry_name          = "selcdacr.azurecr.io"
+    dev_agent_pool                       = "selfcare-dev-linux"
+    dev_replicas                         = 1
     uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name
     uat_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.service_endpoint_name
     uat_container_registry_name          = "selcuacr.azurecr.io"
@@ -57,7 +57,7 @@ locals {
 }
 
 module "hub-spid-login-ms_deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v2.0.4"
   count  = var.hub-spid-login-ms.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
