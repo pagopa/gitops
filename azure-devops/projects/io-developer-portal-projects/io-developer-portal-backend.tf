@@ -10,11 +10,11 @@ variable "io-developer-portal-backend" {
       cache_version_id = "v1"
       prod = {
         web_app_name                = "io-p-app-devportal-be"
-        web_app_resource_group_name = "io-p-selfcare-rg-be"
+        web_app_resource_group_name = "io-p-selfcare-be-rg"
       }
       selfcare_prod = {
         web_app_name                = "io-p-app-selfcare-be"
-        web_app_resource_group_name = "io-p-selfcare-rg-be"
+        web_app_resource_group_name = "io-p-selfcare-be-rg"
       }
     }
   }
