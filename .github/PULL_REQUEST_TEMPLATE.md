@@ -13,11 +13,11 @@
 
 ### Type of changes
 
-- [ ] Add new pipeline
-- [ ] Update pipeline configuration
-- [ ] Remove pipeline
+- [ ] Add new build definition
+- [ ] Update build definition configuration
+- [ ] Remove build definition
 
-### :warning: If it's new pipeline with code review have you added pagopa-github-bot -> Role: admin?
+### :warning: If it's new build definition with code review have you added pagopa-github-bot -> Role: admin?
 
 - [ ] Yes
 - [ ] No
