@@ -4,6 +4,7 @@ set -e
 
 #
 # HOW TO USE IT:
+# $ sh terraform.sh apply <YOUR folder inside the folder: projects>
 # $ sh terraform.sh apply selfcare-projects -> to apply terraform file inside projects\selfcare-projects
 #
 
