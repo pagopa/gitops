@@ -80,7 +80,7 @@ module "pagopa-functions-buyerbank_deploy" {
 
   variables = merge(
     local.pagopa-functions-buyerbank-variables,
-    local.pagopa-functions-buyerbank-variables_code_review,
+    local.pagopa-functions-buyerbankvariables_deploy,
   )
 
   variables_secret = merge(
