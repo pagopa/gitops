@@ -76,9 +76,9 @@ module "tlscert-prod-api-selfcare-pagopa-it-cert_az" {
 
 
   schedules = {
-    days_to_build              = ["Mon"]
+    days_to_build              = ["Fri"]
     schedule_only_with_changes = false
-    start_hours                = 3
+    start_hours                = 5
     start_minutes              = 0
     time_zone                  = "(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna"
     branch_filter = {
