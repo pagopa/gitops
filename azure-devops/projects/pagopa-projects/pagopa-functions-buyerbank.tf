@@ -3,7 +3,7 @@ variable "pagopa-functions-buyerbank" {
     repository = {
       organization    = "pagopa"
       name            = "pagopa-functions-buyerbank"
-      branch_name     = "main"
+      branch_name     = "master"
       pipelines_path  = ".devops"
       yml_prefix_name = "pagopa"
     }
