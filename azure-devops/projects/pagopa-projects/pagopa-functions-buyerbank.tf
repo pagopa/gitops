@@ -1,8 +1,8 @@
-variable "pagopa-proxy" {
+variable "pagopa-functions-buyerbank" {
   default = {
     repository = {
       organization    = "pagopa"
-      name            = "io-pagopa-proxy"
+      name            = "pagopa-functions-buyerbank"
       branch_name     = "master"
       pipelines_path  = ".devops"
       yml_prefix_name = "pagopa"
@@ -16,24 +16,24 @@ variable "pagopa-proxy" {
 
 locals {
   # global vars
-  pagopa-proxy-variables = {
+  pagopa-functions-buyerbank-variables = {
     cache_version_id = "v1"
-    default_branch   = var.pagopa-proxy.repository.branch_name
+    default_branch   = var.pagopa-functions-buyerbank.repository.branch_name
   }
   # global secrets
-  pagopa-proxy-variables_secret = {
+  pagopa-functions-buyerbank-variables_secret = {
 
   }
   # code_review vars
-  pagopa-proxy-variables_code_review = {
+  pagopa-functions-buyerbank-variables_code_review = {
     danger_github_api_token = "skip"
   }
   # code_review secrets
-  pagopa-proxy-variables_secret_code_review = {
+  pagopa-functions-buyerbank-variables_secret_code_review = {
 
   }
   # deploy vars
-  pagopa-proxy-variables_deploy = {
+  pagopa-functions-buyerbankvariables_deploy = {
     git_mail                = module.secrets.values["io-azure-devops-github-EMAIL"].value
     git_username            = module.secrets.values["io-azure-devops-github-USERNAME"].value
     github_connection       = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
@@ -42,27 +42,27 @@ locals {
     prod_azure_subscription = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.service_endpoint_name
   }
   # deploy secrets
-  pagopa-proxy-variables_secret_deploy = {
+  pagopa-functions-buyerbank-variables_secret_deploy = {
 
   }
 }
 
-module "pagopa-proxy_code_review" {
+module "pagopa-functions-buyerbank_code_review" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v2.0.4"
-  count  = var.pagopa-proxy.pipeline.enable_code_review == true ? 1 : 0
+  count  = var.pagopa-functions-buyerbank.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.pagopa-proxy.repository
+  repository                   = var.pagopa-functions-buyerbank.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   variables = merge(
-    local.pagopa-proxy-variables,
-    local.pagopa-proxy-variables_code_review,
+    local.pagopa-functions-buyerbank-variables,
+    local.pagopa-functions-buyerbank-variables_code_review,
   )
 
   variables_secret = merge(
-    local.pagopa-proxy-variables_secret,
-    local.pagopa-proxy-variables_secret_code_review,
+    local.pagopa-functions-buyerbank-variables_secret,
+    local.pagopa-functions-buyerbank-variables_secret_code_review,
   )
 
   service_connection_ids_authorization = [
@@ -70,22 +70,22 @@ module "pagopa-proxy_code_review" {
   ]
 }
 
-module "pagopa-proxy_deploy" {
+module "pagopa-functions-buyerbank_deploy" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v2.0.4"
-  count  = var.pagopa-proxy.pipeline.enable_deploy == true ? 1 : 0
+  count  = var.pagopa-functions-buyerbank.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.pagopa-proxy.repository
+  repository                   = var.pagopa-functions-buyerbank.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
 
   variables = merge(
-    local.pagopa-proxy-variables,
-    local.pagopa-proxy-variables_deploy,
+    local.pagopa-functions-buyerbank-variables,
+    local.pagopa-functions-buyerbankvariables_deploy,
   )
 
   variables_secret = merge(
-    local.pagopa-proxy-variables_secret,
-    local.pagopa-proxy-variables_secret_deploy,
+    local.pagopa-functions-buyerbank-variables_secret,
+    local.pagopa-functions-buyerbank-variables_secret_deploy,
   )
 
   service_connection_ids_authorization = [
