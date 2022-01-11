@@ -9,14 +9,21 @@ terraform {
   required_providers {
     azuredevops = {
       source  = "microsoft/azuredevops"
-      version = "= 0.1.4"
+      version = ">= 0.1.8"
     }
     azurerm = {
-      version = "~> 2.52.0"
+      version = "~> 2.90.0"
+    }
+    time = {
+      version = ">= 0.7.0"
     }
   }
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    key_vault {
+      purge_soft_delete_on_destroy = false
+    }
+  }
 }

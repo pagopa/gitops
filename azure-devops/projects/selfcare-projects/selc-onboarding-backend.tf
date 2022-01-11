@@ -40,20 +40,20 @@ locals {
   }
   # deploy vars
   selc-onboarding-backend-variables_deploy = {
-    k8s_image_repository_name           = replace(var.selc-onboarding-backend.repository.name, "-", "")
-    deploy_namespace                    = "selc"
-    dev_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
-    dev_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
-    dev_container_registry_name         = "selcdacr.azurecr.io"
-    dev_agent_pool                      = "selfcare-dev-linux"
+    k8s_image_repository_name            = replace(var.selc-onboarding-backend.repository.name, "-", "")
+    deploy_namespace                     = "selc"
+    dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
+    dev_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
+    dev_container_registry_name          = "selcdacr.azurecr.io"
+    dev_agent_pool                       = "selfcare-dev-linux"
     uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name
     uat_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.service_endpoint_name
-    uat_container_registry_name = "selcuacr.azurecr.io"
-    uat_agent_pool              = "selfcare-uat-linux"
+    uat_container_registry_name          = "selcuacr.azurecr.io"
+    uat_agent_pool                       = "selfcare-uat-linux"
     prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.service_endpoint_name
     prod_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.service_endpoint_name
-    prod_container_registry_name = "selcpacr.azurecr.io"
-    prod_agent_pool              = "selfcare-prod-linux"
+    prod_container_registry_name         = "selcpacr.azurecr.io"
+    prod_agent_pool                      = "selfcare-prod-linux"
   }
   # deploy secrets
   selc-onboarding-backend-variables_secret_deploy = {
@@ -62,7 +62,7 @@ locals {
 }
 
 module "selc-onboarding-backend_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v2.0.4"
   count  = var.selc-onboarding-backend.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
@@ -88,7 +88,7 @@ module "selc-onboarding-backend_code_review" {
 }
 
 module "selc-onboarding-backend_deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v2.0.4"
   count  = var.selc-onboarding-backend.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id

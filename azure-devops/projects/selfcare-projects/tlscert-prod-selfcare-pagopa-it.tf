@@ -38,7 +38,7 @@ locals {
 }
 
 module "tlscert-prod-selfcare-pagopa-it-cert_az" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.4"
   count  = var.tlscert-prod-selfcare-pagopa-it.pipeline.enable_tls_cert == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
@@ -46,6 +46,7 @@ module "tlscert-prod-selfcare-pagopa-it-cert_az" {
   name                         = "${var.tlscert-prod-selfcare-pagopa-it.pipeline.dns_record_name}.${var.tlscert-prod-selfcare-pagopa-it.pipeline.dns_zone_name}"
   path                         = var.tlscert-prod-selfcare-pagopa-it.pipeline.path
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  renew_token                  = local.tlscert_renew_token
 
   dns_record_name         = var.tlscert-prod-selfcare-pagopa-it.pipeline.dns_record_name
   dns_zone_name           = var.tlscert-prod-selfcare-pagopa-it.pipeline.dns_zone_name
@@ -71,4 +72,17 @@ module "tlscert-prod-selfcare-pagopa-it-cert_az" {
   service_connection_ids_authorization = [
     module.PROD-SELFCARE-TLS-CERT-SERVICE-CONN.service_endpoint_id,
   ]
+
+
+  schedules = {
+    days_to_build              = ["Thu"]
+    schedule_only_with_changes = false
+    start_hours                = 4
+    start_minutes              = 0
+    time_zone                  = "(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna"
+    branch_filter = {
+      include = ["master"]
+      exclude = []
+    }
+  }
 }

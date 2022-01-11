@@ -33,11 +33,11 @@ locals {
   }
   # deploy vars
   selc-fe-login-variables_deploy = {
-    dev_react_app_url_file_privacy_disclaimer  = "https://dev.selfcare.pagopa.it/assets/privacy-disclaimer.pdf"
-    dev_react_app_url_file_terms_and_conditions = "https://dev.selfcare.pagopa.it/assets/terms-condition.pdf"
-    uat_react_app_url_file_privacy_disclaimer  = "https://uat.selfcare.pagopa.it/assets/privacy-disclaimer.pdf"
-    uat_react_app_url_file_terms_and_conditions = "https://uat.selfcare.pagopa.it/assets/terms-condition.pdf"
-    prod_react_app_url_file_privacy_disclaimer  = "https://selfcare.pagopa.it/assets/privacy-disclaimer.pdf"
+    dev_react_app_url_file_privacy_disclaimer    = "https://dev.selfcare.pagopa.it/assets/privacy-disclaimer.pdf"
+    dev_react_app_url_file_terms_and_conditions  = "https://dev.selfcare.pagopa.it/assets/terms-condition.pdf"
+    uat_react_app_url_file_privacy_disclaimer    = "https://uat.selfcare.pagopa.it/assets/privacy-disclaimer.pdf"
+    uat_react_app_url_file_terms_and_conditions  = "https://uat.selfcare.pagopa.it/assets/terms-condition.pdf"
+    prod_react_app_url_file_privacy_disclaimer   = "https://selfcare.pagopa.it/assets/privacy-disclaimer.pdf"
     prod_react_app_url_file_terms_and_conditions = "https://selfcare.pagopa.it/assets/terms-condition.pdf"
   }
   # deploy secrets
@@ -47,7 +47,7 @@ locals {
 }
 
 module "selc-fe-login_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v2.0.4"
   count  = var.selc-fe-login.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
@@ -72,7 +72,7 @@ module "selc-fe-login_code_review" {
 }
 
 module "selc-fe-login_deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v2.0.4"
   count  = var.selc-fe-login.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id

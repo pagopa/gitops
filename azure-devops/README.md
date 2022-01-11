@@ -52,6 +52,7 @@ AZDO_ORG_SERVICE_URL can be with `pagopa-io` or the new `pagopaspa`
 
 Create a new project or a pipeline into appropriate directory.
 
+```bash
     .
     ├── ...
     ├── new-azuredevops-projects
@@ -64,8 +65,9 @@ Create a new project or a pipeline into appropriate directory.
     │ ├── ...
     │ └── github_repo_name_n.tf     # all pipelines in github_repo_name_n
     └── ...
+```
 
-1. if your project contains more github repos add all pipelines in the same azure devops project 
+1. if your project contains more github repos add all pipelines in the same azure devops project
 2. for each github repo create a new file with github repo name
 3. put all github repo pipelines into same file `github_repo_name_1.tf`
 4. put all pipelines variables at beginning of `github_repo_name_1.tf`
@@ -73,6 +75,7 @@ Create a new project or a pipeline into appropriate directory.
 :warning: **Very Important**
 
 Before apply any changes be sure that permissions on github repo are set as follow:
+
 1. user `pagopa-github-bot` -> Role: admin
 
 ### Apply changes
