@@ -85,7 +85,8 @@ module "DEV-PAGOPA-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
   source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.0.4"
 
-  project_id        = azuredevops_project.project.id
+  project_id = azuredevops_project.project.id
+  #tfsec:ignore:GEN003
   renew_token       = local.tlscert_renew_token
   name              = "pagopa-d-tls-cert"
   tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
@@ -116,7 +117,8 @@ module "UAT-PAGOPA-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
   source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.0.4"
 
-  project_id        = azuredevops_project.project.id
+  project_id = azuredevops_project.project.id
+  #tfsec:ignore:GEN003
   renew_token       = local.tlscert_renew_token
   name              = "pagopa-u-tls-cert"
   tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
@@ -147,7 +149,8 @@ module "PROD-PAGOPA-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
   source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.0.4"
 
-  project_id        = azuredevops_project.project.id
+  project_id = azuredevops_project.project.id
+  #tfsec:ignore:GEN003
   renew_token       = local.tlscert_renew_token
   name              = "pagopa-p-tls-cert"
   tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value

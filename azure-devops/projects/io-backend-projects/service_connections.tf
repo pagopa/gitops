@@ -96,7 +96,8 @@ module "PROD-IO-TLS-CERT-SERVICE-CONN" {
   source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.0.2"
   project_id = azuredevops_project.project.id
 
-  name              = "io-p-tls-cert"
+  name = "io-p-tls-cert"
+  #tfsec:ignore:GEN003
   renew_token       = local.tlscert_renew_token
   tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
   subscription_id   = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value

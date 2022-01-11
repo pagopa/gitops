@@ -42,9 +42,10 @@ module "tlscert-uat-portal-uat-platform-pagopa-it-cert_az" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.4"
   count  = var.tlscert-uat-portal-uat-platform-pagopa-it.pipeline.enable_tls_cert == true ? 1 : 0
 
-  project_id                   = azuredevops_project.project.id
-  repository                   = var.tlscert-uat-portal-uat-platform-pagopa-it.repository
-  name                         = "${var.tlscert-uat-portal-uat-platform-pagopa-it.pipeline.dns_record_name}.${var.tlscert-uat-portal-uat-platform-pagopa-it.pipeline.dns_zone_name}"
+  project_id = azuredevops_project.project.id
+  repository = var.tlscert-uat-portal-uat-platform-pagopa-it.repository
+  name       = "${var.tlscert-uat-portal-uat-platform-pagopa-it.pipeline.dns_record_name}.${var.tlscert-uat-portal-uat-platform-pagopa-it.pipeline.dns_zone_name}"
+  #tfsec:ignore:GEN003
   renew_token                  = local.tlscert_renew_token
   path                         = var.tlscert-uat-portal-uat-platform-pagopa-it.pipeline.path
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
