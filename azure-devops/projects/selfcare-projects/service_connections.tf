@@ -100,7 +100,8 @@ module "DEV-SELFCARE-TLS-CERT-SERVICE-CONN" {
   tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
   subscription_id   = module.secrets.values["PAGOPAIT-DEV-SELFCARE-SUBSCRIPTION-ID"].value
   subscription_name = "DEV-SelfCare"
-  renew_token       = local.tlscert_renew_token
+  #tfsec:ignore:GEN003
+  renew_token = local.tlscert_renew_token
 
   credential_subcription              = local.key_vault_subscription
   credential_key_vault_name           = local.key_vault_name
@@ -116,7 +117,8 @@ module "UAT-SELFCARE-TLS-CERT-SERVICE-CONN" {
   tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
   subscription_id   = module.secrets.values["PAGOPAIT-UAT-SELFCARE-SUBSCRIPTION-ID"].value
   subscription_name = "UAT-SelfCare"
-  renew_token       = local.tlscert_renew_token
+  #tfsec:ignore:GEN003
+  renew_token = local.tlscert_renew_token
 
   credential_subcription              = local.key_vault_subscription
   credential_key_vault_name           = local.key_vault_name
@@ -132,7 +134,8 @@ module "PROD-SELFCARE-TLS-CERT-SERVICE-CONN" {
   tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
   subscription_id   = module.secrets.values["PAGOPAIT-PROD-SELFCARE-SUBSCRIPTION-ID"].value
   subscription_name = "PROD-SelfCare"
-  renew_token       = local.tlscert_renew_token
+  #tfsec:ignore:GEN003
+  renew_token = local.tlscert_renew_token
 
   credential_subcription              = local.key_vault_subscription
   credential_key_vault_name           = local.key_vault_name
