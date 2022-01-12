@@ -3,7 +3,7 @@ variable "io-subscription-migrations" {
     repository = {
       organization   = "pagopa"
       name           = "io-subscription-migrations"
-      branch_name    = "master"
+      branch_name    = "main"
       pipelines_path = ".devops"
     }
     pipeline = {
