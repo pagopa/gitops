@@ -39,13 +39,13 @@ locals {
     sonarcloud_project_name = var.pagopa-nodo-dei-pagamenti-test.pipeline.sonarcloud.project_name
 
     dev_azure_subscription_storage_account = "DEV-PAGOPA-SERVICE-CONN"
-    dev_storage_account_name               = "pagopadnodopagamentitestsa"
-    dev_resource_group_azure               = "pagopa-d-nodo-pagamenti-test-rg"
+    dev_storage_account_name               = "pagopadnodotestsa"
+    dev_resource_group_azure               = "pagopa-d-nodo-test-rg"
     dev_test_execution_max_minutes         = 120
 
     uat_azure_subscription_storage_account = "UAT-PAGOPA-SERVICE-CONN"
-    uat_storage_account_name               = "pagopaunodopagamentitestsa"
-    uat_resource_group_azure               = "pagopa-u-nodo-pagamenti-test-rg"
+    uat_storage_account_name               = "pagopaunodotestsa"
+    uat_resource_group_azure               = "pagopa-u-nodo-test-rg"
     uat_test_execution_max_minutes         = 120
   }
   # code_review secrets
