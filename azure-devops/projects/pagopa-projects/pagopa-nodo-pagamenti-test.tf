@@ -42,11 +42,13 @@ locals {
     dev_storage_account_name               = "pagopadnodotestsa"
     dev_resource_group_azure               = "pagopa-d-nodo-test-rg"
     dev_test_execution_max_minutes         = 120
+    dev_sas_token                          = module.secrets.values["DEV-NODO-TEST-SAS-TOKEN"].value
 
     uat_azure_subscription_storage_account = "UAT-PAGOPA-SERVICE-CONN"
     uat_storage_account_name               = "pagopaunodotestsa"
     uat_resource_group_azure               = "pagopa-u-nodo-test-rg"
     uat_test_execution_max_minutes         = 120
+    uat_sas_token                          = module.secrets.values["UAT-NODO-TEST-SAS-TOKEN"].value
   }
   # code_review secrets
   pagopa-nodo-dei-pagamenti-test-variables_secret_code_review = {
