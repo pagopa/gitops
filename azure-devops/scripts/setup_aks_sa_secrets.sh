@@ -4,11 +4,11 @@
 # Setup configuration relative to a given subscription
 # Subscription are defined in ./subscription
 # Usage:
-#  ./setup.sh ENV-CSTAR
+#  ./setup_aks_sa_secrets <ENV-PROJECT>
 #
-#  ./setup.sh DEV-CSTAR
-#  ./setup.sh UAT-CSTAR
-#  ./setup.sh PROD-HUBPA
+#  ./setup_aks_sa_secrets DEV-CSTAR
+#  ./setup_aks_sa_secrets UAT-CSTAR
+#  ./setup_aks_sa_secrets PROD-HUBPA
 
 set -e
 
@@ -23,6 +23,7 @@ AKS_SUBSCRIPTION="${SUBSCRIPTION}"
 KVVAULT_NAME="io-p-kv-azuredevops"
 KVVAULT_SUBSCRIPTION="PROD-IO"
 
+# shellcheck disable=2060
 SECRET_PREFIX=$(tr [A-Z] [a-z] <<< "${SUBSCRIPTION}")
 KVVAULT_SECRETNAME_URL="${SECRET_PREFIX}-aks-apiserver-url"
 KVVAULT_SECRETNAME_TOKEN="${SECRET_PREFIX}-aks-azure-devops-sa-token"
