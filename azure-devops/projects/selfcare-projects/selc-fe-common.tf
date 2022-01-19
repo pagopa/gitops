@@ -33,7 +33,7 @@ locals {
   }
   # deploy vars
   selc-fe-common-lib-variables_deploy = {
-
+    npm_connection    = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
   }
   # deploy secrets
   selc-fe-common-lib-variables_secret_deploy = {
