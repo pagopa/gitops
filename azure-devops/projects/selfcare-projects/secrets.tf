@@ -11,6 +11,7 @@ module "secrets" {
     "io-azure-devops-github-pr-TOKEN",
     "io-azure-devops-github-EMAIL",
     "io-azure-devops-github-USERNAME",
+    "pagopa-npm-bot-TOKEN",
     "PAGOPAIT-TENANTID",
     "PAGOPAIT-DEV-SELFCARE-SUBSCRIPTION-ID",
     "PAGOPAIT-UAT-SELFCARE-SUBSCRIPTION-ID",
