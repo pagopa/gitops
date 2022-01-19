@@ -42,13 +42,11 @@ locals {
     dev_storage_account_name               = "pagopadnodotestsa"
     dev_resource_group_azure               = "pagopa-d-nodo-test-rg"
     dev_test_execution_max_minutes         = 120
-    dev_sas_token                          = module.secrets.values["DEV-NODO-TEST-SAS-TOKEN"].value
 
     uat_azure_subscription_storage_account = "UAT-PAGOPA-SERVICE-CONN"
     uat_storage_account_name               = "pagopaunodotestsa"
     uat_resource_group_azure               = "pagopa-u-nodo-test-rg"
     uat_test_execution_max_minutes         = 120
-    uat_sas_token                          = module.secrets.values["UAT-NODO-TEST-SAS-TOKEN"].value
   }
   # code_review secrets
   pagopa-nodo-dei-pagamenti-test-variables_secret_code_review = {
@@ -90,7 +88,7 @@ module "pagopa-nodo-dei-pagamenti-test_code_review" {
 
 module "pagopa-nodo-dei-pagamenti-test_deploy" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v2.0.4"
-  count  = 0
+  count  = var.pagopa-nodo-dei-pagamenti-test.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.pagopa-nodo-dei-pagamenti-test.repository
