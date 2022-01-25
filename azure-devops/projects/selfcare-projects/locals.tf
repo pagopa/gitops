@@ -37,7 +37,7 @@ locals {
     dev_react_app_url_fe_login                 = "https://dev.selfcare.pagopa.it/auth"
     dev_react_app_url_fe_onboarding            = "https://dev.selfcare.pagopa.it/onboarding"
     dev_react_app_url_fe_dashboard             = "https://dev.selfcare.pagopa.it/dashboard"
-    dev_react_app_url_fe_assistenza            = "https://dev.selfcare.pagopa.it/assistenza"
+    dev_react_app_url_fe_assistance            = "https://dev.selfcare.pagopa.it/assistenza"
     dev_react_app_url_fe_landing               = "https://dev.selfcare.pagopa.it/auth/logout" // TODO when the landing will exists, replace this with the correct URL
     dev_react_app_url_api_login                = "https://api.dev.selfcare.pagopa.it/spid/v1"
     dev_react_app_url_api_party_process        = "https://api.dev.selfcare.pagopa.it/party-process/v1"
