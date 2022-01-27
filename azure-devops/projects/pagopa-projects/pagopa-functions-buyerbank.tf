@@ -40,6 +40,9 @@ locals {
     dev_azure_subscription  = azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.service_endpoint_name
     uat_azure_subscription  = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.service_endpoint_name
     prod_azure_subscription = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.service_endpoint_name
+    buyerbanks-api-key-dev  = module.secrets.values["DEV-BUYERBANKS-API-KEY"].value
+    buyerbanks-api-key-uat  = module.secrets.values["UAT-BUYERBANKS-API-KEY"].value
+    buyerbanks-api-key-prod = module.secrets.values["PROD-BUYERBANKS-API-KEY"].value
   }
   # deploy secrets
   pagopa-functions-buyerbank-variables_secret_deploy = {
