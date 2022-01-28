@@ -14,5 +14,6 @@ module "secrets" {
     "PAGOPAIT-PROD-IO-SUBSCRIPTION-ID",
     "PAGOPAIT-DEV-IO-SUBSCRIPTION-ID",
     "PAGOPAIT-TENANTID",
+    "pagopa-npm-bot-TOKEN",
   ]
 }

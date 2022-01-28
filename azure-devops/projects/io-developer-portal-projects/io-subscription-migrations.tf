@@ -153,6 +153,11 @@ resource "azuredevops_build_definition" "io-subscription-migrations-deploy" {
     value          = var.io-subscription-migrations.pipeline.production_resource_group_name
     allow_override = false
   }
+
+  variable {
+    name           = "NPM_CONNECTION"
+    value          = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
+  }
 }
 
 # deploy serviceendpoint authorization
