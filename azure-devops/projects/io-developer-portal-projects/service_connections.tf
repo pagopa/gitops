@@ -129,3 +129,13 @@ resource "azurerm_key_vault_access_policy" "PROD-IO-TLS-CERT-SERVICE-CONN_kv" {
 
   certificate_permissions = ["Get", "Import"]
 }
+
+# npm service connection
+resource "azuredevops_serviceendpoint_npm" "pagopa-npm-bot" {
+  depends_on = [azuredevops_project.project]
+
+  project_id            = azuredevops_project.project.id
+  service_endpoint_name = "pagopa-npm-bot"
+  url                   = "https://registry.npmjs.org"
+  access_token          = module.secrets.values["pagopa-npm-bot-TOKEN"].value
+}
