@@ -46,7 +46,6 @@ locals {
     dev_react_app_url_api_dashboard            = "https://api.dev.selfcare.pagopa.it/dashboard/v1"
     dev_react_app_url_api_onboarding           = "https://api.dev.selfcare.pagopa.it/onboarding/v1"
     dev_react_app_url_api_notification         = "https://api.dev.selfcare.pagopa.it/ms-notification-manager"
-
     uat_react_app_url_cdn                      = "https://uat.selfcare.pagopa.it"
     uat_react_app_url_storage                  = "https://selcucheckoutsa.z6.web.core.windows.net"
     uat_react_app_url_fe_login                 = "https://uat.selfcare.pagopa.it/auth"
@@ -60,7 +59,7 @@ locals {
     uat_react_app_url_api_party_registry_proxy = "https://api.uat.selfcare.pagopa.it/party-registry-proxy/v1"
     uat_react_app_url_api_dashboard            = "https://api.uat.selfcare.pagopa.it/dashboard/v1"
     uat_react_app_url_api_onboarding           = "https://api.uat.selfcare.pagopa.it/onboarding/v1"
-    uat_react_app_url_api_notification         = "https://api.uat.selfcare.pagopa.it/ms-notification-manager"
+    uat_react_app_url_api_notification         = "https://api.uat.selfcare.pagopa.it/notifications/v1"
 
     prod_react_app_url_cdn                      = "https://prod.selfcare.pagopa.it"
     prod_react_app_url_storage                  = "https://selcpcheckoutsa.z6.web.core.windows.net"
@@ -75,6 +74,7 @@ locals {
     prod_react_app_url_api_party_registry_proxy = "https://api.selfcare.pagopa.it/party-registry-proxy/v1"
     prod_react_app_url_api_dashboard            = "https://api.selfcare.pagopa.it/dashboard/v1"
     prod_react_app_url_api_onboarding           = "https://api.selfcare.pagopa.it/onboarding/v1"
-    prod_react_app_url_api_notification         = "https://api.selfcare.pagopa.it/ms-notification-manager"
+    prod_react_app_url_api_notification         = "https://api.selfcare.pagopa.it/notifications/v1"
+
   }
 }
