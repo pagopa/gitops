@@ -10,6 +10,14 @@ variable "pagopa-reporting-fdr" {
     pipeline = {
       enable_code_review = true
       enable_deploy      = true
+      sonarcloud = {
+        # TODO azure devops terraform provider does not support SonarCloud service endpoint
+        service_connection = "SONARCLOUD-SERVICE-CONN"
+        org                = "pagopa"
+        project_key        = "pagopa_pagopa-reporting-fdr"
+        project_name       = "pagopa-reporting-fdr"
+      }
+
     }
   }
 }
@@ -26,6 +34,10 @@ locals {
   }
   # code_review vars
   pagopa-reporting-fdr-variables_code_review = {
+    sonarcloud_service_conn = var.pagopa-reporting-fdr.pipeline.sonarcloud.service_connection
+    sonarcloud_org          = var.pagopa-reporting-fdr.pipeline.sonarcloud.org
+    sonarcloud_project_key  = var.pagopa-reporting-fdr.pipeline.sonarcloud.project_key
+    sonarcloud_project_name = var.pagopa-reporting-fdr.pipeline.sonarcloud.project_name
     danger_github_api_token = "skip"
   }
   # code_review secrets
@@ -65,7 +77,8 @@ module "pagopa-reporting-fdr_code_review" {
   )
 
   service_connection_ids_authorization = [
-    azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+    azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
+    local.azuredevops_serviceendpoint_sonarcloud_id,
   ]
 }
 
