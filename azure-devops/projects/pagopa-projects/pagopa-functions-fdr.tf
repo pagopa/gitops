@@ -67,7 +67,7 @@ locals {
     tenant_id                         = module.secrets.values["PAGOPAIT-TENANTID"].value
 
     # acr section
-    image_repository = "api-apiconfig-backend"
+    image_repository = "reporting-fdr"
 
     dev_container_registry  = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev.service_endpoint_name
     uat_container_registry  = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-uat.service_endpoint_name
