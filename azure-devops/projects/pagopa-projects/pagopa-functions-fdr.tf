@@ -49,8 +49,34 @@ locals {
     git_mail                = module.secrets.values["io-azure-devops-github-EMAIL"].value
     git_username            = module.secrets.values["io-azure-devops-github-USERNAME"].value
     github_connection       = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
-    uat_azure_subscription  = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.service_endpoint_name
-    prod_azure_subscription = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.service_endpoint_name
+
+    healthcheck_endpoint             = "/api/v1/info"
+    dev_deploy_type                  = "production_slot" #or staging_slot_and_swap
+    dev_azure_subscription           = azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.service_endpoint_name
+    dev_web_app_name                 = "pagopa-d-fn-reportingfdr"
+    dev_web_app_resource_group_name  = "pagopa-d-reporting-fdr-rg"
+    uat_deploy_type                  = "production_slot" #or staging_slot_and_swap
+    uat_azure_subscription           = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.service_endpoint_name
+    uat_web_app_name                 = "pagopa-u-fn-reportingfdr"
+    uat_web_app_resource_group_name  = "pagopa-u-reporting-fdr-rg"
+    prod_deploy_type                 = "production_slot" #or staging_slot_and_swap
+    prod_azure_subscription          = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.service_endpoint_name
+    prod_web_app_name                = "pagopa-p-fn-reportingfdr"
+    prod_web_app_resource_group_name = "pagopa-p-reporting-fdr-rg"
+
+    tenant_id                         = module.secrets.values["PAGOPAIT-TENANTID"].value
+
+    # acr section
+    image_repository = "reporting-fdr"
+
+    dev_container_registry  = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-dev.service_endpoint_name
+    uat_container_registry  = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-uat.service_endpoint_name
+    prod_container_registry = azuredevops_serviceendpoint_azurecr.pagopa-azurecr-prod.service_endpoint_name
+
+    dev_container_namespace  = "pagopadacr.azurecr.io"
+    uat_container_namespace  = "pagopauacr.azurecr.io"
+    prod_container_namespace = "pagopapacr.azurecr.io"
+
   }
   # deploy secrets
   pagopa-reporting-fdr-variables_secret_deploy = {
