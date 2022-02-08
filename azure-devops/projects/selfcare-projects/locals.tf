@@ -17,18 +17,24 @@ locals {
     dev_cdn_profile        = "selc-d-checkout-cdn-profile"
     dev_resource_group     = "selc-d-checkout-fe-rg"
     dev_storage_account    = "selcdcheckoutsa"
+    dev_mixpanel_token     = "6e1290bdda5885981a2f443f37444f0f"
+    dev_onetrust_domain_id = "c4394b6a-86ce-428c-a3d3-5b81cabbfed4-test" // TODO fixme whene available
 
     uat_azure_subscription = azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.service_endpoint_name
     uat_cdn_endpoint       = "selc-u-checkout-cdn-endpoint"
     uat_cdn_profile        = "selc-u-checkout-cdn-profile"
     uat_resource_group     = "selc-u-checkout-fe-rg"
     uat_storage_account    = "selcucheckoutsa"
+    uat_mixpanel_token     = "1d1b09b008638080ab34fe9b75db84fd"
+    uat_onetrust_domain_id = "c4394b6a-86ce-428c-a3d3-5b81cabbfed4-test" // TODO fixme whene available
 
     prod_azure_subscription = azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.service_endpoint_name
     prod_cdn_endpoint       = "selc-p-checkout-cdn-endpoint"
     prod_cdn_profile        = "selc-p-checkout-cdn-profile"
     prod_resource_group     = "selc-p-checkout-fe-rg"
     prod_storage_account    = "selcpcheckoutsa"
+    prod_mixpanel_token     = "1d1b09b008638080ab34fe9b75db84fd"
+    prod_onetrust_domain_id = "c4394b6a-86ce-428c-a3d3-5b81cabbfed4-test" // TODO fixme whene available
 
     react_app_assistance_email = "selfcare@assistenza.pagopa.it"
 
