@@ -1,8 +1,8 @@
-variable "rtd-ms-decrypt" {
+variable "rtd-ms-decrypter" {
   default = {
     repository = {
       organization    = "pagopa"
-      name            = "rtd-ms-decrypt"
+      name            = "rtd-ms-decrypter"
       branch_name     = "main"
       pipelines_path  = ".devops"
       yml_prefix_name = null
@@ -16,27 +16,27 @@ variable "rtd-ms-decrypt" {
 
 locals {
   # global vars
-  rtd-ms-decrypt-variables = {
+  rtd-ms-decrypter-variables = {
     dockerfile = "DockerfileV1"
   }
   # global secrets
-  rtd-ms-decrypt-variables_secret = {
+  rtd-ms-decrypter-variables_secret = {
 
   }
   # code_review vars
-  rtd-ms-decrypt-variables_code_review = {
+  rtd-ms-decrypter-variables_code_review = {
     sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
-    sonarcloud_org          = var.rtd-ms-decrypt.repository.organization
-    sonarcloud_project_key  = "${var.rtd-ms-decrypt.repository.organization}_${var.rtd-ms-decrypt.repository.name}"
-    sonarcloud_project_name = var.rtd-ms-decrypt.repository.name
+    sonarcloud_org          = var.rtd-ms-decrypter.repository.organization
+    sonarcloud_project_key  = "${var.rtd-ms-decrypter.repository.organization}_${var.rtd-ms-decrypter.repository.name}"
+    sonarcloud_project_name = var.rtd-ms-decrypter.repository.name
   }
   # code_review secrets
-  rtd-ms-decrypt-variables_secret_code_review = {
+  rtd-ms-decrypter-variables_secret_code_review = {
 
   }
   # deploy vars
-  rtd-ms-decrypt-variables_deploy = {
-    k8s_image_repository_name            = replace(var.rtd-ms-decrypt.repository.name, "-", "")
+  rtd-ms-decrypter-variables_deploy = {
+    k8s_image_repository_name            = replace(var.rtd-ms-decrypter.repository.name, "-", "")
     deploy_namespace                     = "rtd"
     settings_xml_rw_secure_file_name     = "settings-rw.xml"
     settings_xml_ro_secure_file_name     = "settings-ro.xml"
@@ -54,29 +54,29 @@ locals {
     prod_agent_pool                      = "cstar-prod-linux"
   }
   # deploy secrets
-  rtd-ms-decrypt-variables_secret_deploy = {
+  rtd-ms-decrypter-variables_secret_deploy = {
 
   }
 }
 
-module "rtd-ms-decrypt_code_review" {
+module "rtd-ms-decrypter_code_review" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
-  count  = var.rtd-ms-decrypt.pipeline.enable_code_review == true ? 1 : 0
+  count  = var.rtd-ms-decrypter.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.rtd-ms-decrypt.repository
+  repository                   = var.rtd-ms-decrypter.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   pull_request_trigger_use_yaml = true
 
   variables = merge(
-    local.rtd-ms-decrypt-variables,
-    local.rtd-ms-decrypt-variables_code_review,
+    local.rtd-ms-decrypter-variables,
+    local.rtd-ms-decrypter-variables_code_review,
   )
 
   variables_secret = merge(
-    local.rtd-ms-decrypt-variables_secret,
-    local.rtd-ms-decrypt-variables_secret_code_review,
+    local.rtd-ms-decrypter-variables_secret,
+    local.rtd-ms-decrypter-variables_secret_code_review,
   )
 
   service_connection_ids_authorization = [
@@ -85,24 +85,24 @@ module "rtd-ms-decrypt_code_review" {
   ]
 }
 
-module "rtd-ms-decrypt_deploy" {
+module "rtd-ms-decrypter_deploy" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
-  count  = var.rtd-ms-decrypt.pipeline.enable_deploy == true ? 1 : 0
+  count  = var.rtd-ms-decrypter.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.rtd-ms-decrypt.repository
+  repository                   = var.rtd-ms-decrypter.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   ci_trigger_use_yaml = true
 
   variables = merge(
-    local.rtd-ms-decrypt-variables,
-    local.rtd-ms-decrypt-variables_deploy,
+    local.rtd-ms-decrypter-variables,
+    local.rtd-ms-decrypter-variables_deploy,
   )
 
   variables_secret = merge(
-    local.rtd-ms-decrypt-variables_secret,
-    local.rtd-ms-decrypt-variables_secret_deploy,
+    local.rtd-ms-decrypter-variables_secret,
+    local.rtd-ms-decrypter-variables_secret_deploy,
   )
 
   service_connection_ids_authorization = [
