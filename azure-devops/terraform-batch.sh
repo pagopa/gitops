@@ -27,20 +27,20 @@ if [[ ${GIT_DIFF_STRATEGY} == "time" ]]; then
     exit 1
   fi
 
-  SUBSCRIPTIONS_CHANGED="$(git diff  --dirstat=files,0 $(git rev-list -n1 --before="${GIT_DIFF_PARAM_ONE} day ago" main) | perl -n -e'/projects\/(.*)/ && print $1' | perl -ple 'chop')"
+  PROJECTS_CHANGED="$(git diff  --dirstat=files,0 $(git rev-list -n1 --before="${GIT_DIFF_PARAM_ONE} day ago" main) | perl -n -e'/projects\/(.*)/ && print $1' | perl -ple 'chop')"
 else
-  SUBSCRIPTIONS_CHANGED="$(git diff  --dirstat=files,0 | perl -n -e'/projects\/(.*)/ && print $1' | perl -ple 'chop')"
+  PROJECTS_CHANGED="$(git diff  --dirstat=files,0 | perl -n -e'/projects\/(.*)/ && print $1' | perl -ple 'chop')"
 fi
 
-LIST_SUBSCRIPTIONS_CHANGED="$(echo "$SUBSCRIPTIONS_CHANGED" | tr '/' '\n')"
+LIST_PROJECTS_CHANGED="$(echo "$PROJECTS_CHANGED" | tr '/' '\n')"
 
 # shellcheck disable=SC2028
-echo "📳 Subscriptions that will be changed: \n${LIST_SUBSCRIPTIONS_CHANGED} \n"
+echo "📳 PROJECTS that will be changed: \n${LIST_PROJECTS_CHANGED} \n"
 if [[ ${ACTION} == "changes" ]]; then
   exit 0
 fi
 
-for dir in ${LIST_SUBSCRIPTIONS_CHANGED}
+for dir in ${LIST_PROJECTS_CHANGED}
 do
     # shellcheck disable=SC2028
     echo "🟨 started: Terraform $ACTION on ${dir} \n"
