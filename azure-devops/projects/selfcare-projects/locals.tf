@@ -20,7 +20,7 @@ locals {
     dev_analytics_enabled  = "true"
     dev_analytics_mocked   = "false"
     dev_mixpanel_token     = "6e1290bdda5885981a2f443f37444f0f"
-    dev_onetrust_domain_id = "c4394b6a-86ce-428c-a3d3-5b81cabbfed4-test" // TODO fixme whene available
+    dev_onetrust_domain_id = "a8f58d7a-7f6a-4fe6-ac02-f95bac3876d4-test"
 
     uat_azure_subscription = azuredevops_serviceendpoint_azurerm.UAT-SELFCARE.service_endpoint_name
     uat_cdn_endpoint       = "selc-u-checkout-cdn-endpoint"
@@ -30,7 +30,7 @@ locals {
     uat_analytics_enabled  = "true"
     uat_analytics_mocked   = "false"
     uat_mixpanel_token     = "1d1b09b008638080ab34fe9b75db84fd"
-    uat_onetrust_domain_id = "c4394b6a-86ce-428c-a3d3-5b81cabbfed4-test" // TODO fixme whene available
+    uat_onetrust_domain_id = "a8f58d7a-7f6a-4fe6-ac02-f95bac3876d4-test" // TODO fixme whene available
 
     prod_azure_subscription = azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.service_endpoint_name
     prod_cdn_endpoint       = "selc-p-checkout-cdn-endpoint"
@@ -40,7 +40,7 @@ locals {
     prod_analytics_enabled  = "true"
     prod_analytics_mocked   = "false"
     prod_mixpanel_token     = "1d1b09b008638080ab34fe9b75db84fd"
-    prod_onetrust_domain_id = "c4394b6a-86ce-428c-a3d3-5b81cabbfed4-test" // TODO fixme whene available
+    prod_onetrust_domain_id = "a8f58d7a-7f6a-4fe6-ac02-f95bac3876d4-test" // TODO fixme whene available
 
     react_app_assistance_email = "selfcare@assistenza.pagopa.it"
 
