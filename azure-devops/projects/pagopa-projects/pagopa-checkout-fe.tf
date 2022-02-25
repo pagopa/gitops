@@ -41,11 +41,9 @@ locals {
     uat_azure_subscription   = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.service_endpoint_name
     prod_azure_subscription  = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.service_endpoint_name
     cache_version_id         = "v1"
-    blob_container_name      = "$web"
     checkout_api_host_dev    = "https://api.dev.platform.pagopa.it"
     checkout_api_host_uat    = "https://api.uat.platform.pagopa.it"
     checkout_api_host_prod   = "https://api.platform.pagopa.it"
-    checkout_fe_host         = "https://checkout.pagopa.it"
     checkout_captcha_id_dev  = module.secrets.values["CHECKOUT-CAPTCHA-ID-DEV"].value
     checkout_captcha_id_uat  = module.secrets.values["CHECKOUT-CAPTCHA-ID-UAT"].value
     checkout_captcha_id_prod = module.secrets.values["CHECKOUT-CAPTCHA-ID-PROD"].value
