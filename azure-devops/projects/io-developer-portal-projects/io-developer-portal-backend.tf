@@ -29,7 +29,6 @@ resource "azuredevops_build_definition" "io-developer-portal-backend-code-review
   path       = "\\${var.io-developer-portal-backend.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-developer-portal-backend.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false

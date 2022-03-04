@@ -27,7 +27,6 @@ resource "azuredevops_build_definition" "io-functions-cgn-code-review" {
   path       = "\\${var.io-functions-cgn.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-functions-cgn.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false

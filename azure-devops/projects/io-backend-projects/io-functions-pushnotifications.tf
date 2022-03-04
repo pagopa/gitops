@@ -27,7 +27,6 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-code-rev
   path       = "\\${var.io-functions-pushnotifications.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-functions-pushnotifications.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false

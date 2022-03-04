@@ -27,7 +27,6 @@ resource "azuredevops_build_definition" "io-functions-services-cache-code-review
   path       = "\\${var.io-functions-services-cache.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-functions-services-cache.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false

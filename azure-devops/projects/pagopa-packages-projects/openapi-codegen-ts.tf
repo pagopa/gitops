@@ -25,7 +25,6 @@ resource "azuredevops_build_definition" "openapi-codegen-ts-code-review" {
   path       = "\\${var.openapi-codegen-ts.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.openapi-codegen-ts.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false

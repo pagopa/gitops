@@ -27,7 +27,6 @@ resource "azuredevops_build_definition" "io-functions-cgn-merchant-code-review" 
   path       = "\\${var.io-functions-cgn-merchant.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-functions-cgn-merchant.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false

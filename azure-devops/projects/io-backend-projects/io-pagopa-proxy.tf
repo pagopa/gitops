@@ -28,7 +28,6 @@ resource "azuredevops_build_definition" "io-pagopa-proxy-code-review" {
   path       = "\\${var.io-pagopa-proxy.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-pagopa-proxy.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false
