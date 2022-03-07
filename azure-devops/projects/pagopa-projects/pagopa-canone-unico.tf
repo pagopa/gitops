@@ -10,7 +10,7 @@ variable "pagopa-canone-unico" {
     pipeline = {
       enable_code_review = true
       enable_deploy      = true
-      sonarcloud         = {
+      sonarcloud = {
         # TODO azure devops terraform provider does not support SonarCloud service endpoint
         service_connection = "SONARCLOUD-SERVICE-CONN"
         org                = "pagopa"
