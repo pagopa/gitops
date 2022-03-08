@@ -42,6 +42,7 @@ locals {
   selc-onboarding-backend-variables_deploy = {
     k8s_image_repository_name = replace(var.selc-onboarding-backend.repository.name, "-", "")
     deploy_namespace          = "selc"
+    deployment_name           = "b4f-onboarding"
   }
   # deploy secrets
   selc-onboarding-backend-variables_secret_deploy = {

@@ -42,6 +42,7 @@ locals {
   selc-ms-product-variables_deploy = {
     k8s_image_repository_name = replace(var.selc-ms-product.repository.name, "-", "")
     deploy_namespace          = "selc"
+    deployment_name           = "ms-product"
   }
   # deploy secrets
   selc-ms-product-variables_secret_deploy = {

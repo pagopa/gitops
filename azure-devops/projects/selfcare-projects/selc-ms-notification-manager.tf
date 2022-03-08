@@ -42,6 +42,7 @@ locals {
   selc-ms-notification-manager-variables_deploy = {
     k8s_image_repository_name = replace(var.selc-ms-notification-manager.repository.name, "-", "")
     deploy_namespace          = "selc"
+    deployment_name           = "ms-notification-manager"
   }
   # deploy secrets
   selc-ms-notification-manager-variables_secret_deploy = {

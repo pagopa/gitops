@@ -42,6 +42,7 @@ locals {
   selc-dashboard-backend-variables_deploy = {
     k8s_image_repository_name = replace(var.selc-dashboard-backend.repository.name, "-", "")
     deploy_namespace          = "selc"
+    deployment_name           = "b4f-dashboard"
   }
   # deploy secrets
   selc-dashboard-backend-variables_secret_deploy = {

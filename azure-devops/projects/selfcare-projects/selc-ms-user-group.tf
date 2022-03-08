@@ -42,6 +42,7 @@ locals {
   selc-ms-user-group-variables_deploy = {
     k8s_image_repository_name = replace(var.selc-ms-user-group.repository.name, "-", "")
     deploy_namespace          = "selc"
+    deployment_name           = "ms-user-group"
   }
   # deploy secrets
   selc-ms-user-group-variables_secret_deploy = {
