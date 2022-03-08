@@ -89,4 +89,19 @@ locals {
     prod_react_app_url_api_notification         = "https://api.selfcare.pagopa.it/notifications/v1"
 
   }
+
+  selc-be-common-variables_deploy = {
+    dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
+    dev_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
+    dev_container_registry_name          = "selcdacr.azurecr.io"
+    dev_agent_pool                       = "selfcare-dev-linux"
+    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name
+    uat_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.service_endpoint_name
+    uat_container_registry_name          = "selcuacr.azurecr.io"
+    uat_agent_pool                       = "selfcare-uat-linux"
+    prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.service_endpoint_name
+    prod_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.service_endpoint_name
+    prod_container_registry_name         = "selcpacr.azurecr.io"
+    prod_agent_pool                      = "selfcare-prod-linux"
+  }
 }
