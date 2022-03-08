@@ -40,20 +40,8 @@ locals {
   }
   # deploy vars
   selc-onboarding-backend-variables_deploy = {
-    k8s_image_repository_name            = replace(var.selc-onboarding-backend.repository.name, "-", "")
-    deploy_namespace                     = "selc"
-    dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
-    dev_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
-    dev_container_registry_name          = "selcdacr.azurecr.io"
-    dev_agent_pool                       = "selfcare-dev-linux"
-    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name
-    uat_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.service_endpoint_name
-    uat_container_registry_name          = "selcuacr.azurecr.io"
-    uat_agent_pool                       = "selfcare-uat-linux"
-    prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.service_endpoint_name
-    prod_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.service_endpoint_name
-    prod_container_registry_name         = "selcpacr.azurecr.io"
-    prod_agent_pool                      = "selfcare-prod-linux"
+    k8s_image_repository_name = replace(var.selc-onboarding-backend.repository.name, "-", "")
+    deploy_namespace          = "selc"
   }
   # deploy secrets
   selc-onboarding-backend-variables_secret_deploy = {
@@ -98,6 +86,7 @@ module "selc-onboarding-backend_deploy" {
   ci_trigger_use_yaml = true
 
   variables = merge(
+    local.selc-be-common-variables_deploy,
     local.selc-onboarding-backend-variables,
     local.selc-onboarding-backend-variables_deploy,
   )
