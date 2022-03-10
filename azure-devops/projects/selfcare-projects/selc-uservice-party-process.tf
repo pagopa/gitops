@@ -19,9 +19,6 @@ locals {
   selc-uservice-party-process-variables = {
     docker_base_image_name = "ghcr.io/pagopa/pdnd-interop-uservice-party-process"
     dockerfile             = "Dockerfile"
-    dev_replicas           = 1
-    uat_replicas           = 1
-    prod_replicas          = 1
   }
   # global secrets
   selc-uservice-party-process-variables_secret = {
