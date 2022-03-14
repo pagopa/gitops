@@ -1,8 +1,8 @@
-variable "io-functions-app-message-test" {
+variable "io-functions-app-messages" {
   default = {
     repository = {
       organization   = "pagopa"
-      name           = "io-functions-app-message-test"
+      name           = "io-functions-app-messages"
       branch_name    = "master"
       pipelines_path = ".devops"
     }
@@ -17,15 +17,15 @@ variable "io-functions-app-message-test" {
 #
 
 # Define code review pipeline
-resource "azuredevops_build_definition" "io-functions-app-message-test-code-review" {
+resource "azuredevops_build_definition" "io-functions-app-messages-code-review" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.io-functions-app-message-test.repository.name}.code-review"
-  path       = "\\${var.io-functions-app-message-test.repository.name}"
+  name       = "${var.io-functions-app-messages.repository.name}.code-review"
+  path       = "\\${var.io-functions-app-messages.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-functions-app-message-test.repository.branch_name
+    initial_branch = var.io-functions-app-messages.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false
@@ -33,7 +33,7 @@ resource "azuredevops_build_definition" "io-functions-app-message-test-code-revi
     override {
       auto_cancel = false
       branch_filter {
-        include = [var.io-functions-app-message-test.repository.branch_name]
+        include = [var.io-functions-app-messages.repository.branch_name]
       }
       path_filter {
         exclude = []
@@ -44,9 +44,9 @@ resource "azuredevops_build_definition" "io-functions-app-message-test-code-revi
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = "${var.io-functions-app-message-test.repository.organization}/${var.io-functions-app-message-test.repository.name}"
-    branch_name           = var.io-functions-app-message-test.repository.branch_name
-    yml_path              = "${var.io-functions-app-message-test.repository.pipelines_path}/code-review-pipelines.yml"
+    repo_id               = "${var.io-functions-app-messages.repository.organization}/${var.io-functions-app-messages.repository.name}"
+    branch_name           = var.io-functions-app-messages.repository.branch_name
+    yml_path              = "${var.io-functions-app-messages.repository.pipelines_path}/code-review-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   }
 
@@ -58,23 +58,23 @@ resource "azuredevops_build_definition" "io-functions-app-message-test-code-revi
 }
 
 # Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
-resource "azuredevops_resource_authorization" "io-functions-app-message-test-code-review-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-app-message-test-code-review, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "io-functions-app-messages-code-review-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-app-messages-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
-  definition_id = azuredevops_build_definition.io-functions-app-message-test-code-review.id
+  definition_id = azuredevops_build_definition.io-functions-app-messages-code-review.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow code review pipeline to access Github pr service connection, needed to checkout code from the pull request branch
-resource "azuredevops_resource_authorization" "io-functions-app-message-test-code-review-github-pr-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.io-functions-app-message-test-code-review, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "io-functions-app-messages-code-review-github-pr-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.io-functions-app-messages-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
-  definition_id = azuredevops_build_definition.io-functions-app-message-test-code-review.id
+  definition_id = azuredevops_build_definition.io-functions-app-messages-code-review.id
   authorized    = true
   type          = "endpoint"
 }
@@ -84,18 +84,18 @@ resource "azuredevops_resource_authorization" "io-functions-app-message-test-cod
 #
 
 # Define deploy pipeline
-resource "azuredevops_build_definition" "io-functions-app-message-test-deploy" {
+resource "azuredevops_build_definition" "io-functions-app-messages-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.io-functions-app-message-test.repository.name}.deploy"
-  path       = "\\${var.io-functions-app-message-test.repository.name}"
+  name       = "${var.io-functions-app-messages.repository.name}.deploy"
+  path       = "\\${var.io-functions-app-messages.repository.name}"
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = "${var.io-functions-app-message-test.repository.organization}/${var.io-functions-app-message-test.repository.name}"
-    branch_name           = var.io-functions-app-message-test.repository.branch_name
-    yml_path              = "${var.io-functions-app-message-test.repository.pipelines_path}/deploy-pipelines.yml"
+    repo_id               = "${var.io-functions-app-messages.repository.organization}/${var.io-functions-app-messages.repository.name}"
+    branch_name           = var.io-functions-app-messages.repository.branch_name
+    yml_path              = "${var.io-functions-app-messages.repository.pipelines_path}/deploy-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
@@ -121,7 +121,7 @@ resource "azuredevops_build_definition" "io-functions-app-message-test-deploy" {
 
   variable {
     name  = "CACHE_VERSION_ID"
-    value = var.io-functions-app-message-test.pipeline.cache_version_id
+    value = var.io-functions-app-messages.pipeline.cache_version_id
   }
 
   variable {
@@ -136,45 +136,45 @@ resource "azuredevops_build_definition" "io-functions-app-message-test-deploy" {
 }
 
 # Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
-resource "azuredevops_resource_authorization" "io-functions-app-message-test-deploy-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-app-message-test-deploy, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "io-functions-app-messages-deploy-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-app-messages-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
-  definition_id = azuredevops_build_definition.io-functions-app-message-test-deploy.id
+  definition_id = azuredevops_build_definition.io-functions-app-messages-deploy.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow deploy pipeline to access Github writable service connection, needed to bump project version and publish a new relase
-resource "azuredevops_resource_authorization" "io-functions-app-message-test-deploy-github-rw-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.io-functions-app-message-test-deploy, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "io-functions-app-messages-deploy-github-rw-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.io-functions-app-messages-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
-  definition_id = azuredevops_build_definition.io-functions-app-message-test-deploy.id
+  definition_id = azuredevops_build_definition.io-functions-app-messages-deploy.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow deploy pipeline to access Azure PROD-IO subscription service connection, needed to interact with Azure resources
-resource "azuredevops_resource_authorization" "io-functions-app-message-test-deploy-azurerm-PROD-IO-auth" {
-  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_build_definition.io-functions-app-message-test-deploy, time_sleep.wait]
+resource "azuredevops_resource_authorization" "io-functions-app-messages-deploy-azurerm-PROD-IO-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_build_definition.io-functions-app-messages-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_azurerm.PROD-IO.id
-  definition_id = azuredevops_build_definition.io-functions-app-message-test-deploy.id
+  definition_id = azuredevops_build_definition.io-functions-app-messages-deploy.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow deploy pipeline to access NPM service connection, needed to publish sdk packages to the public registry
-resource "azuredevops_resource_authorization" "io-functions-app-message-test-deploy-npm-auth" {
-  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.io-functions-app-message-test-deploy, time_sleep.wait]
+resource "azuredevops_resource_authorization" "io-functions-app-messages-deploy-npm-auth" {
+  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.io-functions-app-messages-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_npm.pagopa-npm-bot.id
-  definition_id = azuredevops_build_definition.io-functions-app-message-test-deploy.id
+  definition_id = azuredevops_build_definition.io-functions-app-messages-deploy.id
   authorized    = true
   type          = "endpoint"
 }
