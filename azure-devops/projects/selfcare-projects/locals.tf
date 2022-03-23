@@ -49,6 +49,8 @@ locals {
     dev_react_app_url_fe_login                 = "https://dev.selfcare.pagopa.it/auth"
     dev_react_app_url_fe_onboarding            = "https://dev.selfcare.pagopa.it/onboarding"
     dev_react_app_url_fe_dashboard             = "https://dev.selfcare.pagopa.it/dashboard"
+    dev_react_app_url_fe_dashboard_users       = "https://dev.selfcare.pagopa.it/microcomponents/dashboard/users"
+    dev_react_app_url_fe_dashboard_groups      = "https://dev.selfcare.pagopa.it/microcomponents/dashboard/groups"
     dev_react_app_url_fe_assistance            = "https://dev.selfcare.pagopa.it/assistenza"
     dev_react_app_url_fe_landing               = "https://dev.selfcare.pagopa.it/auth/logout" // TODO when the landing will exists, replace this with the correct URL
     dev_react_app_url_api_login                = "https://api.dev.selfcare.pagopa.it/spid/v1"
@@ -58,11 +60,14 @@ locals {
     dev_react_app_url_api_dashboard            = "https://api.dev.selfcare.pagopa.it/dashboard/v1"
     dev_react_app_url_api_onboarding           = "https://api.dev.selfcare.pagopa.it/onboarding/v1"
     dev_react_app_url_api_notification         = "https://api.dev.selfcare.pagopa.it/ms-notification-manager"
+
     uat_react_app_url_cdn                      = "https://uat.selfcare.pagopa.it"
     uat_react_app_url_storage                  = "https://selcucheckoutsa.z6.web.core.windows.net"
     uat_react_app_url_fe_login                 = "https://uat.selfcare.pagopa.it/auth"
     uat_react_app_url_fe_onboarding            = "https://uat.selfcare.pagopa.it/onboarding"
     uat_react_app_url_fe_dashboard             = "https://uat.selfcare.pagopa.it/dashboard"
+    uat_react_app_url_fe_dashboard_users       = "https://uat.selfcare.pagopa.it/microcomponents/dashboard/users"
+    uat_react_app_url_fe_dashboard_groups      = "https://uat.selfcare.pagopa.it/microcomponents/dashboard/groups"
     uat_react_app_url_fe_assistance            = "https://uat.selfcare.pagopa.it/assistenza"
     uat_react_app_url_fe_landing               = "https://uat.selfcare.pagopa.it/auth/logout" // TODO when the landing will exists, replace this with the correct URL
     uat_react_app_url_api_login                = "https://api.uat.selfcare.pagopa.it/spid/v1"
@@ -78,6 +83,8 @@ locals {
     prod_react_app_url_fe_login                 = "https://selfcare.pagopa.it/auth"
     prod_react_app_url_fe_onboarding            = "https://selfcare.pagopa.it/onboarding"
     prod_react_app_url_fe_dashboard             = "https://selfcare.pagopa.it/dashboard"
+    prod_react_app_url_fe_dashboard_users       = "https://selfcare.pagopa.it/microcomponents/dashboard/users"
+    prod_react_app_url_fe_dashboard_groups      = "https://selfcare.pagopa.it/microcomponents/dashboard/groups"
     prod_react_app_url_fe_assistance            = "https://selfcare.pagopa.it/assistenza"
     prod_react_app_url_fe_landing               = "https://selfcare.pagopa.it/auth/logout" // TODO when the landing will exists, replace this with the correct URL
     prod_react_app_url_api_login                = "https://api.selfcare.pagopa.it/spid/v1"
