@@ -34,20 +34,20 @@ locals {
   }
   # deploy vars
   pagopa-checkout-io-pay-portal-fe-variables_deploy = {
-    git_mail                              = module.secrets.values["io-azure-devops-github-EMAIL"].value
-    git_username                          = module.secrets.values["io-azure-devops-github-USERNAME"].value
-    github_connection                     = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
-    cache_version_id                      = "v3"
-    blob_container_name                   = "$web"
-    endpoint_azure                        = "pagopa-p-checkout-cdn-e"
-    checkout_api_host_uat                 = "https://api.uat.platform.pagopa.it"
-    checkout_api_host_prod                = "https://api.platform.pagopa.it"
-    io_pay_portal_pay_wl_host             = "https://checkout.pagopa.it"
-    profile_name_cdn_azure                = "pagopa-p-checkout-cdn-p"
-    resource_group_azure                  = "pagopa-p-checkout-fe-rg"
-    storage_account_name                  = "pagopapcheckoutsa"
-    checkout_captcha_id_uat               = module.secrets.values["CHECKOUT-CAPTCHA-ID-UAT"].value
-    checkout_captcha_id_prod              = module.secrets.values["CHECKOUT-CAPTCHA-ID-PROD"].value
+    git_mail                  = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    git_username              = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    github_connection         = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    cache_version_id          = "v3"
+    blob_container_name       = "$web"
+    endpoint_azure            = "pagopa-p-checkout-cdn-e"
+    checkout_api_host_uat     = "https://api.uat.platform.pagopa.it"
+    checkout_api_host_prod    = "https://api.platform.pagopa.it"
+    io_pay_portal_pay_wl_host = "https://checkout.pagopa.it"
+    profile_name_cdn_azure    = "pagopa-p-checkout-cdn-p"
+    resource_group_azure      = "pagopa-p-checkout-fe-rg"
+    storage_account_name      = "pagopapcheckoutsa"
+    checkout_captcha_id_uat   = module.secrets.values["CHECKOUT-CAPTCHA-ID-UAT"].value
+    checkout_captcha_id_prod  = module.secrets.values["CHECKOUT-CAPTCHA-ID-PROD"].value
   }
   # deploy secrets
   pagopa-checkout-io-pay-portal-fe-variables_secret_deploy = {
