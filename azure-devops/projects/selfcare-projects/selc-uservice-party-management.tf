@@ -17,7 +17,7 @@ variable "selc-uservice-party-management" {
 locals {
   # global vars
   selc-uservice-party-management-variables = {
-    docker_base_image_name = "ghcr.io/pagopa/pdnd-interop-uservice-party-management"
+    docker_base_image_name = "ghcr.io/pagopa/interop-be-party-management"
     dockerfile             = "Dockerfile"
   }
   # global secrets
@@ -38,7 +38,7 @@ locals {
     deploy_namespace                       = "selc"
     common_container_registry_name         = "ghcr.io"
     common_container_registry_service_conn = azuredevops_serviceendpoint_dockerregistry.github_docker_registry_ro.service_endpoint_name
-    deployment_name                        = "pdnd-interop-uservice-party-management"
+    deployment_name                        = "interop-be-party-management"
   }
   # deploy secrets
   selc-uservice-party-management-variables_secret_deploy = {

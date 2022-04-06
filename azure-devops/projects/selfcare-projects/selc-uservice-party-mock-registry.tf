@@ -17,7 +17,7 @@ variable "selc-uservice-party-mock-registry" {
 locals {
   # global vars
   selc-uservice-party-mock-registry-variables = {
-    docker_base_image_name = "ghcr.io/pagopa/pdnd-interop-uservice-party-mock-registry"
+    docker_base_image_name = "ghcr.io/pagopa/interop-be-party-mock-registry"
     dockerfile             = "Dockerfile"
   }
   # global secrets
@@ -38,7 +38,7 @@ locals {
     deploy_namespace                       = "selc"
     common_container_registry_name         = "ghcr.io"
     common_container_registry_service_conn = azuredevops_serviceendpoint_dockerregistry.github_docker_registry_ro.service_endpoint_name
-    deployment_name                        = "pdnd-interop-uservice-party-mock-registry"
+    deployment_name                        = "interop-be-party-mock-registry"
   }
   # deploy secrets
   selc-uservice-party-mock-registry-variables_secret_deploy = {
