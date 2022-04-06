@@ -155,8 +155,8 @@ resource "azuredevops_build_definition" "io-subscription-migrations-deploy" {
   }
 
   variable {
-    name           = "NPM_CONNECTION"
-    value          = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
+    name  = "NPM_CONNECTION"
+    value = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
   }
 }
 
