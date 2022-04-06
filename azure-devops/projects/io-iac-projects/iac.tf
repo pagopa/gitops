@@ -66,6 +66,7 @@ module "iac_code_review" {
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurerm.PROD-IO.id,
+    azuredevops_serviceendpoint_azurerm.PROD-IO-SIGN.id,
   ]
 }
 
@@ -92,5 +93,6 @@ module "iac_deploy" {
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurerm.PROD-IO.id,
+    azuredevops_serviceendpoint_azurerm.PROD-IO-SIGN.id,
   ]
 }
