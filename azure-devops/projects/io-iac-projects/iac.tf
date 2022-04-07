@@ -67,6 +67,7 @@ module "iac_code_review" {
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurerm.PROD-IO.id,
     azuredevops_serviceendpoint_azurerm.PROD-IO-SIGN.id,
+    azuredevops_serviceendpoint_azurerm.PROD-IO-REMINDER.id,
   ]
 }
 
@@ -94,5 +95,6 @@ module "iac_deploy" {
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_azurerm.PROD-IO.id,
     azuredevops_serviceendpoint_azurerm.PROD-IO-SIGN.id,
+    azuredevops_serviceendpoint_azurerm.PROD-IO-REMINDER.id,
   ]
 }
