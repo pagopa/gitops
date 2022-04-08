@@ -1,5 +1,5 @@
 # Github service connection (read-only)
-resource "azuredevops_serviceendpoint_github" "cstar-azure-devops-github-ro" {
+resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-ro" {
   depends_on = [azuredevops_project.project]
 
   project_id            = azuredevops_project.project.id
@@ -13,7 +13,7 @@ resource "azuredevops_serviceendpoint_github" "cstar-azure-devops-github-ro" {
 }
 
 # Github service connection (pull request)
-resource "azuredevops_serviceendpoint_github" "cstar-azure-devops-github-pr" {
+resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
   depends_on = [azuredevops_project.project]
 
   project_id            = azuredevops_project.project.id
