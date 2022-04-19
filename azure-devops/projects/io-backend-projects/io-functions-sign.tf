@@ -4,7 +4,7 @@ variable "io-functions-sign" {
       organization   = "pagopa"
       name           = "io-functions-sign"
       branch_name    = "main"
-      pipelines_path = ".azdo"
+      pipelines_path = ".devops"
     }
     pipeline = {
       cache_version_id = "v3"
@@ -46,7 +46,7 @@ resource "azuredevops_build_definition" "io-functions-sign-code-review" {
     repo_type             = "GitHub"
     repo_id               = "${var.io-functions-sign.repository.organization}/${var.io-functions-sign.repository.name}"
     branch_name           = var.io-functions-sign.repository.branch_name
-    yml_path              = "${var.io-functions-sign.repository.pipelines_path}/code-review-pipelines.yml"
+    yml_path              = "${var.io-functions-sign.repository.pipelines_path}/code-review.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   }
 
