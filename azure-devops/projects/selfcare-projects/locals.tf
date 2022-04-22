@@ -40,7 +40,7 @@ locals {
     prod_analytics_enabled  = "true"
     prod_analytics_mocked   = "false"
     prod_mixpanel_token     = "1d1b09b008638080ab34fe9b75db84fd"
-    prod_onetrust_domain_id = "a8f58d7a-7f6a-4fe6-ac02-f95bac3876d4-test" // TODO fixme whene available
+    prod_onetrust_domain_id = "084d5de2-d423-458a-9b28-0f8db3e55e71"
 
     react_app_assistance_email = "selfcare@assistenza.pagopa.it"
 
@@ -76,7 +76,7 @@ locals {
     uat_react_app_url_api_party_registry_proxy = "https://api.uat.selfcare.pagopa.it/party-registry-proxy/v1"
     uat_react_app_url_api_dashboard            = "https://api.uat.selfcare.pagopa.it/dashboard/v1"
     uat_react_app_url_api_onboarding           = "https://api.uat.selfcare.pagopa.it/onboarding/v1"
-    uat_react_app_url_api_notification         = "https://api.uat.selfcare.pagopa.it/notifications/v1"
+    uat_react_app_url_api_notification         = "https://api.uat.selfcare.pagopa.it/ms-notification-manager"
 
     prod_react_app_url_cdn                      = "https://prod.selfcare.pagopa.it"
     prod_react_app_url_storage                  = "https://selcpcheckoutsa.z6.web.core.windows.net"
@@ -93,7 +93,7 @@ locals {
     prod_react_app_url_api_party_registry_proxy = "https://api.selfcare.pagopa.it/party-registry-proxy/v1"
     prod_react_app_url_api_dashboard            = "https://api.selfcare.pagopa.it/dashboard/v1"
     prod_react_app_url_api_onboarding           = "https://api.selfcare.pagopa.it/onboarding/v1"
-    prod_react_app_url_api_notification         = "https://api.selfcare.pagopa.it/notifications/v1"
+    prod_react_app_url_api_notification         = "https://api.selfcare.pagopa.it/ms-notification-manager"
 
   }
 
