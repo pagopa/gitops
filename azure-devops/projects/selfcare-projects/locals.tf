@@ -30,7 +30,7 @@ locals {
     uat_analytics_enabled  = "true"
     uat_analytics_mocked   = "false"
     uat_mixpanel_token     = "1d1b09b008638080ab34fe9b75db84fd"
-    uat_onetrust_domain_id = "a8f58d7a-7f6a-4fe6-ac02-f95bac3876d4-test" // TODO fixme whene available
+    uat_onetrust_domain_id = "15a1f042-9257-450f-b9e8-38d019191729"
 
     prod_azure_subscription = azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.service_endpoint_name
     prod_cdn_endpoint       = "selc-p-checkout-cdn-endpoint"
