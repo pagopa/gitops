@@ -17,7 +17,7 @@ variable "rtd-ms-decrypter" {
 locals {
   # global vars
   rtd-ms-decrypter-variables = {
-    dockerfile = "DockerfileV1"
+    dockerfile = "Dockerfile"
   }
   # global secrets
   rtd-ms-decrypter-variables_secret = {
