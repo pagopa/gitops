@@ -33,7 +33,7 @@ locals {
 }
 
 module "io-template-typescript_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v0.0.3"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v2.1.0"
   count  = var.io-template-typescript.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
