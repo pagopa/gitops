@@ -44,24 +44,18 @@ locals {
   }
   # deploy vars
   pagopa-debt-position-variables_deploy = {
-    git_mail                         = module.secrets.values["io-azure-devops-github-EMAIL"].value
-    git_username                     = module.secrets.values["io-azure-devops-github-USERNAME"].value
-    github_connection                = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
-    healthcheck_endpoint             = "/api/v1/info"
-    dev_deploy_type                  = "production_slot" #or staging_slot_and_swap
-    dev_azure_subscription           = azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.service_endpoint_name
-    dev_web_app_name                 = "pagopa-d-app-debt-position"
-    dev_web_app_resource_group_name  = "pagopa-d-debt-position-rg"
-    uat_deploy_type                  = "production_slot" #or staging_slot_and_swap
-    uat_azure_subscription           = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.service_endpoint_name
-    uat_web_app_name                 = "pagopa-u-app-debt-position"
-    uat_web_app_resource_group_name  = "pagopa-u-debt-position-rg"
-    prod_deploy_type                 = "production_slot" #or staging_slot_and_swap
-    prod_azure_subscription          = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.service_endpoint_name
-    prod_web_app_name                = "pagopa-p-app-debt-position"
-    prod_web_app_resource_group_name = "pagopa-p-debt-position-rg"
+    git_mail                = module.secrets.values["io-azure-devops-github-EMAIL"].value
+    git_username            = module.secrets.values["io-azure-devops-github-USERNAME"].value
+    github_connection       = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
+    healthcheck_endpoint    = "/api/v1/info"
+    dev_azure_subscription  = azuredevops_serviceendpoint_azurerm.DEV-PAGOPA.service_endpoint_name
+    dev_web_app_name        = "pagopa-d"
+    uat_azure_subscription  = azuredevops_serviceendpoint_azurerm.UAT-PAGOPA.service_endpoint_name
+    uat_web_app_name        = "pagopa-u"
+    prod_azure_subscription = azuredevops_serviceendpoint_azurerm.PROD-PAGOPA.service_endpoint_name
+    prod_web_app_name       = "pagopa-p"
 
-    tenant_id                         = module.secrets.values["PAGOPAIT-TENANTID"].value
+    tenant_id = module.secrets.values["PAGOPAIT-TENANTID"].value
 
     # acr section
     image_repository = "debt-position"

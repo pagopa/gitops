@@ -3,7 +3,7 @@ variable "rtd-ms-ingestor" {
     repository = {
       organization    = "pagopa"
       name            = "rtd-ms-ingestor"
-      branch_name     = "master"
+      branch_name     = "main"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }
@@ -17,7 +17,7 @@ variable "rtd-ms-ingestor" {
 locals {
   # global vars
   rtd-ms-ingestor-variables = {
-    dockerfile = "DockerfileV1"
+    dockerfile = "Dockerfile"
   }
   # global secrets
   rtd-ms-ingestor-variables_secret = {

@@ -12,5 +12,7 @@ module "secrets" {
     "io-azure-devops-github-EMAIL",
     "io-azure-devops-github-USERNAME",
     "pagopa-npm-bot-TOKEN",
+    "DANGER-JIRA-USERNAME",
+    "DANGER-JIRA-PASSWORD",
   ]
 }

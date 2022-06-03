@@ -45,7 +45,7 @@ locals {
 }
 
 module "express-azure-functions_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v0.0.3"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v2.1.0"
   count  = var.express-azure-functions.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
@@ -65,10 +65,11 @@ module "express-azure-functions_code_review" {
   service_connection_ids_authorization = [
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
   ]
+
 }
 
 module "express-azure-functions_deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v0.0.3"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v2.1.0"
   count  = var.express-azure-functions.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
@@ -89,4 +90,6 @@ module "express-azure-functions_deploy" {
     azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
     azuredevops_serviceendpoint_npm.pagopa-npm-bot.id,
   ]
+
+  schedules = null
 }
