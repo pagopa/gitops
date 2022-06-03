@@ -8,8 +8,8 @@ variable "io-functions-services-cache" {
     }
     pipeline = {
       cache_version_id               = "v3"
-      production_resource_group_name = "io-p-rg-internal"
-      production_app_name            = "io-p-fn3-servicescache"
+      production_resource_group_name = "io-p-selfcare-be-rg"
+      production_app_name            = "io-p-services-cache-fn"
     }
   }
 }

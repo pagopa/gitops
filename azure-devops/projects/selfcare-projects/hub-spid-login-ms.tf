@@ -32,23 +32,11 @@ locals {
   }
   # deploy vars
   hub-spid-login-ms-variables_deploy = {
-    k8s_image_repository_name            = replace(var.hub-spid-login-ms.repository.name, "-", "")
-    deploy_namespace                     = "selc"
-    dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-dev.service_endpoint_name
-    dev_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-dev.service_endpoint_name
-    dev_container_registry_name          = "selcdacr.azurecr.io"
-    dev_agent_pool                       = "selfcare-dev-linux"
-    dev_replicas                         = 1
-    uat_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-uat.service_endpoint_name
-    uat_kubernetes_service_conn          = azuredevops_serviceendpoint_kubernetes.selfcare-aks-uat.service_endpoint_name
-    uat_container_registry_name          = "selcuacr.azurecr.io"
-    uat_agent_pool                       = "selfcare-uat-linux"
-    uat_replicas                         = 1
-    prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.selfcare-azurecr-prod.service_endpoint_name
-    prod_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.selfcare-aks-prod.service_endpoint_name
-    prod_container_registry_name         = "selcpacr.azurecr.io"
-    prod_agent_pool                      = "selfcare-prod-linux"
-    prod_replicas                        = 2
+    k8s_image_repository_name = replace(var.hub-spid-login-ms.repository.name, "-", "")
+    deploy_namespace          = "selc"
+    dev_replicas              = 1
+    uat_replicas              = 1
+    prod_replicas             = 2
   }
   # deploy secrets
   hub-spid-login-ms-variables_secret_deploy = {
@@ -67,6 +55,7 @@ module "hub-spid-login-ms_deploy" {
   ci_trigger_use_yaml = true
 
   variables = merge(
+    local.selc-be-common-variables_deploy,
     local.hub-spid-login-ms-variables,
     local.hub-spid-login-ms-variables_deploy,
   )

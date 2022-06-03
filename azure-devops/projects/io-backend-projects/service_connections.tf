@@ -81,6 +81,11 @@ resource "azuredevops_serviceendpoint_github" "pagopa" {
   }
 }
 
+# TODO azure devops terraform provider does not support SonarCloud service endpoint
+locals {
+  azuredevops_serviceendpoint_sonarcloud_id = "60f9f0bc-a26a-4e95-9d6b-76cf5214efb3"
+}
+
 # npm service connection
 resource "azuredevops_serviceendpoint_npm" "pagopa-npm-bot" {
   depends_on = [azuredevops_project.project]
@@ -136,4 +141,17 @@ resource "azurerm_key_vault_access_policy" "PROD-IO-TLS-CERT-SERVICE-CONN_kv" {
   object_id    = module.PROD-IO-TLS-CERT-SERVICE-CONN.service_principal_object_id
 
   certificate_permissions = ["Get", "Import"]
+}
+
+# PROD service connection for azure container registry 
+resource "azuredevops_serviceendpoint_azurecr" "io-azurecr-prod" {
+  depends_on = [azuredevops_project.project]
+
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "io-azurecr-prod"
+  resource_group            = "io-p-container-registry-rg"
+  azurecr_name              = "iopcommonacr"
+  azurecr_subscription_name = "PROD-IO"
+  azurecr_spn_tenantid      = module.secrets.values["PAGOPAIT-TENANTID"].value
+  azurecr_subscription_id   = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
 }
