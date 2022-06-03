@@ -3,7 +3,7 @@ variable "io-italia-it" {
     repository = {
       organization    = "pagopa"
       name            = "io.italia.it"
-      branch_name     = "master"
+      branch_name     = "refs/heads/master"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }
@@ -38,12 +38,14 @@ locals {
 }
 
 module "io-italia-it-deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v0.0.3"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v2.1.0"
   count  = var.io-italia-it.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.io-italia-it.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+
+  ci_trigger_use_yaml = true
 
   variables = merge(
     var.io-italia-it.pipeline.variables,
@@ -60,4 +62,16 @@ module "io-italia-it-deploy" {
     azuredevops_serviceendpoint_azurerm.PROD-IO.id,
     azuredevops_serviceendpoint_azurerm.DEV-IO.id,
   ]
+
+  schedules = {
+    days_to_build              = ["Mon","Tue","Wed","Thu","Fri"]
+    schedule_only_with_changes = false
+    start_hours                = 12
+    start_minutes              = 0
+    time_zone                  = "(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna"
+    branch_filter = {
+      include = ["master"]
+      exclude = []
+    }
+  }
 }
