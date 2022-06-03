@@ -137,34 +137,34 @@ resource "azuredevops_build_definition" "handlerkit-config-publish" {
 }
 
 # Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
-resource "azuredevops_resource_authorization" "handlerkit-config-deploy-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.handlerkit-config-deploy, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "handlerkit-config-publish-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.handlerkit-config-publish, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.pagopa.id
-  definition_id = azuredevops_build_definition.handlerkit-config-deploy.id
+  definition_id = azuredevops_build_definition.handlerkit-config-publish.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow deploy pipeline to access Github writable service connection, needed to bump project version and publish a new relase
-resource "azuredevops_resource_authorization" "handlerkit-config-deploy-github-rw-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.handlerkit-config-deploy, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "handlerkit-config-publish-github-rw-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.handlerkit-config-publish, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
-  definition_id = azuredevops_build_definition.handlerkit-config-deploy.id
+  definition_id = azuredevops_build_definition.handlerkit-config-publish.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow deploy pipeline to access NPM service connection, needed to publish sdk packages to the public registry
-resource "azuredevops_resource_authorization" "handlerkit-config-deploy-npm-auth" {
-  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.handlerkit-config-deploy, time_sleep.wait]
+resource "azuredevops_resource_authorization" "handlerkit-config-publish-npm-auth" {
+  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.handlerkit-config-publish, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_npm.pagopa-npm-bot.id
-  definition_id = azuredevops_build_definition.handlerkit-config-deploy.id
+  definition_id = azuredevops_build_definition.handlerkit-config-publish.id
   authorized    = true
   type          = "endpoint"
 }
