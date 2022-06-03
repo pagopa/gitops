@@ -63,14 +63,14 @@ resource "azuredevops_build_definition" "danger-plugin-code-review" {
 
   variable {
     name           = "JIRA_USERNAME"
-    secret_value   = module.secrets.values["JIRA-USERNAME"].value
+    secret_value   = module.secrets.values["DANGER-JIRA-USERNAME"].value
     is_secret      = true
     allow_override = false
   }
 
   variable {
     name           = "JIRA_PASSWORD"
-    secret_value   = module.secrets.values["JIRA-PASSWORD"].value
+    secret_value   = module.secrets.values["DANGER-JIRA-PASSWORD"].value
     is_secret      = true
     allow_override = false
   }
