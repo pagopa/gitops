@@ -5,8 +5,8 @@ module "secrets" {
   key_vault_name = local.key_vault_name
 
   secrets = [
-    "io-azure-devops-github-ro-TOKEN",
-    "io-azure-devops-github-pr-TOKEN",
+    "cstar-azure-devops-github-ro-TOKEN",
+    "cstar-azure-devops-github-pr-TOKEN",
     "PAGOPAIT-TENANTID",
     "PAGOPAIT-DEV-CSTAR-SUBSCRIPTION-ID",
     "PAGOPAIT-UAT-CSTAR-SUBSCRIPTION-ID",
