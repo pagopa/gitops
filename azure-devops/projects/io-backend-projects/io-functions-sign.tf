@@ -7,7 +7,9 @@ variable "io-functions-sign" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      cache_version_id = "v3"
+      cache_version_id               = "v3"
+      production_resource_group_name = "io-p-sign-backend-rg"
+      production_app_name            = "io-p-sign-func"
     }
   }
 }
