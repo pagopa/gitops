@@ -49,7 +49,7 @@ module "iac_code_review" {
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.iac.repository
-  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
 
   pull_request_trigger_use_yaml = true
 
@@ -64,7 +64,7 @@ module "iac_code_review" {
   )
 
   service_connection_ids_authorization = [
-    azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
+    azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id,
     azuredevops_serviceendpoint_azurerm.DEV-CSTAR.id,
     azuredevops_serviceendpoint_azurerm.UAT-CSTAR.id,
     azuredevops_serviceendpoint_azurerm.PROD-CSTAR.id,

@@ -7,6 +7,7 @@ module "secrets" {
   secrets = [
     "cstar-azure-devops-github-ro-TOKEN",
     "cstar-azure-devops-github-pr-TOKEN",
+    "cstar-azure-devops-github-rw-TOKEN",
     "PAGOPAIT-TENANTID",
     "PAGOPAIT-DEV-CSTAR-SUBSCRIPTION-ID",
     "PAGOPAIT-UAT-CSTAR-SUBSCRIPTION-ID",
