@@ -78,7 +78,7 @@ locals {
     uat_react_app_url_api_onboarding           = "https://api.uat.selfcare.pagopa.it/onboarding/v1"
     uat_react_app_url_api_notification         = "https://api.uat.selfcare.pagopa.it/ms-notification-manager"
 
-    prod_react_app_url_cdn                      = "https://prod.selfcare.pagopa.it"
+    prod_react_app_url_cdn                      = "https://selfcare.pagopa.it"
     prod_react_app_url_storage                  = "https://selcpcheckoutsa.z6.web.core.windows.net"
     prod_react_app_url_fe_login                 = "https://selfcare.pagopa.it/auth"
     prod_react_app_url_fe_onboarding            = "https://selfcare.pagopa.it/onboarding"
