@@ -5,10 +5,10 @@
 variable "danger-plugin" {
   default = {
     repository = {
-      organization    = "pagopa"
-      name            = "danger-plugin"
-      branch_name     = "master"
-      pipelines_path  = ".devops"
+      organization   = "pagopa"
+      name           = "danger-plugin"
+      branch_name    = "master"
+      pipelines_path = ".devops"
     }
     pipeline = {
       cache_version_id = "v3"

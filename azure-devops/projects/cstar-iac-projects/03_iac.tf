@@ -10,6 +10,7 @@ variable "iac" {
     pipeline = {
       enable_code_review = true
       enable_deploy      = true
+      path               = "cstar-infrastructure"
     }
   }
 }
@@ -44,12 +45,13 @@ locals {
 }
 
 module "iac_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v2.1.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v2.2.0"
   count  = var.iac.pipeline.enable_code_review == true ? 1 : 0
+  path   = var.iac.pipeline.path
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.iac.repository
-  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
 
   pull_request_trigger_use_yaml = true
 
@@ -64,7 +66,7 @@ module "iac_code_review" {
   )
 
   service_connection_ids_authorization = [
-    azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id,
+    azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id,
     azuredevops_serviceendpoint_azurerm.DEV-CSTAR.id,
     azuredevops_serviceendpoint_azurerm.UAT-CSTAR.id,
     azuredevops_serviceendpoint_azurerm.PROD-CSTAR.id,
@@ -72,12 +74,13 @@ module "iac_code_review" {
 }
 
 module "iac_deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v2.1.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v2.2.0"
   count  = var.iac.pipeline.enable_deploy == true ? 1 : 0
+  path   = var.iac.pipeline.path
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.iac.repository
-  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
 
   ci_trigger_use_yaml = true
 
@@ -92,7 +95,7 @@ module "iac_deploy" {
   )
 
   service_connection_ids_authorization = [
-    azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id,
+    azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id,
     azuredevops_serviceendpoint_azurerm.DEV-CSTAR.id,
     azuredevops_serviceendpoint_azurerm.UAT-CSTAR.id,
     azuredevops_serviceendpoint_azurerm.PROD-CSTAR.id,
