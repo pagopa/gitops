@@ -64,7 +64,7 @@ module "io-italia-it-deploy" {
   ]
 
   schedules = {
-    days_to_build              = ["Mon","Tue","Wed","Thu","Fri"]
+    days_to_build              = ["Mon", "Tue", "Wed", "Thu", "Fri"]
     schedule_only_with_changes = false
     start_hours                = 12
     start_minutes              = 0
