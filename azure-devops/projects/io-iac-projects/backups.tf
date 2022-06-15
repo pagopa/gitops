@@ -10,9 +10,12 @@ module "apim_backup" {
   ci_trigger_use_yaml = false
 
   variables = {
-    apim_name            = "io-p-apim-api"
-    storage_account_name = "apimbackup"
-    backup_key           = "apimbackup/apim-backup"
+    apim_name                 = "io-p-apim-api"
+    apim_rg                   = "io-p-rg-internal"
+    storage_account_name      = "iopstbackups"
+    backup_name               = "apim-backup"
+    storage_account_container = "apimbackup"
+    storage_account_rg        = "io-p-rg-operations"
   }
 
   variables_secret = {}
