@@ -3,7 +3,7 @@ variable "selc-onboarding-backend" {
     repository = {
       organization    = "pagopa"
       name            = "selfcare-onboarding-backend"
-      branch_name     = "main"
+      branch_name    = "refs/heads/main"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }

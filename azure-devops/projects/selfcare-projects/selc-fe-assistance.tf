@@ -3,7 +3,7 @@ variable "selc-fe-assistance" {
     repository = {
       organization    = "pagopa"
       name            = "selfcare-assistance-frontend"
-      branch_name     = "main"
+      branch_name    = "refs/heads/main"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }
