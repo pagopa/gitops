@@ -25,7 +25,7 @@ module "apim_backup" {
   ]
 
   schedules = {
-    days_to_build              = ["Sat"]
+    days_to_build              = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     schedule_only_with_changes = false
     start_hours                = 5
     start_minutes              = 0
