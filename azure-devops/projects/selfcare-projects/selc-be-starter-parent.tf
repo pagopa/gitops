@@ -3,7 +3,7 @@ variable "selc-be-starter-parent" {
     repository = {
       organization    = "pagopa"
       name            = "selfcare-starter-parent"
-      branch_name    = "refs/heads/main"
+      branch_name     = "main"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }

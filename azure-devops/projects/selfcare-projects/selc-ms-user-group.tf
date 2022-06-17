@@ -3,7 +3,7 @@ variable "selc-ms-user-group" {
     repository = {
       organization    = "pagopa"
       name            = "selfcare-ms-user-group"
-      branch_name    = "refs/heads/main"
+      branch_name     = "main"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }

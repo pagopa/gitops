@@ -3,7 +3,7 @@ variable "selc-be-commons" {
     repository = {
       organization    = "pagopa"
       name            = "selfcare-commons"
-      branch_name    = "refs/heads/main"
+      branch_name     = "main"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }
