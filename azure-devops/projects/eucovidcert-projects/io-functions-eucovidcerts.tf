@@ -29,6 +29,8 @@ locals {
   }
   # code_review secrets
   io-functions-eucovidcerts-variables_secret_code_review = {
+    jira_username           = module.secrets.values["DANGER-JIRA-USERNAME"].value
+    jira_password           = module.secrets.values["DANGER-JIRA-PASSWORD"].value
     danger_github_api_token = module.secrets.values["DANGER-GITHUB-API-TOKEN"].value
   }
   # deploy vars

@@ -6,13 +6,13 @@ module "secrets" {
 
   secrets = [
     "DANGER-GITHUB-API-TOKEN",
+    "DANGER-JIRA-USERNAME",
+    "DANGER-JIRA-PASSWORD",
     "io-azure-devops-github-ro-TOKEN",
     "io-azure-devops-github-rw-TOKEN",
     "io-azure-devops-github-pr-TOKEN",
     "io-azure-devops-github-EMAIL",
     "io-azure-devops-github-USERNAME",
-    "pagopa-npm-bot-TOKEN",
-    "DANGER-JIRA-USERNAME",
-    "DANGER-JIRA-PASSWORD",
+    "pagopa-npm-bot-TOKEN"
   ]
 }
