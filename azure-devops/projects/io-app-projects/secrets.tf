@@ -6,8 +6,6 @@ module "secrets" {
 
   secrets = [
     "DANGER-GITHUB-API-TOKEN",
-    "DANGER-JIRA-USERNAME",
-    "DANGER-JIRA-PASSWORD",
     "io-azure-devops-github-ro-TOKEN",
     "io-azure-devops-github-rw-TOKEN",
     "io-azure-devops-github-pr-TOKEN",
