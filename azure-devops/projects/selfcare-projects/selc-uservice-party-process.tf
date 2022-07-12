@@ -3,7 +3,7 @@ variable "selc-uservice-party-process" {
     repository = {
       organization    = "pagopa"
       name            = "selfcare-uservice-party-process"
-      branch_name    = "refs/heads/main"
+      branch_name     = "refs/heads/main"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }

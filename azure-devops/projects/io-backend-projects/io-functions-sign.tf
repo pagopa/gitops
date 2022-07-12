@@ -71,7 +71,7 @@ resource "azuredevops_build_definition" "io-functions-sign-code-review" {
     is_secret      = true
     allow_override = false
   }
-  
+
 }
 
 # Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
