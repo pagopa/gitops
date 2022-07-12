@@ -3,7 +3,7 @@ variable "selc-ms-notification-manager" {
     repository = {
       organization    = "pagopa"
       name            = "selfcare-ms-notification-manager"
-      branch_name    = "refs/heads/main"
+      branch_name     = "refs/heads/main"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }
