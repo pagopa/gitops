@@ -38,7 +38,7 @@ locals {
 }
 
 module "tlscert-prod-api-io-pagopa-it-cert_az" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.0.2"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.1.0"
   count  = var.tlscert-prod-api-io-pagopa-it.pipeline.enable_tls_cert == true ? 1 : 0
 
   project_id = azuredevops_project.project.id
@@ -73,4 +73,16 @@ module "tlscert-prod-api-io-pagopa-it-cert_az" {
   service_connection_ids_authorization = [
     module.PROD-IO-TLS-CERT-SERVICE-CONN.service_endpoint_id,
   ]
+
+  schedules = {
+    days_to_build              = ["Mon"]
+    schedule_only_with_changes = false
+    start_hours                = 4
+    start_minutes              = 40
+    time_zone                  = "(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna"
+    branch_filter = {
+      include = ["master", "main"]
+      exclude = []
+    }
+  }
 }
