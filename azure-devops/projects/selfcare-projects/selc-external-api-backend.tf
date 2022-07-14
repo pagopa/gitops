@@ -42,7 +42,7 @@ locals {
   selc-external-api-backend-variables_deploy = {
     k8s_image_repository_name = replace(var.selc-external-api-backend.repository.name, "-", "")
     deploy_namespace          = "selc"
-    deployment_name           = "ext-api-backend"
+    deployment_name           = "external-api"
   }
   # deploy secrets
   selc-external-api-backend-variables_secret_deploy = {
