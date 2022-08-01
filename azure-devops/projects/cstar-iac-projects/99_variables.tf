@@ -11,7 +11,7 @@ variable "apim_backup" {
       name            = "cstar-infrastructure"
       branch_name     = "main"
       pipelines_path  = ".devops"
-      yml_prefix_name = "backupa-apim"
+      yml_prefix_name = "backup-apim"
     }
     pipeline = {
       enable_code_review = true
