@@ -60,6 +60,21 @@ resource "azuredevops_build_definition" "handlerkit-config-code-review" {
     is_secret      = true
     allow_override = false
   }
+
+  variable {
+    name           = "JIRA_USERNAME"
+    secret_value   = module.secrets.values["DANGER-JIRA-USERNAME"].value
+    is_secret      = true
+    allow_override = false
+  }
+
+  variable {
+    name           = "JIRA_PASSWORD"
+    secret_value   = module.secrets.values["DANGER-JIRA-PASSWORD"].value
+    is_secret      = true
+    allow_override = false
+  }
+  
 }
 
 # Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
