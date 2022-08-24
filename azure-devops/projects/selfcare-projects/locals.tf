@@ -53,6 +53,7 @@ locals {
     dev_react_app_url_fe_dashboard_groups      = "https://dev.selfcare.pagopa.it/microcomponents/dashboard/groups"
     dev_react_app_url_fe_assistance            = "https://dev.selfcare.pagopa.it/assistenza"
     dev_react_app_url_fe_landing               = "https://dev.selfcare.pagopa.it/auth/logout" // TODO when the landing will exists, replace this with the correct URL
+    dev_react_app_url_fe_token_exchange        = "https://dev.selfcare.pagopa.it/token-exchange"
     dev_react_app_url_api_login                = "https://api.dev.selfcare.pagopa.it/spid/v1"
     dev_react_app_url_api_party_process        = "https://api.dev.selfcare.pagopa.it/party-process/v1"
     dev_react_app_url_api_party_management     = "https://api.dev.selfcare.pagopa.it/party-management/v1"
@@ -70,6 +71,7 @@ locals {
     uat_react_app_url_fe_dashboard_groups      = "https://uat.selfcare.pagopa.it/microcomponents/dashboard/groups"
     uat_react_app_url_fe_assistance            = "https://uat.selfcare.pagopa.it/assistenza"
     uat_react_app_url_fe_landing               = "https://uat.selfcare.pagopa.it/auth/logout" // TODO when the landing will exists, replace this with the correct URL
+    uat_react_app_url_fe_token_exchange        = "https://uat.selfcare.pagopa.it/token-exchange"
     uat_react_app_url_api_login                = "https://api.uat.selfcare.pagopa.it/spid/v1"
     uat_react_app_url_api_party_process        = "https://api.uat.selfcare.pagopa.it/party-process/v1"
     uat_react_app_url_api_party_management     = "https://api.uat.selfcare.pagopa.it/party-management/v1"
@@ -87,6 +89,7 @@ locals {
     prod_react_app_url_fe_dashboard_groups      = "https://selfcare.pagopa.it/microcomponents/dashboard/groups"
     prod_react_app_url_fe_assistance            = "https://selfcare.pagopa.it/assistenza"
     prod_react_app_url_fe_landing               = "https://selfcare.pagopa.it/auth/logout" // TODO when the landing will exists, replace this with the correct URL
+    prod_react_app_url_fe_token_exchange        = "https://selfcare.pagopa.it/token-exchange"
     prod_react_app_url_api_login                = "https://api.selfcare.pagopa.it/spid/v1"
     prod_react_app_url_api_party_process        = "https://api.selfcare.pagopa.it/party-process/v1"
     prod_react_app_url_api_party_management     = "https://api.selfcare.pagopa.it/party-management/v1"
