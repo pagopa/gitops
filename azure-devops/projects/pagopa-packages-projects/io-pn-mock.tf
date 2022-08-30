@@ -3,7 +3,7 @@ variable "io-pn-mock" {
     repository = {
       organization    = "pagopa"
       name            = "io-pn-mock"
-      branch_name     = "master"
+      branch_name     = "refs/heads/master"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }
@@ -33,12 +33,13 @@ locals {
 }
 
 module "io-pn-mock_code_review" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v2.1.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v2.6.2"
   count  = var.io-pn-mock.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
   repository                   = var.io-pn-mock.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+  path = var.io-pn-mock.repository.name
 
   variables = merge(
     local.io-pn-mock-variables,
