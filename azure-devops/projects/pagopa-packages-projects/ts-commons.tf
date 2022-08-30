@@ -7,7 +7,7 @@ variable "ts-commons" {
     repository = {
       organization   = "pagopa"
       name           = "io-ts-commons" # repo name is different than actual package name
-      branch_name    = "master"
+      branch_name    = "refs/heads/master"
       pipelines_path = ".devops"
     }
     pipeline = {

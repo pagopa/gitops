@@ -3,7 +3,7 @@ variable "io-spid-commons" {
     repository = {
       organization   = "pagopa"
       name           = "io-spid-commons"
-      branch_name    = "master"
+      branch_name    = "refs/heads/master"
       pipelines_path = ".devops"
     }
     pipeline = {

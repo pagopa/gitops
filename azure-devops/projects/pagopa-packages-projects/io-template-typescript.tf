@@ -3,7 +3,7 @@ variable "io-template-typescript" {
     repository = {
       organization    = "pagopa"
       name            = "io-template-typescript"
-      branch_name     = "master"
+      branch_name     = "refs/heads/master"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }
