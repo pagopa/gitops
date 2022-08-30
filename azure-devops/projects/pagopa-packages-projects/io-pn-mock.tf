@@ -39,7 +39,7 @@ module "io-pn-mock_code_review" {
   project_id                   = azuredevops_project.project.id
   repository                   = var.io-pn-mock.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
-  path = var.io-pn-mock.repository.name
+  path                         = var.io-pn-mock.repository.name
 
   variables = merge(
     local.io-pn-mock-variables,
