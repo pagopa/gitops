@@ -3,7 +3,7 @@ variable "openapi-codegen-ts" {
     repository = {
       organization   = "pagopa"
       name           = "openapi-codegen-ts"
-      branch_name    = "master"
+      branch_name    = "refs/heads/master"
       pipelines_path = ".devops"
     }
     pipeline = {

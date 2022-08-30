@@ -7,7 +7,7 @@ variable "fp-ts-kafkajs" {
     repository = {
       organization   = "pagopa"
       name           = "fp-ts-kafkajs" # repo name is different than actual package name
-      branch_name    = "master"
+      branch_name    = "refs/heads/master"
       pipelines_path = ".devops"
     }
     pipeline = {
