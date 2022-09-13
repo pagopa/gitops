@@ -3,7 +3,7 @@ variable "io-developer-portal-service-data" {
     repository = {
       organization   = "pagopa"
       name           = "io-developer-portal-service-data"
-      branch_name    = "master"
+      branch_name    = "refs/heads/master"
       pipelines_path = ".devops"
     }
     pipeline = {
