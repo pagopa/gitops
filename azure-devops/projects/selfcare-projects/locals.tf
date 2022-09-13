@@ -29,7 +29,7 @@ locals {
     uat_storage_account    = "selcucheckoutsa"
     uat_analytics_enabled  = "true"
     uat_analytics_mocked   = "false"
-    uat_mixpanel_token     = "1d1b09b008638080ab34fe9b75db84fd"
+    uat_mixpanel_token     = "6e1290bdda5885981a2f443f37444f0f"
     uat_onetrust_domain_id = "15a1f042-9257-450f-b9e8-38d019191729"
 
     prod_azure_subscription = azuredevops_serviceendpoint_azurerm.PROD-SELFCARE.service_endpoint_name
