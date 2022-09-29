@@ -48,6 +48,10 @@ locals {
     uat_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.cstar-aks-uat.service_endpoint_name
     uat_container_registry_name         = "cstaruacr.azurecr.io"
     uat_agent_pool                      = "cstar-uat-linux"
+    prod_container_registry_service_conn = azuredevops_serviceendpoint_azurecr.cstar-azurecr-prod.service_endpoint_name
+    prod_kubernetes_service_conn         = azuredevops_serviceendpoint_kubernetes.cstar-aks-prod.service_endpoint_name
+    prod_container_registry_name         = "cstarpacr.azurecr.io"
+    prod_agent_pool                      = "cstar-prod-linux"
   }
   # deploy secrets
   bpd-io-backend-test-variables_secret_deploy = {
@@ -110,5 +114,7 @@ module "bpd-io-backend-test_deploy" {
     azuredevops_serviceendpoint_kubernetes.cstar-aks-dev.id,
     azuredevops_serviceendpoint_azurecr.cstar-azurecr-uat.id,
     azuredevops_serviceendpoint_kubernetes.cstar-aks-uat.id,
+    azuredevops_serviceendpoint_azurecr.cstar-azurecr-prod.id,
+    azuredevops_serviceendpoint_kubernetes.cstar-aks-prod.id,
   ]
 }
