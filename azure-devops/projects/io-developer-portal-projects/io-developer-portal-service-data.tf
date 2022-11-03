@@ -158,6 +158,11 @@ resource "azuredevops_build_definition" "io-developer-portal-service-data-deploy
     name  = "NPM_CONNECTION"
     value = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
   }
+
+  variable {
+    name  = "AGENT_POOL"
+    value = local.agent_pool
+  }
 }
 
 # deploy serviceendpoint authorization
