@@ -48,6 +48,7 @@ module "selc-fe-dashboard-admin_code_review" {
   project_id                   = azuredevops_project.project.id
   repository                   = var.selc-fe-dashboard-admin.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+  path                         = var.selc-fe-dashboard-admin.repository.name
 
   pull_request_trigger_use_yaml = true
 
@@ -73,6 +74,7 @@ module "selc-fe-dashboard-admin_deploy" {
   project_id                   = azuredevops_project.project.id
   repository                   = var.selc-fe-dashboard-admin.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
+  path                         = var.selc-fe-dashboard-admin.repository.name
 
   ci_trigger_use_yaml = true
 
