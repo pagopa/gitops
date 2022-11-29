@@ -8,8 +8,8 @@ variable "io-functions-cgn" {
     }
     pipeline = {
       cache_version_id               = "v3"
-      production_resource_group_name = "io-p-rg-cgn"
-      production_app_name            = "io-p-func-cgn"
+      production_resource_group_name = "io-p-cgn-be-rg"
+      production_app_name            = "io-p-cgn-fn"
     }
   }
 }
