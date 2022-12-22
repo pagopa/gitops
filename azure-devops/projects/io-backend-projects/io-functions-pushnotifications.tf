@@ -137,6 +137,11 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
   }
 
   variable {
+    name  = "NPM_CONNECTION"
+    value = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
+  }
+
+  variable {
     name  = "AGENT_POOL"
     value = local.agent_pool
   }
