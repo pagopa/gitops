@@ -148,6 +148,17 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-deploy" 
 
 }
 
+# Allow deploy pipeline to access NPM service connection, needed to publish sdk packages to the public registry
+resource "azuredevops_resource_authorization" "io-functions-pushnotifications-deploy-npm-auth" {
+  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.io-functions-pushnotifications-deploy, time_sleep.wait]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_npm.pagopa-npm-bot.id
+  definition_id = azuredevops_build_definition.io-functions-pushnotifications-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
+
 # Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
 resource "azuredevops_resource_authorization" "io-functions-pushnotifications-deploy-github-ro-auth" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-pushnotifications-deploy, azuredevops_project.project]
