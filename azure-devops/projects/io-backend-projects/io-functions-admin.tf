@@ -7,9 +7,7 @@ variable "io-functions-admin" {
       pipelines_path = ".devops"
     }
     pipeline = {
-      cache_version_id               = "v3"
-      production_resource_group_name = "io-p-rg-internal"
-      production_app_name            = "io-p-fn3-admin"
+      cache_version_id = "v3"
     }
   }
 }
