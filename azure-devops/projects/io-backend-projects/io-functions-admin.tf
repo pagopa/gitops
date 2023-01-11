@@ -130,16 +130,6 @@ resource "azuredevops_build_definition" "io-functions-admin-deploy" {
   }
 
   variable {
-    name  = "PRODUCTION_APP_NAME"
-    value = var.io-functions-admin.pipeline.production_app_name
-  }
-
-  variable {
-    name  = "PRODUCTION_RESOURCE_GROUP_NAME"
-    value = var.io-functions-admin.pipeline.production_resource_group_name
-  }
-
-  variable {
     name  = "AGENT_POOL"
     value = local.agent_pool
   }
