@@ -10,6 +10,8 @@ variable "io-selfcare-importadesioni" {
       cache_version_id               = "v1"
       production_resource_group_name = "io-p-importadesioni-rg"
       production_app_name            = "io-p-importadesioni-fn"
+      dev_resource_group_name = "io-d-importadesioni-rg"
+      dev_app_name            = "io-d-importadesioni-fn"
     }
   }
 }
@@ -151,6 +153,25 @@ resource "azuredevops_build_definition" "io-selfcare-importadesioni-deploy" {
   variable {
     name           = "PRODUCTION_RESOURCE_GROUP_NAME"
     value          = var.io-selfcare-importadesioni.pipeline.production_resource_group_name
+    allow_override = false
+  }
+
+
+  variable {
+    name           = "DEV_AZURE_SUBSCRIPTION"
+    value          = azuredevops_serviceendpoint_azurerm.DEV-IO.service_endpoint_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "DEV_APP_NAME"
+    value          = var.io-selfcare-importadesioni.pipeline.dev_app_name
+    allow_override = false
+  }
+
+  variable {
+    name           = "DEV_RESOURCE_GROUP_NAME"
+    value          = var.io-selfcare-importadesioni.pipeline.dev_resource_group_name
     allow_override = false
   }
 
