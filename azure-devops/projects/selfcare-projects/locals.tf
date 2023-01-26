@@ -3,7 +3,7 @@ locals {
   key_vault_resource_group = "io-p-rg-operations"
   key_vault_subscription   = "PROD-IO"
   #tfsec:ignore:GEN002
-  tlscert_renew_token = "v1"
+  tlscert_renew_token = "v2"
 
   selc-fe-common-variables_deploy = {
     blob_container_name = "$web"
