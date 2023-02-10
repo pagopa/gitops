@@ -1,8 +1,12 @@
-variable "io-spid-commons" {
+#
+# Pipeline definitions for @pagopa/winston-ts package
+#
+
+variable "winston-ts" {
   default = {
     repository = {
       organization   = "pagopa"
-      name           = "io-spid-commons"
+      name           = "winston-ts" # repo name is different than actual package name
       branch_name    = "refs/heads/master"
       pipelines_path = ".devops"
     }
@@ -17,15 +21,15 @@ variable "io-spid-commons" {
 #
 
 # Define code review pipeline
-resource "azuredevops_build_definition" "io-spid-commons-code-review" {
+resource "azuredevops_build_definition" "winston-ts-code-review" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.io-spid-commons.repository.name}.code-review"
-  path       = "\\${var.io-spid-commons.repository.name}"
+  name       = "${var.winston-ts.repository.name}.code-review"
+  path       = "\\${var.winston-ts.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-spid-commons.repository.branch_name
+    initial_branch = var.winston-ts.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false
@@ -33,7 +37,7 @@ resource "azuredevops_build_definition" "io-spid-commons-code-review" {
     override {
       auto_cancel = false
       branch_filter {
-        include = [var.io-spid-commons.repository.branch_name]
+        include = [var.winston-ts.repository.branch_name]
       }
       path_filter {
         exclude = []
@@ -44,9 +48,9 @@ resource "azuredevops_build_definition" "io-spid-commons-code-review" {
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = "${var.io-spid-commons.repository.organization}/${var.io-spid-commons.repository.name}"
-    branch_name           = var.io-spid-commons.repository.branch_name
-    yml_path              = "${var.io-spid-commons.repository.pipelines_path}/code-review-pipelines.yml"
+    repo_id               = "${var.winston-ts.repository.organization}/${var.winston-ts.repository.name}"
+    branch_name           = var.winston-ts.repository.branch_name
+    yml_path              = "${var.winston-ts.repository.pipelines_path}/code-review-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   }
 
@@ -59,23 +63,23 @@ resource "azuredevops_build_definition" "io-spid-commons-code-review" {
 }
 
 # Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
-resource "azuredevops_resource_authorization" "io-spid-commons-code-review-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.io-spid-commons-code-review, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "winston-ts-code-review-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.winston-ts-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.pagopa.id
-  definition_id = azuredevops_build_definition.io-spid-commons-code-review.id
+  definition_id = azuredevops_build_definition.winston-ts-code-review.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow code review pipeline to access Github pr service connection, needed to checkout code from the pull request branch
-resource "azuredevops_resource_authorization" "io-spid-commons-code-review-github-pr-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.io-spid-commons-code-review, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "winston-ts-code-review-github-pr-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.winston-ts-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
-  definition_id = azuredevops_build_definition.io-spid-commons-code-review.id
+  definition_id = azuredevops_build_definition.winston-ts-code-review.id
   authorized    = true
   type          = "endpoint"
 }
@@ -85,18 +89,18 @@ resource "azuredevops_resource_authorization" "io-spid-commons-code-review-githu
 #
 
 # Define deploy pipeline
-resource "azuredevops_build_definition" "io-spid-commons-deploy" {
+resource "azuredevops_build_definition" "winston-ts-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.io-spid-commons.repository.name}.deploy"
-  path       = "\\${var.io-spid-commons.repository.name}"
+  name       = "${var.winston-ts.repository.name}.deploy"
+  path       = "\\${var.winston-ts.repository.name}"
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = "${var.io-spid-commons.repository.organization}/${var.io-spid-commons.repository.name}"
-    branch_name           = var.io-spid-commons.repository.branch_name
-    yml_path              = "${var.io-spid-commons.repository.pipelines_path}/deploy-pipelines.yml"
+    repo_id               = "${var.winston-ts.repository.organization}/${var.winston-ts.repository.name}"
+    branch_name           = var.winston-ts.repository.branch_name
+    yml_path              = "${var.winston-ts.repository.pipelines_path}/deploy-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
@@ -126,41 +130,41 @@ resource "azuredevops_build_definition" "io-spid-commons-deploy" {
 
   variable {
     name           = "CACHE_VERSION_ID"
-    value          = var.io-spid-commons.pipeline.cache_version_id
+    value          = var.winston-ts.pipeline.cache_version_id
     allow_override = false
   }
 
 }
 
 # Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
-resource "azuredevops_resource_authorization" "io-spid-commons-deploy-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.io-spid-commons-deploy, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "winston-ts-deploy-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.winston-ts-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.pagopa.id
-  definition_id = azuredevops_build_definition.io-spid-commons-deploy.id
+  definition_id = azuredevops_build_definition.winston-ts-deploy.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow deploy pipeline to access Github writable service connection, needed to bump project version and publish a new relase
-resource "azuredevops_resource_authorization" "io-spid-commons-deploy-github-rw-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.io-spid-commons-deploy, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "winston-ts-deploy-github-rw-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.winston-ts-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
-  definition_id = azuredevops_build_definition.io-spid-commons-deploy.id
+  definition_id = azuredevops_build_definition.winston-ts-deploy.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow deploy pipeline to access NPM service connection, needed to publish sdk packages to the public registry
-resource "azuredevops_resource_authorization" "io-spid-commons-deploy-npm-auth" {
-  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.io-spid-commons-deploy, time_sleep.wait]
+resource "azuredevops_resource_authorization" "winston-ts-deploy-npm-auth" {
+  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.winston-ts-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_npm.pagopa-npm-bot.id
-  definition_id = azuredevops_build_definition.io-spid-commons-deploy.id
+  definition_id = azuredevops_build_definition.winston-ts-deploy.id
   authorized    = true
   type          = "endpoint"
 }

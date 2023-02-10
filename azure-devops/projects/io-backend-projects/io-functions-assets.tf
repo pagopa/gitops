@@ -8,8 +8,8 @@ variable "io-functions-assets" {
     }
     pipeline = {
       cache_version_id               = "v3"
-      production_resource_group_name = "io-p-rg-internal"
-      production_app_name            = "io-p-fn3-assets"
+      production_resource_group_name = "io-p-assets-cdn-rg"
+      production_app_name            = "io-p-assets-cdn-fn"
     }
   }
 }

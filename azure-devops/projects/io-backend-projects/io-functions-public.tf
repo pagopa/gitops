@@ -8,8 +8,8 @@ variable "io-functions-public" {
     }
     pipeline = {
       cache_version_id               = "v3"
-      production_resource_group_name = "io-p-rg-internal"
-      production_app_name            = "io-p-fn3-public"
+      production_resource_group_name = "io-p-shared-rg"
+      production_app_name            = "io-p-public-fn"
     }
   }
 }

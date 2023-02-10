@@ -73,7 +73,7 @@ module "tlscert-prod-api-app-internal-io-pagopa-it-cert_az" {
   service_connection_ids_authorization = [
     module.PROD-IO-TLS-CERT-SERVICE-CONN.service_endpoint_id,
   ]
-  
+
   schedules = {
     days_to_build              = ["Mon"]
     schedule_only_with_changes = false

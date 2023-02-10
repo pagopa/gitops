@@ -40,7 +40,7 @@ locals {
     github_connection              = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.service_endpoint_name
     npm_connection                 = azuredevops_serviceendpoint_npm.pagopa-npm-bot.service_endpoint_name
     production_resource_group_name = "io-p-rg-eucovidcert"
-    production_app_name            = "io-p-fn3-eucovidcert"
+    production_app_name            = "io-p-eucovidcert-fn"
     production_azure_subscription  = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
     agent_pool                     = local.agent_pool
   }

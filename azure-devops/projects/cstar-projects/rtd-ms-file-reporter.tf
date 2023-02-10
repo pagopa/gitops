@@ -1,9 +1,9 @@
-variable "bpd-io-backend-test" {
+variable "rtd-ms-file-reporter" {
   default = {
     repository = {
       organization    = "pagopa"
-      name            = "bpd-io-backend-test"
-      branch_name     = "master"
+      name            = "rtd-ms-file-reporter"
+      branch_name     = "main"
       pipelines_path  = ".devops"
       yml_prefix_name = null
     }
@@ -16,28 +16,28 @@ variable "bpd-io-backend-test" {
 
 locals {
   # global vars
-  bpd-io-backend-test-variables = {
-    dockerfile = "DockerfileV1"
+  rtd-ms-file-reporter-variables = {
+    dockerfile = "Dockerfile"
   }
   # global secrets
-  bpd-io-backend-test-variables_secret = {
+  rtd-ms-file-reporter-variables_secret = {
 
   }
   # code_review vars
-  bpd-io-backend-test-variables_code_review = {
+  rtd-ms-file-reporter-variables_code_review = {
     sonarcloud_service_conn = "SONARCLOUD-SERVICE-CONN"
-    sonarcloud_org          = var.bpd-io-backend-test.repository.organization
-    sonarcloud_project_key  = "${var.bpd-io-backend-test.repository.organization}_${var.bpd-io-backend-test.repository.name}"
-    sonarcloud_project_name = var.bpd-io-backend-test.repository.name
+    sonarcloud_org          = var.rtd-ms-file-reporter.repository.organization
+    sonarcloud_project_key  = "${var.rtd-ms-file-reporter.repository.organization}_${var.rtd-ms-file-reporter.repository.name}"
+    sonarcloud_project_name = var.rtd-ms-file-reporter.repository.name
   }
   # code_review secrets
-  bpd-io-backend-test-variables_secret_code_review = {
+  rtd-ms-file-reporter-variables_secret_code_review = {
 
   }
   # deploy vars
-  bpd-io-backend-test-variables_deploy = {
-    k8s_image_repository_name            = "cstariobackendtest"
-    deploy_namespace                     = "bpd"
+  rtd-ms-file-reporter-variables_deploy = {
+    k8s_image_repository_name            = replace(var.rtd-ms-file-reporter.repository.name, "-", "")
+    deploy_namespace                     = "rtd"
     settings_xml_rw_secure_file_name     = "settings-rw.xml"
     settings_xml_ro_secure_file_name     = "settings-ro.xml"
     dev_container_registry_service_conn  = azuredevops_serviceendpoint_azurecr.cstar-azurecr-dev.service_endpoint_name
@@ -54,29 +54,29 @@ locals {
     prod_agent_pool                      = "cstar-prod-linux"
   }
   # deploy secrets
-  bpd-io-backend-test-variables_secret_deploy = {
+  rtd-ms-file-reporter-variables_secret_deploy = {
 
   }
 }
 
-module "bpd-io-backend-test_code_review" {
+module "rtd-ms-file-reporter_code_review" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_code_review?ref=v1.0.0"
-  count  = var.bpd-io-backend-test.pipeline.enable_code_review == true ? 1 : 0
+  count  = var.rtd-ms-file-reporter.pipeline.enable_code_review == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.bpd-io-backend-test.repository
+  repository                   = var.rtd-ms-file-reporter.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   pull_request_trigger_use_yaml = true
 
   variables = merge(
-    local.bpd-io-backend-test-variables,
-    local.bpd-io-backend-test-variables_code_review,
+    local.rtd-ms-file-reporter-variables,
+    local.rtd-ms-file-reporter-variables_code_review,
   )
 
   variables_secret = merge(
-    local.bpd-io-backend-test-variables_secret,
-    local.bpd-io-backend-test-variables_secret_code_review,
+    local.rtd-ms-file-reporter-variables_secret,
+    local.rtd-ms-file-reporter-variables_secret_code_review,
   )
 
   service_connection_ids_authorization = [
@@ -85,24 +85,24 @@ module "bpd-io-backend-test_code_review" {
   ]
 }
 
-module "bpd-io-backend-test_deploy" {
+module "rtd-ms-file-reporter_deploy" {
   source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v1.0.0"
-  count  = var.bpd-io-backend-test.pipeline.enable_deploy == true ? 1 : 0
+  count  = var.rtd-ms-file-reporter.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
-  repository                   = var.bpd-io-backend-test.repository
+  repository                   = var.rtd-ms-file-reporter.repository
   github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
 
   ci_trigger_use_yaml = true
 
   variables = merge(
-    local.bpd-io-backend-test-variables,
-    local.bpd-io-backend-test-variables_deploy,
+    local.rtd-ms-file-reporter-variables,
+    local.rtd-ms-file-reporter-variables_deploy,
   )
 
   variables_secret = merge(
-    local.bpd-io-backend-test-variables_secret,
-    local.bpd-io-backend-test-variables_secret_deploy,
+    local.rtd-ms-file-reporter-variables_secret,
+    local.rtd-ms-file-reporter-variables_secret_deploy,
   )
 
   service_connection_ids_authorization = [
