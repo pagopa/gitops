@@ -10,8 +10,8 @@ variable "io-selfcare-importadesioni" {
       cache_version_id               = "v1"
       production_resource_group_name = "io-p-importadesioni-rg"
       production_app_name            = "io-p-importadesioni-fn"
-      dev_resource_group_name = "io-d-importadesioni-rg"
-      dev_app_name            = "io-d-importadesioni-fn"
+      dev_resource_group_name        = "io-d-importadesioni-rg"
+      dev_app_name                   = "io-d-importadesioni-fn"
     }
   }
 }
