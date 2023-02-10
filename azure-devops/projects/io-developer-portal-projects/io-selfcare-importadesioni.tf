@@ -8,9 +8,9 @@ variable "io-selfcare-importadesioni" {
     }
     pipeline = {
       cache_version_id               = "v1"
-      production_resource_group_name = "io-p-importadesioni-rg"
+      production_resource_group_name = "io-p-selfcare-importadesioni-rg"
       production_app_name            = "io-p-importadesioni-fn"
-      dev_resource_group_name        = "io-d-importadesioni-rg"
+      dev_resource_group_name        = "io-d-selfcare-importadesioni-rg"
       dev_app_name                   = "io-d-importadesioni-fn"
     }
   }
