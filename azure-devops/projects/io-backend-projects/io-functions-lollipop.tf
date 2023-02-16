@@ -1,8 +1,8 @@
-variable "io-functions-admin" {
+variable "io-functions-lollipop" {
   default = {
     repository = {
       organization   = "pagopa"
-      name           = "io-functions-admin"
+      name           = "io-functions-lollipop"
       branch_name    = "master"
       pipelines_path = ".devops"
     }
@@ -17,15 +17,15 @@ variable "io-functions-admin" {
 #
 
 # Define code review pipeline
-resource "azuredevops_build_definition" "io-functions-admin-code-review" {
+resource "azuredevops_build_definition" "io-functions-lollipop-code-review" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.io-functions-admin.repository.name}.code-review"
-  path       = "\\${var.io-functions-admin.repository.name}"
+  name       = "${var.io-functions-lollipop.repository.name}.code-review"
+  path       = "\\${var.io-functions-lollipop.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.io-functions-admin.repository.branch_name
+    initial_branch = var.io-functions-lollipop.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false
@@ -33,7 +33,7 @@ resource "azuredevops_build_definition" "io-functions-admin-code-review" {
     override {
       auto_cancel = false
       branch_filter {
-        include = [var.io-functions-admin.repository.branch_name]
+        include = [var.io-functions-lollipop.repository.branch_name]
       }
       path_filter {
         exclude = []
@@ -44,37 +44,31 @@ resource "azuredevops_build_definition" "io-functions-admin-code-review" {
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = "${var.io-functions-admin.repository.organization}/${var.io-functions-admin.repository.name}"
-    branch_name           = var.io-functions-admin.repository.branch_name
-    yml_path              = "${var.io-functions-admin.repository.pipelines_path}/code-review-pipelines.yml"
+    repo_id               = "${var.io-functions-lollipop.repository.organization}/${var.io-functions-lollipop.repository.name}"
+    branch_name           = var.io-functions-lollipop.repository.branch_name
+    yml_path              = "${var.io-functions-lollipop.repository.pipelines_path}/code-review-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
-  }
-
-  variable {
-    name         = "DANGER_GITHUB_API_TOKEN"
-    secret_value = module.secrets.values["DANGER-GITHUB-API-TOKEN"].value
-    is_secret    = true
   }
 }
 
 # Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
-resource "azuredevops_resource_authorization" "io-functions-admin-code-review-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.io-functions-admin-code-review, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "io-functions-lollipop-code-review-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.io-functions-lollipop-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.pagopa.id
-  definition_id = azuredevops_build_definition.io-functions-admin-code-review.id
+  definition_id = azuredevops_build_definition.io-functions-lollipop-code-review.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow code review pipeline to access Github pr service connection, needed to checkout code from the pull request branch
-resource "azuredevops_resource_authorization" "io-functions-admin-code-review-github-pr-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.io-functions-admin-code-review, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "io-functions-lollipop-code-review-github-pr-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.io-functions-lollipop-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
-  definition_id = azuredevops_build_definition.io-functions-admin-code-review.id
+  definition_id = azuredevops_build_definition.io-functions-lollipop-code-review.id
   authorized    = true
   type          = "endpoint"
 }
@@ -84,18 +78,18 @@ resource "azuredevops_resource_authorization" "io-functions-admin-code-review-gi
 #
 
 # Define deploy pipeline
-resource "azuredevops_build_definition" "io-functions-admin-deploy" {
+resource "azuredevops_build_definition" "io-functions-lollipop-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.io-functions-admin.repository.name}.deploy"
-  path       = "\\${var.io-functions-admin.repository.name}"
+  name       = "${var.io-functions-lollipop.repository.name}.deploy"
+  path       = "\\${var.io-functions-lollipop.repository.name}"
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = "${var.io-functions-admin.repository.organization}/${var.io-functions-admin.repository.name}"
-    branch_name           = var.io-functions-admin.repository.branch_name
-    yml_path              = "${var.io-functions-admin.repository.pipelines_path}/deploy-pipelines.yml"
+    repo_id               = "${var.io-functions-lollipop.repository.organization}/${var.io-functions-lollipop.repository.name}"
+    branch_name           = var.io-functions-lollipop.repository.branch_name
+    yml_path              = "${var.io-functions-lollipop.repository.pipelines_path}/deploy-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
@@ -121,7 +115,7 @@ resource "azuredevops_build_definition" "io-functions-admin-deploy" {
 
   variable {
     name  = "CACHE_VERSION_ID"
-    value = var.io-functions-admin.pipeline.cache_version_id
+    value = var.io-functions-lollipop.pipeline.cache_version_id
   }
 
   variable {
@@ -136,45 +130,45 @@ resource "azuredevops_build_definition" "io-functions-admin-deploy" {
 }
 
 # Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
-resource "azuredevops_resource_authorization" "io-functions-admin-deploy-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.io-functions-admin-deploy, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "io-functions-lollipop-deploy-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.io-functions-lollipop-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.pagopa.id
-  definition_id = azuredevops_build_definition.io-functions-admin-deploy.id
+  definition_id = azuredevops_build_definition.io-functions-lollipop-deploy.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow deploy pipeline to access Github writable service connection, needed to bump project version and publish a new relase
-resource "azuredevops_resource_authorization" "io-functions-admin-deploy-github-rw-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.io-functions-admin-deploy, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "io-functions-lollipop-deploy-github-rw-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.io-functions-lollipop-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
-  definition_id = azuredevops_build_definition.io-functions-admin-deploy.id
+  definition_id = azuredevops_build_definition.io-functions-lollipop-deploy.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow deploy pipeline to access Azure PROD-IO subscription service connection, needed to interact with Azure resources
-resource "azuredevops_resource_authorization" "io-functions-admin-deploy-azurerm-PROD-IO-auth" {
-  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_build_definition.io-functions-admin-deploy, time_sleep.wait]
+resource "azuredevops_resource_authorization" "io-functions-lollipop-deploy-azurerm-PROD-IO-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_build_definition.io-functions-lollipop-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_azurerm.PROD-IO.id
-  definition_id = azuredevops_build_definition.io-functions-admin-deploy.id
+  definition_id = azuredevops_build_definition.io-functions-lollipop-deploy.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow deploy pipeline to access NPM service connection, needed to publish sdk packages to the public registry
-resource "azuredevops_resource_authorization" "io-functions-admin-deploy-npm-auth" {
-  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.io-functions-admin-deploy, time_sleep.wait]
+resource "azuredevops_resource_authorization" "io-functions-lollipop-deploy-npm-auth" {
+  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.io-functions-lollipop-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_npm.pagopa-npm-bot.id
-  definition_id = azuredevops_build_definition.io-functions-admin-deploy.id
+  definition_id = azuredevops_build_definition.io-functions-lollipop-deploy.id
   authorized    = true
   type          = "endpoint"
 }

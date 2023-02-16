@@ -1,13 +1,13 @@
 #
-# Pipeline definitions for @pagopa/handler-kit package
+# Pipeline definitions for @pagopa/winston-ts package
 #
 
-variable "handlerkit-config" {
+variable "winston-ts" {
   default = {
     repository = {
       organization   = "pagopa"
-      name           = "handler-kit" # repo name is different than actual package name
-      branch_name    = "main"
+      name           = "winston-ts" # repo name is different than actual package name
+      branch_name    = "refs/heads/master"
       pipelines_path = ".devops"
     }
     pipeline = {
@@ -21,15 +21,15 @@ variable "handlerkit-config" {
 #
 
 # Define code review pipeline
-resource "azuredevops_build_definition" "handlerkit-config-code-review" {
+resource "azuredevops_build_definition" "winston-ts-code-review" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.handlerkit-config.repository.name}.code-review"
-  path       = "\\${var.handlerkit-config.repository.name}"
+  name       = "${var.winston-ts.repository.name}.code-review"
+  path       = "\\${var.winston-ts.repository.name}"
 
   pull_request_trigger {
-    initial_branch = var.handlerkit-config.repository.branch_name
+    initial_branch = var.winston-ts.repository.branch_name
     forks {
       enabled       = false
       share_secrets = false
@@ -37,7 +37,7 @@ resource "azuredevops_build_definition" "handlerkit-config-code-review" {
     override {
       auto_cancel = false
       branch_filter {
-        include = [var.handlerkit-config.repository.branch_name]
+        include = [var.winston-ts.repository.branch_name]
       }
       path_filter {
         exclude = []
@@ -48,9 +48,9 @@ resource "azuredevops_build_definition" "handlerkit-config-code-review" {
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = "${var.handlerkit-config.repository.organization}/${var.handlerkit-config.repository.name}"
-    branch_name           = var.handlerkit-config.repository.branch_name
-    yml_path              = "${var.handlerkit-config.repository.pipelines_path}/code-review.yml"
+    repo_id               = "${var.winston-ts.repository.organization}/${var.winston-ts.repository.name}"
+    branch_name           = var.winston-ts.repository.branch_name
+    yml_path              = "${var.winston-ts.repository.pipelines_path}/code-review-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   }
 
@@ -60,41 +60,26 @@ resource "azuredevops_build_definition" "handlerkit-config-code-review" {
     is_secret      = true
     allow_override = false
   }
-
-  variable {
-    name           = "JIRA_USERNAME"
-    secret_value   = module.secrets.values["DANGER-JIRA-USERNAME"].value
-    is_secret      = true
-    allow_override = false
-  }
-
-  variable {
-    name           = "JIRA_PASSWORD"
-    secret_value   = module.secrets.values["DANGER-JIRA-PASSWORD"].value
-    is_secret      = true
-    allow_override = false
-  }
-  
 }
 
 # Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
-resource "azuredevops_resource_authorization" "handlerkit-config-code-review-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.handlerkit-config-code-review, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "winston-ts-code-review-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.winston-ts-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.pagopa.id
-  definition_id = azuredevops_build_definition.handlerkit-config-code-review.id
+  definition_id = azuredevops_build_definition.winston-ts-code-review.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow code review pipeline to access Github pr service connection, needed to checkout code from the pull request branch
-resource "azuredevops_resource_authorization" "handlerkit-config-code-review-github-pr-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.handlerkit-config-code-review, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "winston-ts-code-review-github-pr-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.winston-ts-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
-  definition_id = azuredevops_build_definition.handlerkit-config-code-review.id
+  definition_id = azuredevops_build_definition.winston-ts-code-review.id
   authorized    = true
   type          = "endpoint"
 }
@@ -104,18 +89,18 @@ resource "azuredevops_resource_authorization" "handlerkit-config-code-review-git
 #
 
 # Define deploy pipeline
-resource "azuredevops_build_definition" "handlerkit-config-publish" {
+resource "azuredevops_build_definition" "winston-ts-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.handlerkit-config.repository.name}.publish"
-  path       = "\\${var.handlerkit-config.repository.name}"
+  name       = "${var.winston-ts.repository.name}.deploy"
+  path       = "\\${var.winston-ts.repository.name}"
 
   repository {
     repo_type             = "GitHub"
-    repo_id               = "${var.handlerkit-config.repository.organization}/${var.handlerkit-config.repository.name}"
-    branch_name           = var.handlerkit-config.repository.branch_name
-    yml_path              = "${var.handlerkit-config.repository.pipelines_path}/publish.yml"
+    repo_id               = "${var.winston-ts.repository.organization}/${var.winston-ts.repository.name}"
+    branch_name           = var.winston-ts.repository.branch_name
+    yml_path              = "${var.winston-ts.repository.pipelines_path}/deploy-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
@@ -145,41 +130,41 @@ resource "azuredevops_build_definition" "handlerkit-config-publish" {
 
   variable {
     name           = "CACHE_VERSION_ID"
-    value          = var.handlerkit-config.pipeline.cache_version_id
+    value          = var.winston-ts.pipeline.cache_version_id
     allow_override = false
   }
 
 }
 
 # Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
-resource "azuredevops_resource_authorization" "handlerkit-config-publish-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.handlerkit-config-publish, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "winston-ts-deploy-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.pagopa, azuredevops_build_definition.winston-ts-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.pagopa.id
-  definition_id = azuredevops_build_definition.handlerkit-config-publish.id
+  definition_id = azuredevops_build_definition.winston-ts-deploy.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow deploy pipeline to access Github writable service connection, needed to bump project version and publish a new relase
-resource "azuredevops_resource_authorization" "handlerkit-config-publish-github-rw-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.handlerkit-config-publish, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "winston-ts-deploy-github-rw-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_build_definition.winston-ts-deploy, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
-  definition_id = azuredevops_build_definition.handlerkit-config-publish.id
+  definition_id = azuredevops_build_definition.winston-ts-deploy.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow deploy pipeline to access NPM service connection, needed to publish sdk packages to the public registry
-resource "azuredevops_resource_authorization" "handlerkit-config-publish-npm-auth" {
-  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.handlerkit-config-publish, time_sleep.wait]
+resource "azuredevops_resource_authorization" "winston-ts-deploy-npm-auth" {
+  depends_on = [azuredevops_serviceendpoint_npm.pagopa-npm-bot, azuredevops_build_definition.winston-ts-deploy, time_sleep.wait]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_npm.pagopa-npm-bot.id
-  definition_id = azuredevops_build_definition.handlerkit-config-publish.id
+  definition_id = azuredevops_build_definition.winston-ts-deploy.id
   authorized    = true
   type          = "endpoint"
 }
