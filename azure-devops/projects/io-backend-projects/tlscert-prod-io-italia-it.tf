@@ -38,7 +38,7 @@ locals {
 }
 
 module "tlscert-prod-io-italia-it-cert_az" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.1.0"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.6.5"
   count  = var.tlscert-prod-io-italia-it.pipeline.enable_tls_cert == true ? 1 : 0
 
   project_id = azuredevops_project.project.id

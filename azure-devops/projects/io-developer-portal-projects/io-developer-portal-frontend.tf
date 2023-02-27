@@ -306,9 +306,9 @@ resource "azuredevops_resource_authorization" "io-developer-portal-frontend-depl
 }
 
 resource "azurerm_role_assignment" "io-developer-portal-frontend-deploy-azurerm-PROD-IO-iopstcdniopayportal" {
-  depends_on = [data.azuread_service_principal.service_principals]
+  depends_on = [data.azuread_service_principal.service_principal_PROD-IO]
 
-  principal_id         = data.azuread_service_principal.service_principals[local.PROD-IO-UID].id
+  principal_id         = data.azuread_service_principal.service_principal_PROD-IO.id
   role_definition_name = "Storage Blob Data Contributor"
   scope                = "/subscriptions/${module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-developer-portal-frontend.pipeline.prod.resource_group_name}/providers/Microsoft.Storage/storageAccounts/${var.io-developer-portal-frontend.pipeline.prod.storage_account_name}"
 }
