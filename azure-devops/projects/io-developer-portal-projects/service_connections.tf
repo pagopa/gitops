@@ -5,17 +5,16 @@ provider "azuread" {
 locals {
   PROD-IO-UID = "${local.azure_devops_org}-${azuredevops_project.project.name}-${module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value}"
   DEV-IO-UID  = "${local.azure_devops_org}-${azuredevops_project.project.name}-${module.secrets.values["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value}"
-  service_principal_uids = [
-    local.PROD-IO-UID,
-    local.DEV-IO-UID,
-  ]
 }
 
-data "azuread_service_principal" "service_principals" {
-  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_serviceendpoint_azurerm.DEV-IO]
+data "azuread_service_principal" "service_principal_PROD-IO" {
+  depends_on   = [azuredevops_serviceendpoint_azurerm.PROD-IO]
+  display_name = local.PROD-IO-UID
+}
 
-  for_each     = toset(local.service_principal_uids)
-  display_name = each.value
+data "azuread_service_principal" "service_principal_DEV-IO" {
+  depends_on   = [azuredevops_serviceendpoint_azurerm.DEV-IO]
+  display_name = local.DEV-IO-UID
 }
 
 # Azure service connection PROD-IO
@@ -86,7 +85,7 @@ resource "azuredevops_serviceendpoint_github" "io-azure-devops-github-pr" {
 
 module "PROD-IO-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
-  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.0.4"
+  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.6.5"
   project_id = azuredevops_project.project.id
 
   name              = "io-p-developer-portal-tls-cert"

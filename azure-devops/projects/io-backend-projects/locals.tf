@@ -5,5 +5,5 @@ locals {
   key_vault_subscription   = "PROD-IO"
   agent_pool               = "io-prod-linux"
   #tfsec:ignore:GEN002
-  tlscert_renew_token = "v2"
+  tlscert_renew_token = "v3"
 }
