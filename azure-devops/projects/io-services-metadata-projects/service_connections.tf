@@ -10,18 +10,20 @@ locals {
   DEV-IO-UID = join("-", [local.azure_devops_org,
     azuredevops_project.project.name,
   data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-DEV-IO-SUBSCRIPTION-ID"].value])
-  service_principal_uids = [
-    local.PROD-IO-UID,
-    local.DEV-IO-UID,
-  ]
 }
 
-data "azuread_service_principal" "service_principals" {
-  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_serviceendpoint_azurerm.DEV-IO]
+data "azuread_service_principal" "service_principals_PROD-IO" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO]
 
-  for_each     = toset(local.service_principal_uids)
-  display_name = each.value
+  display_name = local.PROD-IO-UID
 }
+
+data "azuread_service_principal" "service_principals_DEV-IO" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.DEV-IO]
+
+  display_name = local.DEV-IO-UID
+}
+
 
 # Azure service connection PROD-IO
 resource "azuredevops_serviceendpoint_azurerm" "PROD-IO" {
