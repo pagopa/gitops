@@ -5,17 +5,16 @@ provider "azuread" {
 locals {
   PROD-GCNPORTAL-UID = "${local.azure_devops_org}-${azuredevops_project.project.name}-${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-GCNPORTAL-SUBSCRIPTION-ID"].value}"
   UAT-GCNPORTAL-UID  = "${local.azure_devops_org}-${azuredevops_project.project.name}-${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-UAT-GCNPORTAL-SUBSCRIPTION-ID"].value}"
-  service_principal_uids = [
-    local.PROD-GCNPORTAL-UID,
-    local.UAT-GCNPORTAL-UID,
-  ]
 }
 
-data "azuread_service_principal" "service_principals" {
-  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL, azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL]
+data "azuread_service_principal" "service_principals-PROD-GCNPORTAL" {
+  depends_on   = [azuredevops_serviceendpoint_azurerm.PROD-GCNPORTAL]
+  display_name = local.PROD-GCNPORTAL-UID
+}
 
-  for_each     = toset(local.service_principal_uids)
-  display_name = each.value
+data "azuread_service_principal" "service_principals-UAT-GCNPORTAL" {
+  depends_on   = [azuredevops_serviceendpoint_azurerm.UAT-GCNPORTAL]
+  display_name = local.UAT-GCNPORTAL-UID
 }
 
 # Azure service connection PROD-GCNPORTAL
