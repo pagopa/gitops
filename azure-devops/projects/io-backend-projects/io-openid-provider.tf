@@ -3,7 +3,7 @@ variable "io-openid-provider" {
     repository = {
       organization   = "pagopa"
       name           = "io-openid-provider"
-      branch_name    = "main"
+      branch_name           = "refs/heads/main"
       pipelines_path = ".devops"
     }
     pipeline = {

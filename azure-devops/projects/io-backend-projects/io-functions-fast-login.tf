@@ -3,7 +3,7 @@ variable "io-functions-fast-login" {
     repository = {
       organization   = "pagopa"
       name           = "io-functions-fast-login"
-      branch_name    = "main"
+      branch_name           = "refs/heads/main"
       pipelines_path = ".devops"
     }
     pipeline = {

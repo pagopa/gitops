@@ -3,7 +3,7 @@ variable "io-functions-cgn-merchant" {
     repository = {
       organization   = "pagopa"
       name           = "io-functions-cgn-merchant"
-      branch_name    = "master"
+      branch_name           = "refs/heads/master"
       pipelines_path = ".devops"
     }
     pipeline = {

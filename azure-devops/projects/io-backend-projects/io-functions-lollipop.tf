@@ -3,7 +3,7 @@ variable "io-functions-lollipop" {
     repository = {
       organization   = "pagopa"
       name           = "io-functions-lollipop"
-      branch_name    = "master"
+      branch_name           = "refs/heads/master"
       pipelines_path = ".devops"
     }
     pipeline = {
