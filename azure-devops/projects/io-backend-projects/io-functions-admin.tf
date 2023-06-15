@@ -3,7 +3,7 @@ variable "io-functions-admin" {
     repository = {
       organization   = "pagopa"
       name           = "io-functions-admin"
-      branch_name    = "master"
+      branch_name           = "refs/heads/master"
       pipelines_path = ".devops"
     }
     pipeline = {
