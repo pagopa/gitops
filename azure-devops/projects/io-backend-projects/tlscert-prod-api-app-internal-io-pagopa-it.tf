@@ -3,7 +3,7 @@ variable "tlscert-prod-api-app-internal-io-pagopa-it" {
     repository = {
       organization   = "pagopa"
       name           = "le-azure-acme-tiny"
-      branch_name           = "refs/heads/master"
+      branch_name    = "refs/heads/master"
       pipelines_path = "."
     }
     pipeline = {
