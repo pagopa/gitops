@@ -3,7 +3,7 @@ variable "io-functions-services-cache" {
     repository = {
       organization   = "pagopa"
       name           = "io-functions-services-cache"
-      branch_name           = "refs/heads/master"
+      branch_name    = "refs/heads/master"
       pipelines_path = ".devops"
     }
     pipeline = {

@@ -3,7 +3,7 @@ variable "io-functions-app-messages" {
     repository = {
       organization   = "pagopa"
       name           = "io-functions-app-messages"
-      branch_name           = "refs/heads/master"
+      branch_name    = "refs/heads/master"
       pipelines_path = ".devops"
     }
     pipeline = {
