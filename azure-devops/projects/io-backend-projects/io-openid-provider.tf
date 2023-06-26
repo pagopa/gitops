@@ -84,7 +84,6 @@ resource "azuredevops_resource_authorization" "io-openid-provider-code-review-gi
 #
 
 # Define deploy pipeline
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
 resource "azuredevops_build_definition" "io-openid-provider-deploy" {
 
   project_id = azuredevops_project.project.id
@@ -133,6 +132,7 @@ resource "azuredevops_build_definition" "io-openid-provider-deploy" {
     name  = "AGENT_POOL"
     value = local.agent_pool
   }
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw, azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_project.project]
 }
 
 # Allow deploy pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
