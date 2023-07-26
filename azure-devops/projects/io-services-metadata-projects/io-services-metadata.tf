@@ -7,11 +7,12 @@ variable "io-services-metadata" {
       pipelines_path = "."
     }
     pipeline = {
-      cache_version_id                = "v3"
-      production_storage_account_name = "iopstcdnassets"
-      production_resource_group       = "io-p-rg-common"
-      endpoint_name                   = "io-p-cdnendpoint-fnassets"
-      profile_cdn_name                = "io-p-cdn-common"
+      cache_version_id                          = "v3"
+      production_storage_account_name           = "iopstcdnassets"
+      production_storage_account_resource_group = "io-p-rg-common"
+      production_resource_group                 = "io-p-assets-cdn-rg"
+      endpoint_name                             = "io-p-assets-cdn-endpoint"
+      profile_cdn_name                          = "io-p-assets-cdn-profile"
     }
   }
 }
@@ -77,7 +78,6 @@ resource "azuredevops_build_definition" "io-services-metadata" {
     value          = "true"
     allow_override = false
   }
-
 
   variable {
     name           = "PRODUCTION_AZURE_SUBSCRIPTION"
@@ -163,9 +163,9 @@ resource "azuredevops_resource_authorization" "io-functions-public-deploy-azurer
 }
 
 resource "azurerm_role_assignment" "io-services-metadata-PROD-IO-iopstcdnassets" {
-  depends_on = [data.azuread_service_principal.service_principals]
+  depends_on = [data.azuread_service_principal.service_principals_PROD-IO]
 
-  principal_id         = data.azuread_service_principal.service_principals[local.PROD-IO-UID].id
+  principal_id         = data.azuread_service_principal.service_principals_PROD-IO.id
   role_definition_name = "Storage Blob Data Contributor"
-  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-services-metadata.pipeline.production_resource_group}/providers/Microsoft.Storage/storageAccounts/${var.io-services-metadata.pipeline.production_storage_account_name}"
+  scope                = "/subscriptions/${data.azurerm_key_vault_secret.key_vault_secret["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value}/resourceGroups/${var.io-services-metadata.pipeline.production_storage_account_resource_group}/providers/Microsoft.Storage/storageAccounts/${var.io-services-metadata.pipeline.production_storage_account_name}"
 }

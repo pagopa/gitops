@@ -3,7 +3,7 @@ variable "io-functions-elt" {
     repository = {
       organization   = "pagopa"
       name           = "io-functions-elt"
-      branch_name    = "main"
+      branch_name    = "refs/heads/main"
       pipelines_path = ".devops"
     }
     pipeline = {

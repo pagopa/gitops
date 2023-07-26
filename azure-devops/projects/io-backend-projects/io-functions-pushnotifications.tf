@@ -3,13 +3,13 @@ variable "io-functions-pushnotifications" {
     repository = {
       organization   = "pagopa"
       name           = "io-functions-pushnotifications"
-      branch_name    = "master"
+      branch_name    = "refs/heads/master"
       pipelines_path = ".devops"
     }
     pipeline = {
       cache_version_id               = "v3"
-      production_resource_group_name = "io-p-rg-notifications"
-      production_app_name            = "io-p-fn3-pushnotif"
+      production_resource_group_name = "io-p-messages-weu-prod01-push-notif-rg"
+      production_app_name            = "io-p-push-notif-fn"
     }
   }
 }
@@ -52,11 +52,6 @@ resource "azuredevops_build_definition" "io-functions-pushnotifications-code-rev
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
   }
 
-  variable {
-    name         = "DANGER_GITHUB_API_TOKEN"
-    secret_value = module.secrets.values["DANGER-GITHUB-API-TOKEN"].value
-    is_secret    = true
-  }
 }
 
 # Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline

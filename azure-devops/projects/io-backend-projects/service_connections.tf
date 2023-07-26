@@ -98,7 +98,7 @@ resource "azuredevops_serviceendpoint_npm" "pagopa-npm-bot" {
 
 module "PROD-IO-TLS-CERT-SERVICE-CONN" {
   depends_on = [azuredevops_project.project]
-  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.1.0"
+  source     = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_serviceendpoint_azurerm_limited?ref=v2.6.5"
   project_id = azuredevops_project.project.id
 
   name = "io-p-tls-cert"
