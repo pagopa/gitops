@@ -3,7 +3,7 @@ variable "tlscert-prod-api-io-selfcare-pagopa-it" {
     repository = {
       organization   = "pagopa"
       name           = "le-azure-acme-tiny"
-      branch_name    = "master"
+      branch_name    = "refs/heads/master"
       pipelines_path = "."
     }
     pipeline = {
@@ -46,7 +46,7 @@ module "tlscert-prod-api-io-selfcare-pagopa-it-cert_az" {
   name                         = "${var.tlscert-prod-api-io-selfcare-pagopa-it.pipeline.dns_record_name}.${var.tlscert-prod-api-io-selfcare-pagopa-it.pipeline.dns_zone_name}"
   renew_token                  = local.tlscert_renew_token
   path                         = var.tlscert-prod-api-io-selfcare-pagopa-it.pipeline.path
-  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
 
   dns_record_name         = var.tlscert-prod-api-io-selfcare-pagopa-it.pipeline.dns_record_name
   dns_zone_name           = var.tlscert-prod-api-io-selfcare-pagopa-it.pipeline.dns_zone_name
@@ -74,7 +74,7 @@ module "tlscert-prod-api-io-selfcare-pagopa-it-cert_az" {
   ]
 
   schedules = {
-    days_to_build              = ["Mon"]
+    days_to_build              = ["Thu"]
     schedule_only_with_changes = false
     start_hours                = 4
     start_minutes              = 30
