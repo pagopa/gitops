@@ -1,0 +1,87 @@
+variable "tlscert-prod-firmaconio-selfcare-pagopa-it" {
+  default = {
+    repository = {
+      organization   = "pagopa"
+      name           = "le-azure-acme-tiny"
+      branch_name    = "refs/heads/master"
+      pipelines_path = "."
+    }
+    pipeline = {
+      enable_tls_cert         = true
+      path                    = "TLS-Certificates\\PROD"
+      dns_record_name         = ""
+      dns_zone_name           = "firmaconio.selfcare.pagopa.it"
+      dns_zone_resource_group = "io-p-rg-external"
+      # common variables to all pipelines
+      variables = {
+        CERT_NAME_EXPIRE_SECONDS = "2592000" #30 days
+        KEY_VAULT_NAME           = "io-p-kv"
+      }
+      # common secret variables to all pipelines
+      variables_secret = {
+      }
+    }
+  }
+}
+
+locals {
+  tlscert-prod-firmaconio-selfcare-pagopa-it = {
+    tenant_id         = module.secrets.values["PAGOPAIT-TENANTID"].value
+    subscription_id   = module.secrets.values["PAGOPAIT-PROD-IO-SUBSCRIPTION-ID"].value
+    subscription_name = "PROD-IO"
+  }
+  tlscert-prod-firmaconio-selfcare-pagopa-it-variables = {
+    KEY_VAULT_SERVICE_CONNECTION = module.PROD-IO-TLS-CERT-SERVICE-CONN.service_endpoint_name
+  }
+  tlscert-prod-firmaconio-selfcare-pagopa-it-variables_secret = {
+  }
+}
+
+module "tlscert-prod-firmaconio-selfcare-pagopa-it-cert_az" {
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_tls_cert?ref=v2.6.5"
+  count  = var.tlscert-prod-firmaconio-selfcare-pagopa-it.pipeline.enable_tls_cert == true ? 1 : 0
+
+  project_id                   = azuredevops_project.project.id
+  repository                   = var.tlscert-prod-firmaconio-selfcare-pagopa-it.repository
+  name                         = "${var.tlscert-prod-firmaconio-selfcare-pagopa-it.pipeline.dns_record_name}.${var.tlscert-prod-firmaconio-selfcare-pagopa-it.pipeline.dns_zone_name}"
+  renew_token                  = local.tlscert_renew_token
+  path                         = var.tlscert-prod-firmaconio-selfcare-pagopa-it.pipeline.path
+  github_service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
+
+  dns_record_name         = var.tlscert-prod-firmaconio-selfcare-pagopa-it.pipeline.dns_record_name
+  dns_zone_name           = var.tlscert-prod-firmaconio-selfcare-pagopa-it.pipeline.dns_zone_name
+  dns_zone_resource_group = var.tlscert-prod-firmaconio-selfcare-pagopa-it.pipeline.dns_zone_resource_group
+  tenant_id               = local.tlscert-prod-firmaconio-selfcare-pagopa-it.tenant_id
+  subscription_name       = local.tlscert-prod-firmaconio-selfcare-pagopa-it.subscription_name
+  subscription_id         = local.tlscert-prod-firmaconio-selfcare-pagopa-it.subscription_id
+
+  credential_subcription              = local.key_vault_subscription
+  credential_key_vault_name           = local.key_vault_name
+  credential_key_vault_resource_group = local.key_vault_resource_group
+
+  variables = merge(
+    var.tlscert-prod-firmaconio-selfcare-pagopa-it.pipeline.variables,
+    local.tlscert-prod-firmaconio-selfcare-pagopa-it-variables,
+  )
+
+  variables_secret = merge(
+    var.tlscert-prod-firmaconio-selfcare-pagopa-it.pipeline.variables_secret,
+    local.tlscert-prod-firmaconio-selfcare-pagopa-it-variables_secret,
+  )
+
+  service_connection_ids_authorization = [
+    module.PROD-IO-TLS-CERT-SERVICE-CONN.service_endpoint_id,
+  ]
+
+  schedules = {
+    days_to_build              = ["Thu"]
+    schedule_only_with_changes = false
+    start_hours                = 6
+    start_minutes              = 30
+    time_zone                  = "(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna"
+    branch_filter = {
+      include = [var.tlscert-prod-firmaconio-selfcare-pagopa-it.repository.branch_name]
+      exclude = []
+    }
+  }
+}
