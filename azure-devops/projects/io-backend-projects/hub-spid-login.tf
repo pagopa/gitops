@@ -105,7 +105,7 @@ resource "azuredevops_build_definition" "io-web-hub-spid-login-ms-deploy" {
     repo_type             = "GitHub"
     repo_id               = "${var.hub-spid-login-ms.repository.organization}/${var.hub-spid-login-ms.repository.name}"
     branch_name           = var.hub-spid-login-ms.repository.branch_name
-    yml_path              = "${var.hub-spid-login-ms.repository.pipelines_path}/deploy-pipelines.yml"
+    yml_path              = "${var.hub-spid-login-ms.repository.pipelines_path}/io-web-deploy-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
