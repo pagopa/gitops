@@ -98,7 +98,7 @@ resource "azuredevops_build_definition" "io-web-hub-spid-login-ms-deploy" {
   azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
-  name       = "${var.hub-spid-login-ms.repository.name}.deploy"
+  name       = "io-web-${var.hub-spid-login-ms.repository.name}.deploy"
   path       = "\\${var.hub-spid-login-ms.repository.name}"
 
   repository {
