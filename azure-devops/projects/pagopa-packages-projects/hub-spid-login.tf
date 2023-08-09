@@ -8,8 +8,9 @@ variable "hub-spid-login-ms" {
     }
     pipeline = {
       cache_version_id = "v1"
-      prod = {
+      io_web_prod = {
         deploy_type                               = "production_slot"
+        subscription_name                         = "PROD-IO"
         web_app_name                              = "io-p-weu-ioweb-spid-login"
         web_app_resource_group_name               = "io-p-weu-ioweb-common-rg"
         healthcheck_endpoint                      = "/info"
@@ -25,7 +26,7 @@ variable "hub-spid-login-ms" {
 #
 
 # Define code review pipeline
-resource "azuredevops_build_definition" "io-web-hub-spid-login-ms-code-review" {
+resource "azuredevops_build_definition" "hub-spid-login-ms-code-review" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
@@ -66,32 +67,32 @@ resource "azuredevops_build_definition" "io-web-hub-spid-login-ms-code-review" {
 }
 
 # Allow code review pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
-resource "azuredevops_resource_authorization" "io-web-hub-spid-login-ms-code-review-github-ro-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-web-hub-spid-login-ms-code-review, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "hub-spid-login-ms-code-review-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.hub-spid-login-ms-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
-  definition_id = azuredevops_build_definition.io-web-hub-spid-login-ms-code-review.id
+  definition_id = azuredevops_build_definition.hub-spid-login-ms-code-review.id
   authorized    = true
   type          = "endpoint"
 }
 
 # Allow code review pipeline to access Github pr service connection, needed to checkout code from the pull request branch
-resource "azuredevops_resource_authorization" "io-web-hub-spid-login-ms-code-review-github-pr-auth" {
-  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.io-web-hub-spid-login-ms-code-review, azuredevops_project.project]
+resource "azuredevops_resource_authorization" "hub-spid-login-ms-code-review-github-pr-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_build_definition.hub-spid-login-ms-code-review, azuredevops_project.project]
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
-  definition_id = azuredevops_build_definition.io-web-hub-spid-login-ms-code-review.id
+  definition_id = azuredevops_build_definition.hub-spid-login-ms-code-review.id
   authorized    = true
   type          = "endpoint"
 }
 
 #
-# Deploy pipeline
+# Deploy pipelines
 #
 
-# Define deploy pipeline
+# io-web deploy pipeline 
 resource "azuredevops_build_definition" "io-web-hub-spid-login-ms-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw,
   azuredevops_project.project]
@@ -140,44 +141,44 @@ resource "azuredevops_build_definition" "io-web-hub-spid-login-ms-deploy" {
 
   variable {
     name           = "PROD_AZURE_SUBSCRIPTION"
-    value          = "PROD-IO"
+    value          = var.hub-spid-login-ms.pipeline.io_web_prod.subscription_name
     allow_override = false
   }
 
   variable {
     name           = "PROD_DEPLOY_TYPE"
-    value          = var.hub-spid-login-ms.pipeline.prod.deploy_type
+    value          = var.hub-spid-login-ms.pipeline.io_web_prod.deploy_type
     allow_override = false
   }
 
   variable {
     name           = "PROD_WEB_APP_NAME"
-    value          = var.hub-spid-login-ms.pipeline.prod.web_app_name
+    value          = var.hub-spid-login-ms.pipeline.io_web_prod.web_app_name
     allow_override = false
   }
 
   variable {
     name           = "PROD_WEB_APP_RESOURCE_GROUP_NAME"
-    value          = var.hub-spid-login-ms.pipeline.prod.web_app_resource_group_name
+    value          = var.hub-spid-login-ms.pipeline.io_web_prod.web_app_resource_group_name
     allow_override = false
   }
 
 
   variable {
     name           = "PROD_HEALTHCHECK_ENDPOINT"
-    value          = var.hub-spid-login-ms.pipeline.prod.healthcheck_endpoint
+    value          = var.hub-spid-login-ms.pipeline.io_web_prod.healthcheck_endpoint
     allow_override = false
   }
 
   variable {
     name           = "PROD_HEALTHCHECK_CONTAINER_RESOURCE_GROUP_NAME"
-    value          = var.hub-spid-login-ms.pipeline.prod.healthcheck_container_resource_group_name
+    value          = var.hub-spid-login-ms.pipeline.io_web_prod.healthcheck_container_resource_group_name
     allow_override = false
   }
 
   variable {
     name           = "PROD_HEALTHCHECK_CONTAINER_VNET"
-    value          = var.hub-spid-login-ms.pipeline.prod.healthcheck_container_vnet
+    value          = var.hub-spid-login-ms.pipeline.io_web_prod.healthcheck_container_vnet
     allow_override = false
   }
 
