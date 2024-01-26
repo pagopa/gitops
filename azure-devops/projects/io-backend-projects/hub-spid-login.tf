@@ -10,7 +10,6 @@ variable "hub-spid-login-ms" {
       cache_version_id = "v1"
       io_web_prod = {
         deploy_type                               = "production_slot"
-        subscription_name                         = "PROD-IO"
         web_app_name                              = "io-p-weu-ioweb-spid-login"
         web_app_resource_group_name               = "io-p-weu-ioweb-common-rg"
         healthcheck_endpoint                      = "/info"
@@ -95,6 +94,7 @@ resource "azuredevops_resource_authorization" "hub-spid-login-ms-code-review-git
 # io-web deploy pipeline 
 resource "azuredevops_build_definition" "io-web-hub-spid-login-ms-deploy" {
   depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-rw,
+    azuredevops_serviceendpoint_azurerm.PROD-IO,
   azuredevops_project.project]
 
   project_id = azuredevops_project.project.id
@@ -105,7 +105,7 @@ resource "azuredevops_build_definition" "io-web-hub-spid-login-ms-deploy" {
     repo_type             = "GitHub"
     repo_id               = "${var.hub-spid-login-ms.repository.organization}/${var.hub-spid-login-ms.repository.name}"
     branch_name           = var.hub-spid-login-ms.repository.branch_name
-    yml_path              = "${var.hub-spid-login-ms.repository.pipelines_path}/deploy-pipelines.yml"
+    yml_path              = "${var.hub-spid-login-ms.repository.pipelines_path}/io-web-deploy-pipelines.yml"
     service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
   }
 
@@ -141,7 +141,7 @@ resource "azuredevops_build_definition" "io-web-hub-spid-login-ms-deploy" {
 
   variable {
     name           = "PROD_AZURE_SUBSCRIPTION"
-    value          = var.hub-spid-login-ms.pipeline.io_web_prod.subscription_name
+    value          = azuredevops_serviceendpoint_azurerm.PROD-IO.service_endpoint_name
     allow_override = false
   }
 
@@ -201,6 +201,17 @@ resource "azuredevops_resource_authorization" "io-web-hub-spid-login-ms-deploy-g
 
   project_id    = azuredevops_project.project.id
   resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-rw.id
+  definition_id = azuredevops_build_definition.io-web-hub-spid-login-ms-deploy.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+# Allow deploy pipeline to access Azure PROD-IO subscription service connection, needed to interact with Azure resources
+resource "azuredevops_resource_authorization" "hub-spid-login-ms-deploy-azurerm-PROD-IO-auth" {
+  depends_on = [azuredevops_serviceendpoint_azurerm.PROD-IO, azuredevops_build_definition.io-web-hub-spid-login-ms-deploy, time_sleep.wait]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_azurerm.PROD-IO.id
   definition_id = azuredevops_build_definition.io-web-hub-spid-login-ms-deploy.id
   authorized    = true
   type          = "endpoint"
