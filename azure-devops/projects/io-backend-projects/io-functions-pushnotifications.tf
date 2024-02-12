@@ -15,6 +15,48 @@ variable "io-functions-pushnotifications" {
 }
 
 #
+# Yarn.lock Upgrade pipeline
+#
+
+# Define Yarn.lock Upgrade pipeline
+resource "azuredevops_build_definition" "io-functions-pushnotifications-yarn-lock-upgrade" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-pr, azuredevops_project.project]
+  
+  project_id = azuredevops_project.project.id
+  name       = "${var.io-functions-pushnotifications.repository.name}.yarn-lock-upgrade"
+  path       = "\\${var.io-functions-pushnotifications.repository.name}"
+
+  repository {
+    repo_type             = "GitHub"
+    repo_id               = "${var.io-functions-pushnotifications.repository.organization}/${var.io-functions-pushnotifications.repository.name}"
+    branch_name           = var.io-functions-pushnotifications.repository.branch_name
+    yml_path              = "${var.io-functions-pushnotifications.repository.pipelines_path}/yarn-lock-upgrade.yml"
+    service_connection_id = azuredevops_serviceendpoint_github.io-azure-devops-github-pr.id
+  }
+
+  variable {
+    name  = "GITHUB_EMAIL"
+    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-EMAIL"].value
+  }
+
+  variable {
+    name  = "GITHUB_USERNAME"
+    value = data.azurerm_key_vault_secret.key_vault_secret["io-azure-devops-github-USERNAME"].value
+  }
+}
+
+# Allow yarn.lock upgrade pipeline to access Github readonly service connection, needed to access external templates to be used inside the pipeline
+resource "azuredevops_resource_authorization" "io-functions-pushnotifications-yarn-lock-upgrade-github-ro-auth" {
+  depends_on = [azuredevops_serviceendpoint_github.io-azure-devops-github-ro, azuredevops_build_definition.io-functions-pushnotifications-yarn-lock-upgrade, azuredevops_project.project]
+
+  project_id    = azuredevops_project.project.id
+  resource_id   = azuredevops_serviceendpoint_github.io-azure-devops-github-ro.id
+  definition_id = azuredevops_build_definition.io-functions-pushnotifications-yarn-lock-upgrade.id
+  authorized    = true
+  type          = "endpoint"
+}
+
+#
 # Code Review pipeline
 #
 
