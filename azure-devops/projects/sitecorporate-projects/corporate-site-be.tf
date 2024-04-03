@@ -52,7 +52,7 @@ locals {
 }
 
 module "corporate-site-be-deploy" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v0.0.3"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_deploy?ref=v0.0.5"
   count  = var.corporate-site-be.pipeline.enable_deploy == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id

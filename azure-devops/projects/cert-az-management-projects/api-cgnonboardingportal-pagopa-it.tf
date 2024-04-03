@@ -43,7 +43,7 @@ locals {
 }
 
 module "api-cgnonboardingportal-pagopa-it-cert_az" {
-  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_certaz?ref=v0.0.2"
+  source = "git::https://github.com/pagopa/azuredevops-tf-modules.git//azuredevops_build_definition_certaz?ref=v0.0.5"
   count  = var.api-cgnonboardingportal-pagopa-it.pipeline.enable_cert_az == true ? 1 : 0
 
   project_id                   = azuredevops_project.project.id
