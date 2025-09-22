@@ -22,14 +22,6 @@ variable "io-developer-portal-frontend" {
         resource_group_name  = "io-p-rg-common"
         backend_url          = "https://developerportal-backend.io.italia.it"
       }
-
-      selfcare_prod = {
-        storage_account_name = "iopselfcaresa"
-        profile_cdn_name     = "io-p-selfcare-cdn-profile"
-        endpoint_name        = "io-p-selfcare-cdn-endpoint"
-        resource_group_name  = "io-p-selfcare-fe-rg"
-        backend_url          = "https://api.io.selfcare.pagopa.it"
-      }
     }
   }
 }
@@ -231,44 +223,6 @@ resource "azuredevops_build_definition" "io-developer-portal-frontend-deploy" {
   variable {
     name           = "PROD_BACKEND_URL"
     value          = var.io-developer-portal-frontend.pipeline.prod.backend_url
-    allow_override = false
-  }
-
-
-  variable {
-    name           = "SELFCARE_PROD_STORAGE_ACCOUNT_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.storage_account_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "SELFCARE_PROD_ENDPOINT_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.endpoint_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "SELFCARE_PROD_PROFILE_CDN_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.profile_cdn_name
-    allow_override = false
-  }
-
-
-  variable {
-    name           = "SELFCARE_PROD_RESOURCE_GROUP_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.resource_group_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "SELFCARE_PROD_RESOURCE_GROUP_NAME"
-    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.resource_group_name
-    allow_override = false
-  }
-
-  variable {
-    name           = "SELFCARE_PROD_BACKEND_URL"
-    value          = var.io-developer-portal-frontend.pipeline.selfcare_prod.backend_url
     allow_override = false
   }
 
